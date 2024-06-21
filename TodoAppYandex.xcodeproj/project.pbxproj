@@ -11,9 +11,17 @@
 		5FCE53C32C263D9A005187A4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FCE53C22C263D9A005187A4 /* ContentView.swift */; };
 		5FCE53C52C263D9B005187A4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5FCE53C42C263D9B005187A4 /* Assets.xcassets */; };
 		5FCE53C82C263D9B005187A4 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5FCE53C72C263D9B005187A4 /* Preview Assets.xcassets */; };
-		5FCE53D22C263D9B005187A4 /* TodoAppYandexTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FCE53D12C263D9B005187A4 /* TodoAppYandexTests.swift */; };
-		5FCE53DC2C263D9B005187A4 /* TodoAppYandexUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FCE53DB2C263D9B005187A4 /* TodoAppYandexUITests.swift */; };
-		5FCE53DE2C263D9B005187A4 /* TodoAppYandexUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FCE53DD2C263D9B005187A4 /* TodoAppYandexUITestsLaunchTests.swift */; };
+		5FCE53F22C263F0D005187A4 /* TodoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FCE53F12C263F0D005187A4 /* TodoItem.swift */; };
+		5FCE53F42C263F19005187A4 /* TodoItem+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FCE53F32C263F19005187A4 /* TodoItem+Extension.swift */; };
+		5FCE53F62C263F20005187A4 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FCE53F52C263F20005187A4 /* String+Extension.swift */; };
+		5FCE53F82C263F24005187A4 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FCE53F72C263F24005187A4 /* Date+Extension.swift */; };
+		5FCE53FA2C263F29005187A4 /* TodoImportance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FCE53F92C263F29005187A4 /* TodoImportance.swift */; };
+		5FCE53FC2C263F33005187A4 /* FileCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FCE53FB2C263F33005187A4 /* FileCache.swift */; };
+		5FCE53FE2C263F3D005187A4 /* FileManagerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FCE53FD2C263F3D005187A4 /* FileManagerService.swift */; };
+		5FCE54002C263F4D005187A4 /* ConvertToJSONTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FCE53FF2C263F4D005187A4 /* ConvertToJSONTests.swift */; };
+		5FCE54022C263F5F005187A4 /* ParsingFromJSONTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FCE54012C263F5F005187A4 /* ParsingFromJSONTests.swift */; };
+		5FCE54042C263F63005187A4 /* ConvertToCSVTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FCE54032C263F63005187A4 /* ConvertToCSVTests.swift */; };
+		5FCE54062C263F66005187A4 /* ParsingFromCSVTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FCE54052C263F66005187A4 /* ParsingFromCSVTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,10 +48,18 @@
 		5FCE53C42C263D9B005187A4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5FCE53C72C263D9B005187A4 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		5FCE53CD2C263D9B005187A4 /* TodoAppYandexTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TodoAppYandexTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		5FCE53D12C263D9B005187A4 /* TodoAppYandexTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoAppYandexTests.swift; sourceTree = "<group>"; };
 		5FCE53D72C263D9B005187A4 /* TodoAppYandexUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TodoAppYandexUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		5FCE53DB2C263D9B005187A4 /* TodoAppYandexUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoAppYandexUITests.swift; sourceTree = "<group>"; };
-		5FCE53DD2C263D9B005187A4 /* TodoAppYandexUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoAppYandexUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		5FCE53F12C263F0D005187A4 /* TodoItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodoItem.swift; sourceTree = "<group>"; };
+		5FCE53F32C263F19005187A4 /* TodoItem+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TodoItem+Extension.swift"; sourceTree = "<group>"; };
+		5FCE53F52C263F20005187A4 /* String+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
+		5FCE53F72C263F24005187A4 /* Date+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
+		5FCE53F92C263F29005187A4 /* TodoImportance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodoImportance.swift; sourceTree = "<group>"; };
+		5FCE53FB2C263F33005187A4 /* FileCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileCache.swift; sourceTree = "<group>"; };
+		5FCE53FD2C263F3D005187A4 /* FileManagerService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileManagerService.swift; sourceTree = "<group>"; };
+		5FCE53FF2C263F4D005187A4 /* ConvertToJSONTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConvertToJSONTests.swift; sourceTree = "<group>"; };
+		5FCE54012C263F5F005187A4 /* ParsingFromJSONTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParsingFromJSONTests.swift; sourceTree = "<group>"; };
+		5FCE54032C263F63005187A4 /* ConvertToCSVTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConvertToCSVTests.swift; sourceTree = "<group>"; };
+		5FCE54052C263F66005187A4 /* ParsingFromCSVTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParsingFromCSVTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,7 +92,6 @@
 			children = (
 				5FCE53BF2C263D9A005187A4 /* TodoAppYandex */,
 				5FCE53D02C263D9B005187A4 /* TodoAppYandexTests */,
-				5FCE53DA2C263D9B005187A4 /* TodoAppYandexUITests */,
 				5FCE53BE2C263D9A005187A4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -94,8 +109,12 @@
 		5FCE53BF2C263D9A005187A4 /* TodoAppYandex */ = {
 			isa = PBXGroup;
 			children = (
-				5FCE53C02C263D9A005187A4 /* TodoAppYandexApp.swift */,
-				5FCE53C22C263D9A005187A4 /* ContentView.swift */,
+				5FCE53EF2C263EBB005187A4 /* Services */,
+				5FCE53EE2C263EB3005187A4 /* Core */,
+				5FCE53ED2C263EAD005187A4 /* Enums */,
+				5FCE53EC2C263EA6005187A4 /* Extensions */,
+				5FCE53EB2C263EA1005187A4 /* Models */,
+				5FCE53EA2C263E8E005187A4 /* Root */,
 				5FCE53C42C263D9B005187A4 /* Assets.xcassets */,
 				5FCE53C62C263D9B005187A4 /* Preview Content */,
 			);
@@ -113,18 +132,71 @@
 		5FCE53D02C263D9B005187A4 /* TodoAppYandexTests */ = {
 			isa = PBXGroup;
 			children = (
-				5FCE53D12C263D9B005187A4 /* TodoAppYandexTests.swift */,
+				5FCE53F02C263EE3005187A4 /* TodoItemTests */,
 			);
 			path = TodoAppYandexTests;
 			sourceTree = "<group>";
 		};
-		5FCE53DA2C263D9B005187A4 /* TodoAppYandexUITests */ = {
+		5FCE53EA2C263E8E005187A4 /* Root */ = {
 			isa = PBXGroup;
 			children = (
-				5FCE53DB2C263D9B005187A4 /* TodoAppYandexUITests.swift */,
-				5FCE53DD2C263D9B005187A4 /* TodoAppYandexUITestsLaunchTests.swift */,
+				5FCE53C22C263D9A005187A4 /* ContentView.swift */,
+				5FCE53C02C263D9A005187A4 /* TodoAppYandexApp.swift */,
 			);
-			path = TodoAppYandexUITests;
+			path = Root;
+			sourceTree = "<group>";
+		};
+		5FCE53EB2C263EA1005187A4 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				5FCE53F12C263F0D005187A4 /* TodoItem.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		5FCE53EC2C263EA6005187A4 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				5FCE53F32C263F19005187A4 /* TodoItem+Extension.swift */,
+				5FCE53F52C263F20005187A4 /* String+Extension.swift */,
+				5FCE53F72C263F24005187A4 /* Date+Extension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		5FCE53ED2C263EAD005187A4 /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				5FCE53F92C263F29005187A4 /* TodoImportance.swift */,
+			);
+			path = Enums;
+			sourceTree = "<group>";
+		};
+		5FCE53EE2C263EB3005187A4 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				5FCE53FB2C263F33005187A4 /* FileCache.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		5FCE53EF2C263EBB005187A4 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				5FCE53FD2C263F3D005187A4 /* FileManagerService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		5FCE53F02C263EE3005187A4 /* TodoItemTests */ = {
+			isa = PBXGroup;
+			children = (
+				5FCE53FF2C263F4D005187A4 /* ConvertToJSONTests.swift */,
+				5FCE54012C263F5F005187A4 /* ParsingFromJSONTests.swift */,
+				5FCE54032C263F63005187A4 /* ConvertToCSVTests.swift */,
+				5FCE54052C263F66005187A4 /* ParsingFromCSVTests.swift */,
+			);
+			path = TodoItemTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -198,6 +270,7 @@
 					};
 					5FCE53CC2C263D9B005187A4 = {
 						CreatedOnToolsVersion = 15.0.1;
+						LastSwiftMigration = 1500;
 						TestTargetID = 5FCE53BC2C263D9A005187A4;
 					};
 					5FCE53D62C263D9B005187A4 = {
@@ -257,8 +330,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5FCE53FA2C263F29005187A4 /* TodoImportance.swift in Sources */,
+				5FCE53F42C263F19005187A4 /* TodoItem+Extension.swift in Sources */,
 				5FCE53C32C263D9A005187A4 /* ContentView.swift in Sources */,
+				5FCE53F22C263F0D005187A4 /* TodoItem.swift in Sources */,
+				5FCE53F62C263F20005187A4 /* String+Extension.swift in Sources */,
 				5FCE53C12C263D9A005187A4 /* TodoAppYandexApp.swift in Sources */,
+				5FCE53FC2C263F33005187A4 /* FileCache.swift in Sources */,
+				5FCE53F82C263F24005187A4 /* Date+Extension.swift in Sources */,
+				5FCE53FE2C263F3D005187A4 /* FileManagerService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -266,7 +346,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5FCE53D22C263D9B005187A4 /* TodoAppYandexTests.swift in Sources */,
+				5FCE54022C263F5F005187A4 /* ParsingFromJSONTests.swift in Sources */,
+				5FCE54002C263F4D005187A4 /* ConvertToJSONTests.swift in Sources */,
+				5FCE54042C263F63005187A4 /* ConvertToCSVTests.swift in Sources */,
+				5FCE54062C263F66005187A4 /* ParsingFromCSVTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -274,8 +357,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5FCE53DC2C263D9B005187A4 /* TodoAppYandexUITests.swift in Sources */,
-				5FCE53DE2C263D9B005187A4 /* TodoAppYandexUITestsLaunchTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -477,6 +558,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = PU9LYPLT6X;
@@ -486,6 +568,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.gregorygromow.TodoAppYandexTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TodoAppYandex.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TodoAppYandex";
@@ -497,6 +580,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = PU9LYPLT6X;

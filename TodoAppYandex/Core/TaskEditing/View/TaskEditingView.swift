@@ -9,7 +9,26 @@ import SwiftUI
 
 struct TaskEditingView: View {
     
-    @StateObject var viewModel = TaskEditingViewModel()
+    init(mode: TodoEditMode, todoItem: TodoItem?) {
+        if mode == .create {
+            self._viewModel = StateObject(
+                wrappedValue: TaskEditingViewModel(mode: .create, todoItem: nil)
+            )
+        } else {
+            if let todoItem = todoItem {
+                self._viewModel = StateObject(
+                    wrappedValue: TaskEditingViewModel(mode: .edit, todoItem: todoItem)
+                )
+            } else { // при правильном использовании, мы тут никогда не окажется. Можно ли как-то избежать написание кода ниже?
+                self._viewModel = StateObject(
+                    wrappedValue: TaskEditingViewModel(mode: .create, todoItem: nil)
+                )
+            }
+        }
+    }
+    
+    
+    @StateObject var viewModel: TaskEditingViewModel
     
     var body: some View {
         NavigationView {
@@ -32,10 +51,12 @@ struct TaskEditingView: View {
                         .foregroundStyle(.blue)
                 }
                 
+                
                 ToolbarItem(placement: .topBarTrailing) {
                     Text("Сохранить")
                         .foregroundStyle(.blue)
                         .fontWeight(.semibold)
+                        .disabled(viewModel.text.isEmpty)
                 }
             }
             
@@ -121,6 +142,7 @@ struct TaskEditingView: View {
                     Spacer()
                 }
             }
+            .disabled(viewModel.text.isEmpty)
         }
     }
     
@@ -132,6 +154,4 @@ extension View {
     }
 }
 
-#Preview {
-    TaskEditingView()
-}
+

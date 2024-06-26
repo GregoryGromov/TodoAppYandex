@@ -9,10 +9,57 @@ import Foundation
 
 class TaskEditingViewModel: ObservableObject {
     
-    @Published var text = ""
-    @Published var selectedImportance: Importance = .ordinary
+    init(mode: TodoEditMode, todoItem: TodoItem?) { // ВОПРОС: нужно ли оставлять свойство mode? Ведь по сути, если мы передаем какой-то item, то это уже говорит о том, что инициализацих происходит с цель редактирования имеющейся задачи.
+//        С другой стороны, наличие данного свойства упрощает понимание кода и делает объект более масштабируемым
+//        Как делать считается более правильным?
+        
+        self.showCalendar = false
+        
+        if mode == .create {
+            if let todoItem = todoItem {
+                
+                self.text = todoItem.text
+                self.selectedImportance = todoItem.importance
+                
+                if let deadline = todoItem.deadline {
+                    self.deadlineSet = true
+                    self.deadline = deadline
+                } else {
+                    self.deadlineSet = false
+                    self.deadline = Date().addingTimeInterval(86_400) // 60 * 60 * 24 = 86400
+                }
+                
+                return
+                
+
+                
+                
+            } else {
+//                без добавленя этого не работает (хотя ниже, вне ифа мы все же инициализривем данные поля)
+                self.text = ""
+                self.selectedImportance = .ordinary
+                self.deadlineSet = false
+                self.deadline = Date().addingTimeInterval(86_400) // 60 * 60 * 24 = 86400
+                
+                return
+            }
+     
+        }
+        
+        self.text = ""
+        self.selectedImportance = .ordinary
+        self.deadlineSet = false
+        self.deadline = Date().addingTimeInterval(86_400) // 60 * 60 * 24 = 86400
+        
+        
+        
+        
+    }
     
-    @Published var deadlineSet = false {
+    @Published var text: String
+    @Published var selectedImportance: Importance
+    
+    @Published var deadlineSet: Bool {
         didSet {
             if !deadlineSet {
                 showCalendar = false
@@ -20,7 +67,7 @@ class TaskEditingViewModel: ObservableObject {
         }
     }
     @Published var showCalendar = false
-    @Published var deadline: Date = Date().addingTimeInterval(86_400) // 60 * 60 * 24 = 86400
+    @Published var deadline: Date
 
     
     

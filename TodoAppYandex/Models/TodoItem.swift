@@ -7,7 +7,7 @@ struct TodoItem: Identifiable, Equatable {
     let text: String
     let importance: Importance
     let deadline: Date?
-    let isDone: Bool
+    var isDone: Bool
     
     let dateCreation: Date
     let dateChanging: Date?

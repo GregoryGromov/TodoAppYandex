@@ -3,6 +3,36 @@ import Foundation
 extension TodoItem {
     
     
+    static var MOCK: [TodoItem] {
+        return [
+            TodoItem(
+                text: "Помыть посуду",
+                importance: .important,
+                isDone: false,
+                dateCreation: Date(timeIntervalSince1970: 4398247)
+            ),
+            TodoItem(
+                text: "Помыть собаку",
+                importance: .ordinary,
+                isDone: true,
+                dateCreation: Date(timeIntervalSince1970: 439824700)
+            ),
+            TodoItem(
+                text: "Выкинуть дерево",
+                importance: .unimportant,
+                deadline: Date(),
+                isDone: false,
+                dateCreation: Date(timeIntervalSince1970: 839824700)
+            ),
+            TodoItem(
+                text: "Вырастить мусор",
+                importance: .important,
+                isDone: false,
+                dateCreation: Date(timeIntervalSince1970: 2398247000)
+            ),
+        ]
+    }
+    
     var json: Any {
         
         var dictionary = [

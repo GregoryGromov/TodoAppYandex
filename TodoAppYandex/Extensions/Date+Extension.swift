@@ -8,4 +8,16 @@ extension Date {
         
         return dateString
     }
+    
+    var dayMonthYear: String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "d MMMM yyyy"
+        return dateFormatter.string(from: self)
+    }
+    
+    var dayMonth: String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "d MMMM"
+        return dateFormatter.string(from: self)
+    }
 }

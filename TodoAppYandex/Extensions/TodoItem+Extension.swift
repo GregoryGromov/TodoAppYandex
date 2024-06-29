@@ -22,13 +22,13 @@ extension TodoItem {
                 importance: .unimportant,
                 deadline: Date(),
                 isDone: false,
-                dateCreation: Date(timeIntervalSince1970: 839824700)
+                dateCreation: Date()
             ),
             TodoItem(
                 text: "Вырастить мусор",
                 importance: .important,
                 isDone: false,
-                dateCreation: Date(timeIntervalSince1970: 2398247000)
+                dateCreation: Date(timeIntervalSince1970: 23982470)
             ),
         ]
     }

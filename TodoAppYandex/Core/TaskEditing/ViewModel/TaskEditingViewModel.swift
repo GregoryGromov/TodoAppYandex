@@ -9,52 +9,7 @@ import Foundation
 
 class TaskEditingViewModel: ObservableObject {
     
-    init(mode: TodoEditMode, todoItem: TodoItem?) { // ВОПРОС: нужно ли оставлять свойство mode? Ведь по сути, если мы передаем какой-то item, то это уже говорит о том, что инициализацих происходит с цель редактирования имеющейся задачи.
-//        С другой стороны, наличие данного свойства упрощает понимание кода и делает объект более масштабируемым
-//        Как делать считается более правильным?
-        
-        self.showCalendar = false
-        
-        if mode == .create {
-            if let todoItem = todoItem {
-                
-                self.text = todoItem.text
-                self.selectedImportance = todoItem.importance
-                
-                if let deadline = todoItem.deadline {
-                    self.deadlineSet = true
-                    self.deadline = deadline
-                } else {
-                    self.deadlineSet = false
-                    self.deadline = Date().addingTimeInterval(86_400) // 60 * 60 * 24 = 86400
-                }
-                
-                return
-                
-
-                
-                
-            } else {
-//                без добавленя этого не работает (хотя ниже, вне ифа мы все же инициализривем данные поля)
-                self.text = ""
-                self.selectedImportance = .ordinary
-                self.deadlineSet = false
-                self.deadline = Date().addingTimeInterval(86_400) // 60 * 60 * 24 = 86400
-                
-                return
-            }
-     
-        }
-        
-        self.text = ""
-        self.selectedImportance = .ordinary
-        self.deadlineSet = false
-        self.deadline = Date().addingTimeInterval(86_400) // 60 * 60 * 24 = 86400
-        
-        
-        
-        
-    }
+    
     
     @Published var text: String
     @Published var selectedImportance: Importance
@@ -68,6 +23,90 @@ class TaskEditingViewModel: ObservableObject {
     }
     @Published var showCalendar = false
     @Published var deadline: Date
+    
+    @Published var color: Color
+    
+    @Published var dateCreation: Date?
+    @Published var id: String?
+    @Published var mode: TodoEditMode
+    
+    
+    
+    init(mode: TodoEditMode, todoItem: TodoItem?) {
+        
+        self.showCalendar = false
+        self.mode = mode
+        
+        
+        if mode == .edit {
+            if let todoItem = todoItem {
+                
+                self.text = todoItem.text
+                self.selectedImportance = todoItem.importance
+                
+                if let deadline = todoItem.deadline {
+                    self.deadlineSet = true
+                    self.deadline = deadline
+                } else {
+                    self.deadlineSet = false
+                    self.deadline = Date().addingTimeInterval(86_400) // 60 * 60 * 24 = 86400
+                }
+                
+                if let colorString = todoItem.color {
+                    self.color = Color(hex: colorString)
+                } else {
+                    self.color = .white
+                }
+                
+                
+                
+                
+                self.dateCreation = todoItem.dateCreation
+                self.id = todoItem.id
+                
+                
+                
+                return
+                
+
+                
+                
+            } else {
+//                без добавленя этого не работает (хотя ниже, вне ифа мы все же инициализривем данные поля)
+                self.text = ""
+                self.selectedImportance = .ordinary
+                self.deadlineSet = false
+                self.deadline = Date().addingTimeInterval(86_400) // 60 * 60 * 24 = 86400
+                
+                self.color = .white
+                
+                
+                
+                
+                return
+            }
+        }
+        
+        self.text = ""
+        self.selectedImportance = .ordinary
+        self.deadlineSet = false
+        self.deadline = Date().addingTimeInterval(86_400) // 60 * 60 * 24 = 86400
+        
+        self.color = .white
+        
+        
+        
+        
+        
+        
+        
+    }
+    
+    
+    
+    
+    
+    
 
     
     
@@ -81,6 +120,8 @@ class TaskEditingViewModel: ObservableObject {
             return Image(systemName: "exclamationmark.2").eraseToAnyView()
         }
     }
+    
+    
     
     
     

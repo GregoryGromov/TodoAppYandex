@@ -12,9 +12,20 @@ struct TodoItem: Identifiable, Equatable {
     let dateCreation: Date
     let dateChanging: Date?
     
+    var color: String?
     
-//    кастомный инициализатор необходим, так как нам нужно иметь возможность как вручную задавать id (напрмер, при распарсинге), так и автоматически
-    init(id: String = UUID().uuidString, text: String, importance: Importance, deadline: Date? = nil, isDone: Bool, dateCreation: Date, dateChanging: Date? = nil) {
+    
+
+    init(
+        id: String = UUID().uuidString,
+        text: String,
+        importance: Importance,
+        deadline: Date? = nil,
+        isDone: Bool,
+        dateCreation: Date,
+        dateChanging: Date? = nil,
+        color: String? = nil
+    ) {
         self.id = id
         self.text = text
         self.importance = importance
@@ -23,6 +34,8 @@ struct TodoItem: Identifiable, Equatable {
         
         self.dateCreation = dateCreation
         self.dateChanging = dateChanging
+        
+        self.color = color
     }
 }
 

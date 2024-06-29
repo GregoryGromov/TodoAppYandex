@@ -8,17 +8,37 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-        }
-        .padding()
+        
+        
+//        TestView()
+//        Test5()
+//        TestoView()
+        
+//        ColorPickerTest()
+        
+//        Test3()
+//        TaskEditingView(mode: .create)
+        
+//        Test5()
+        
+//        TaskListView()
+        
+//        Test(mode: .create, todoItems: $d)
+        
+//        Test()
+        
+//        TestMain()
+        
+        
+        TaskListView()
+//        TestView()
+        
+//        CustomColorPicker()
+        
     }
 }
 
-#Preview {
-    ContentView()
-}

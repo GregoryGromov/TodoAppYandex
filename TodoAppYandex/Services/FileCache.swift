@@ -2,9 +2,11 @@ import Foundation
 
 class FileCache {
     
-    private var todoItems: [TodoItem]
+    @Published var todoItems: [TodoItem]
     
-    init(todoItems: [TodoItem]) {
+    static let shared = FileCache()
+    
+    init(todoItems: [TodoItem] = TodoItem.MOCK) {
         self.todoItems = todoItems
     }
     
@@ -15,6 +17,14 @@ class FileCache {
     func addTodoItem(_ todoItem: TodoItem) {
         if noSameItem(withId: todoItem.id) {
             todoItems.append(todoItem)
+        }
+    }
+    
+    func switchIsDone(byId id: String) {
+        for index in todoItems.indices {
+            if todoItems[index].id == id {
+                todoItems[index].isDone.toggle()
+            }
         }
     }
     

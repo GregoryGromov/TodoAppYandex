@@ -8,18 +8,11 @@
 import SwiftUI
 
 struct TaskListView: View {
-    
-    @State var selectedListDisplayMode: ListDisplayModificationOptions = .isDoneFilter
-    
+        
     @StateObject var viewModel = TaskListViewModel()
     
-    
-    
-    
-
     var body: some View {
         NavigationView {
-            
             VStack {
                 List {
                     Section(header: topBar) {
@@ -58,9 +51,7 @@ struct TaskListView: View {
                                         Text(item.text)
                                             .strikethrough(item.isDone ? true : false)
                                             .opacity(item.isDone ? 0.4 : 1)
-                                        
-//                                        Text(item.color ?? "no color now")
-                                        
+                                                                                
                                         
                                         
                                         if let colorString = item.color {
@@ -133,8 +124,6 @@ struct TaskListView: View {
                     }
 
                 }
-                
-                
                 .navigationTitle("Мои дела")
                 .navigationBarTitleDisplayMode(.large)
                 
@@ -186,7 +175,7 @@ struct TaskListView: View {
                 Label("", systemImage: "line.horizontal.3.decrease")
             }
             
-            switch selectedListDisplayMode {
+            switch viewModel.selectedListDisplayMode {
             case .importanceSorting:
                 Button {
                     viewModel.switchSorting()
@@ -219,11 +208,11 @@ struct TaskListView: View {
     }
     
     func showImportanceSortingButton() {
-        selectedListDisplayMode = .importanceSorting
+        viewModel.selectedListDisplayMode = .importanceSorting
     }
     
     func showIsDoneFilterButton() {
-        selectedListDisplayMode = .isDoneFilter
+        viewModel.selectedListDisplayMode = .isDoneFilter
     }
      
 }

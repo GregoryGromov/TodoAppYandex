@@ -30,6 +30,34 @@ extension TodoItem {
                 isDone: false,
                 dateCreation: Date(timeIntervalSince1970: 23982470)
             ),
+            TodoItem(
+                text: "Выкинуть дерево",
+                importance: .unimportant,
+                deadline: Date().addingTimeInterval(3243203023),
+                isDone: false,
+                dateCreation: Date()
+            ),
+            TodoItem(
+                text: "Выкинуть дерево",
+                importance: .unimportant,
+                deadline: Date().addingTimeInterval(39243203023),
+                isDone: false,
+                dateCreation: Date()
+            ),
+            TodoItem(
+                text: "Выкинуть дерево",
+                importance: .unimportant,
+                deadline: Date().addingTimeInterval(2243203023),
+                isDone: false,
+                dateCreation: Date()
+            ),
+            TodoItem(
+                text: "Выкинуть дерево",
+                importance: .unimportant,
+                deadline: Date().addingTimeInterval(10243203023),
+                isDone: false,
+                dateCreation: Date()
+            ),
         ]
     }
     

@@ -4,13 +4,13 @@ struct TodoItem: Identifiable, Equatable {
     
     let id: String
     
-    let text: String
-    let importance: Importance
-    let deadline: Date?
+    var text: String
+    var importance: Importance
+    var deadline: Date?
     var isDone: Bool
     
-    let dateCreation: Date
-    let dateChanging: Date?
+    var dateCreation: Date
+    var dateChanging: Date?
     
     var color: String?
     

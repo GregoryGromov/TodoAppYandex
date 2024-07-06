@@ -9,6 +9,9 @@ import SwiftUI
 
 
 
+
+// TODO: сделать нормальный UX
+
 struct CustomColorPicker: View {
     let  radius: CGFloat = 100
     var diameter: CGFloat {

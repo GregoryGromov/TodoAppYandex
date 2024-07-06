@@ -6,21 +6,34 @@
 //
 
 import Foundation
+import Combine
 
 class TaskListViewModel: ObservableObject {
-    
-    var allTodoItems = TodoItem.MOCK
-    
+        
     @Published var completedHidden = true
     @Published var sortingMode: SortMode = .byDate
     
-    @Published var todoItems = TodoItem.MOCK
+    @Published var todoItems = [TodoItem]()
     @Published var selectedFilter: (TodoItem) -> Bool = { _ in true }
     
     @Published var showEditView = false
     @Published var showAddView = false
     
     @Published var selectedTaskId = ""
+    @Published var selectedListDisplayMode: ListDisplayModificationOptions = .isDoneFilter
+    
+    
+    private var cancellables = Set<AnyCancellable>()
+        
+    
+    init() {
+        FileCache.shared.$todoItems
+            .sink { [weak self] todoItems in
+                self?.todoItems = todoItems
+            }
+            .store(in: &cancellables)
+    }
+    
     
     var isDoneCount: Int {
         todoItems.filter{ $0.isDone }.count
@@ -28,6 +41,11 @@ class TaskListViewModel: ObservableObject {
     
     let isDoneFilter: (TodoItem) -> Bool = { todoItem in
         return !todoItem.isDone
+    }
+    
+    func openEditPage(forItem item: TodoItem) {
+        selectedTaskId = item.id
+        showEditView = true
     }
         
     func applyAllItemsFilter() {
@@ -48,11 +66,7 @@ class TaskListViewModel: ObservableObject {
     }
     
     func switchIsDone(byId id: String) {
-        for index in todoItems.indices {
-            if todoItems[index].id == id {
-                todoItems[index].isDone.toggle()
-            }
-        }
+        FileCache.shared.switchIsDone(byId: id)
     }
     
     private func sortByDate() {
@@ -79,7 +93,7 @@ class TaskListViewModel: ObservableObject {
         }
     }
     
-//    проверить, всегда ли работает правильно
+//  TODO: проверить, всегда ли работает правильно
     func sortArrayByImportance(_ array: [TodoItem]) -> [TodoItem] {
         let sortedArray = array.sorted { (item1, item2) in
             if item1.importance == .important && item2.importance != .important {
@@ -107,11 +121,14 @@ class TaskListViewModel: ObservableObject {
     
     
     func deleteItem(byId id: String) {
-        for index in todoItems.indices {
-            if todoItems[index].id == id {
-                todoItems.remove(at: index)
-                return
-            }
-        }
+        FileCache.shared.deleteTodoItem(byId: id)
     } 
+    
+    func showImportanceSortingButton() {
+        selectedListDisplayMode = .importanceSorting
+    }
+    
+    func showIsDoneFilterButton() {
+        selectedListDisplayMode = .isDoneFilter
+    }
 }

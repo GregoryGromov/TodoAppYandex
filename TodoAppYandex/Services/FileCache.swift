@@ -20,6 +20,15 @@ class FileCache {
         }
     }
     
+    
+    func editTodoItem(_ todoItem: TodoItem) {
+        for index in todoItems.indices {
+            if todoItems[index].id == todoItem.id {
+                todoItems[index] = todoItem
+            }
+        }
+    }
+    
     func switchIsDone(byId id: String) {
         for index in todoItems.indices {
             if todoItems[index].id == id {

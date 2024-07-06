@@ -22,6 +22,7 @@ class TaskListViewModel: ObservableObject {
     @Published var selectedTaskId = ""
     @Published var selectedListDisplayMode: ListDisplayModificationOptions = .isDoneFilter
     
+    
     private var cancellables = Set<AnyCancellable>()
         
     
@@ -40,6 +41,11 @@ class TaskListViewModel: ObservableObject {
     
     let isDoneFilter: (TodoItem) -> Bool = { todoItem in
         return !todoItem.isDone
+    }
+    
+    func openEditPage(forItem item: TodoItem) {
+        selectedTaskId = item.id
+        showEditView = true
     }
         
     func applyAllItemsFilter() {
@@ -117,4 +123,12 @@ class TaskListViewModel: ObservableObject {
     func deleteItem(byId id: String) {
         FileCache.shared.deleteTodoItem(byId: id)
     } 
+    
+    func showImportanceSortingButton() {
+        selectedListDisplayMode = .importanceSorting
+    }
+    
+    func showIsDoneFilterButton() {
+        selectedListDisplayMode = .isDoneFilter
+    }
 }

@@ -9,11 +9,18 @@ import Foundation
 
 class TaskEditingViewModel: ObservableObject {
     
+    @Published var mode: TodoEditMode
     
+    let id: String
+    let isDone: Bool
+    let dateCreation: Date?
     
     @Published var text: String
     @Published var selectedImportance: Importance
+    @Published var deadline: Date
+    @Published var color: Color
     
+    @Published var colorIsSet: Bool
     @Published var deadlineSet: Bool {
         didSet {
             if !deadlineSet {
@@ -21,93 +28,89 @@ class TaskEditingViewModel: ObservableObject {
             }
         }
     }
-    @Published var showCalendar = false
-    @Published var deadline: Date
     
-    @Published var color: Color
-    
-    @Published var dateCreation: Date?
-    @Published var id: String?
-    @Published var mode: TodoEditMode
-    
+    @Published var showCalendar: Bool
+    @Published var showColorPicker: Bool
+
     
     
     init(mode: TodoEditMode, todoItem: TodoItem?) {
-        
-        self.showCalendar = false
-        self.mode = mode
-        
-        
-        if mode == .edit {
-            if let todoItem = todoItem {
+            self.mode = mode
+            self.showCalendar = false
+            self.showColorPicker = false
+            
+
+            if let oldTodoItem = todoItem {
                 
-                self.text = todoItem.text
-                self.selectedImportance = todoItem.importance
+                self.id = oldTodoItem.id
+                self.isDone = oldTodoItem.isDone
+                self.dateCreation = oldTodoItem.dateCreation
                 
-                if let deadline = todoItem.deadline {
-                    self.deadlineSet = true
-                    self.deadline = deadline
-                } else {
-                    self.deadlineSet = false
-                    self.deadline = Date().addingTimeInterval(86_400) // 60 * 60 * 24 = 86400
-                }
+                self.text = oldTodoItem.text
+                self.selectedImportance = oldTodoItem.importance
                 
-                if let colorString = todoItem.color {
-                    self.color = Color(hex: colorString)
+                if let color = oldTodoItem.color {
+                    self.color = Color(hex: color)
+                    self.colorIsSet = true
                 } else {
                     self.color = .white
+                    self.colorIsSet = false // исправлено на правильное свойство
                 }
                 
-                
-                
-                
-                self.dateCreation = todoItem.dateCreation
-                self.id = todoItem.id
-                
-                
-                
-                return
-                
-
-                
+                if let deadline = oldTodoItem.deadline {
+                    self.deadline = deadline
+                    self.deadlineSet = true
+                } else {
+                    self.deadline = Date().addingTimeInterval(86_400)
+                    self.deadlineSet = false
+                }
                 
             } else {
-//                без добавленя этого не работает (хотя ниже, вне ифа мы все же инициализривем данные поля)
+                self.id = UUID().uuidString
+                self.isDone = false
+                self.dateCreation = nil
+                
                 self.text = ""
                 self.selectedImportance = .ordinary
-                self.deadlineSet = false
-                self.deadline = Date().addingTimeInterval(86_400) // 60 * 60 * 24 = 86400
-                
                 self.color = .white
+                self.deadline = Date().addingTimeInterval(86_400)
                 
-                
-                
-                
-                return
+                self.deadlineSet = false
+                self.colorIsSet = false
             }
         }
-        
-        self.text = ""
-        self.selectedImportance = .ordinary
-        self.deadlineSet = false
-        self.deadline = Date().addingTimeInterval(86_400) // 60 * 60 * 24 = 86400
-        
-        self.color = .white
-        
-        
-        
-        
-        
-        
-        
+    
+    func addTodoItem() {
+        let newTodoItem = assembleTodoItem()
+        FileCache.shared.addTodoItem(newTodoItem)
     }
     
     
+    func editTodoItem() {
+        let modifiedTodoItem = assembleTodoItem()
+        FileCache.shared.editTodoItem(modifiedTodoItem)
+    }
     
-    
-    
-    
-
+    private func assembleTodoItem() -> TodoItem {
+        
+        let deadline: Date? = deadlineSet ? deadline : nil
+        let dateChanging: Date? = (mode == .create) ? nil : Date()
+        let colorHEX: String? = colorIsSet ? color.toHex() : nil
+        let dateCreation: Date = dateCreation ?? Date()
+        
+        let todoItem = TodoItem(
+            id: id,
+            text: text,
+            importance: selectedImportance,
+            deadline: deadline,
+            isDone: isDone,
+            dateCreation: dateCreation,
+            dateChanging: dateChanging,
+            color: colorHEX
+        )
+        
+        return todoItem
+    }
     
     
     func getPickerPreview(for importance: Importance) -> some View {
@@ -120,20 +123,8 @@ class TaskEditingViewModel: ObservableObject {
             return Image(systemName: "exclamationmark.2").eraseToAnyView()
         }
     }
-    
-    
-    
-    
-    
-    
-    
-    
 }
 
 
 
-extension View {
-    func eraseToAnyView() -> AnyView {
-        AnyView(self)
-    }
-}
+

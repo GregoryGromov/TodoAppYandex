@@ -24,8 +24,6 @@ struct SwiftUICalendar: View {
     
     var body: some View {
         VStack {
-
-            
             CalendarUIViewRepresentable(dateTuples: dateTuples, selectedDate: $selectedDate, onDelete: printDelete)
                         .frame(height: 150)
                         .padding(.top, 20)

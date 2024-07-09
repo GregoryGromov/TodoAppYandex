@@ -2,7 +2,6 @@ import SwiftUI
 import UIKit
 
 
-
 class MyCollectionViewCell: UICollectionViewCell {
     static let reuseIdentifier = "MyCollectionViewCell"
     

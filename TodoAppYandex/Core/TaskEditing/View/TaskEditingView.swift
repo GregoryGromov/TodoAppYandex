@@ -8,6 +8,15 @@
 import SwiftUI
 
 
+
+import CustomPicker
+
+
+
+
+
+
+
 struct TaskEditingView: View {
     
     @Environment(\.dismiss) var dismiss
@@ -158,8 +167,16 @@ struct TaskEditingView: View {
                 }
             }
         }     
+        
+        
+        
+        
         .sheet(isPresented: $viewModel.showColorPicker) {
-            CustomColorPicker(bgColor: $viewModel.color)
+            CustomPicker.ColorPickerUI(bgColor: $viewModel.color)
+            
+            
+            
+//            CustomColorPicker(bgColor: $viewModel.color)
         }
     }
     

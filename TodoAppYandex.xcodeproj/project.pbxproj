@@ -42,6 +42,8 @@
 		5FCE54022C263F5F005187A4 /* ParsingFromJSONTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FCE54012C263F5F005187A4 /* ParsingFromJSONTests.swift */; };
 		5FCE54042C263F63005187A4 /* ConvertToCSVTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FCE54032C263F63005187A4 /* ConvertToCSVTests.swift */; };
 		5FCE54062C263F66005187A4 /* ParsingFromCSVTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FCE54052C263F66005187A4 /* ParsingFromCSVTests.swift */; };
+		5FD780492C415937000F342F /* CancellableStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD780472C415937000F342F /* CancellableStorage.swift */; };
+		5FD7804A2C415937000F342F /* Cancellable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD780482C415937000F342F /* Cancellable.swift */; };
 		FCCE282332F31F327333AF54 /* Pods_TodoAppYandex_TodoAppYandexUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 654BE388E364B50B09223CF8 /* Pods_TodoAppYandex_TodoAppYandexUITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -99,6 +101,8 @@
 		5FCE54012C263F5F005187A4 /* ParsingFromJSONTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParsingFromJSONTests.swift; sourceTree = "<group>"; };
 		5FCE54032C263F63005187A4 /* ConvertToCSVTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConvertToCSVTests.swift; sourceTree = "<group>"; };
 		5FCE54052C263F66005187A4 /* ParsingFromCSVTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParsingFromCSVTests.swift; sourceTree = "<group>"; };
+		5FD780472C415937000F342F /* CancellableStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CancellableStorage.swift; sourceTree = "<group>"; };
+		5FD780482C415937000F342F /* Cancellable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cancellable.swift; sourceTree = "<group>"; };
 		63996896A26A0EF17981C37D /* Pods-TodoAppYandex.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TodoAppYandex.debug.xcconfig"; path = "Target Support Files/Pods-TodoAppYandex/Pods-TodoAppYandex.debug.xcconfig"; sourceTree = "<group>"; };
 		654BE388E364B50B09223CF8 /* Pods_TodoAppYandex_TodoAppYandexUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TodoAppYandex_TodoAppYandexUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A89C61F61D7DFC9B80E69B0E /* Pods_TodoAppYandex.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TodoAppYandex.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -260,6 +264,7 @@
 				5FCE53EE2C263EB3005187A4 /* Core */,
 				5FCE53ED2C263EAD005187A4 /* Enums */,
 				5FCE53EC2C263EA6005187A4 /* Extensions */,
+				5FD780462C415937000F342F /* HelpersForCuncurrency */,
 				5FCE53EB2C263EA1005187A4 /* Models */,
 				5FCE53EA2C263E8E005187A4 /* Root */,
 				5FCE53C42C263D9B005187A4 /* Assets.xcassets */,
@@ -355,6 +360,15 @@
 				5FCE54052C263F66005187A4 /* ParsingFromCSVTests.swift */,
 			);
 			path = TodoItemTests;
+			sourceTree = "<group>";
+		};
+		5FD780462C415937000F342F /* HelpersForCuncurrency */ = {
+			isa = PBXGroup;
+			children = (
+				5FD780472C415937000F342F /* CancellableStorage.swift */,
+				5FD780482C415937000F342F /* Cancellable.swift */,
+			);
+			path = HelpersForCuncurrency;
 			sourceTree = "<group>";
 		};
 		800D02371AD24D6D3B17AD57 /* Pods */ = {
@@ -613,6 +627,8 @@
 				5F63F7022C2C2469001248A8 /* TaskListViewModel.swift in Sources */,
 				5FCE53F42C263F19005187A4 /* TodoItem+Extension.swift in Sources */,
 				5F63F7252C2F8EF7001248A8 /* DetailViewIPad.swift in Sources */,
+				5FD7804A2C415937000F342F /* Cancellable.swift in Sources */,
+				5FD780492C415937000F342F /* CancellableStorage.swift in Sources */,
 				5F7DC30B2C29A77900954EC0 /* TaskEditingViewModel.swift in Sources */,
 				5FCE53C32C263D9A005187A4 /* ContentView.swift in Sources */,
 				5F9A70C72C38A96A002E82FC /* UIColor+Extension.swift in Sources */,

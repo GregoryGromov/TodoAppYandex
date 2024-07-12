@@ -12,10 +12,10 @@ final class ParsingFromJSONTests: XCTestCase {
             "isDone": false,
             "dateCreation": "1970-01-01 03:20:30",
             "dateChanging": "1970-01-01 03:20:31"
-        ] as [String : Any]
-        
+        ] as [String: Any]
+
         let todoItem = TodoItem.parse(json: todoItemJSON)!
-        
+
         XCTAssertEqual(todoItem.id, "testId3")
         XCTAssertEqual(todoItem.text, "Почистить песчаную дорогу от песка")
         XCTAssertEqual(todoItem.importance, Importance.unimportant)
@@ -24,32 +24,31 @@ final class ParsingFromJSONTests: XCTestCase {
         XCTAssertEqual(todoItem.dateCreation, Date(timeIntervalSince1970: 1230))
         XCTAssertEqual(todoItem.dateChanging, Date(timeIntervalSince1970: 1231))
     }
-    
-    
+
     func testParsingWithOnlyRequiredValues() {
         let todoItemJSON = [
             "id": "testId3",
             "text": "Покрасить траву в зеленый цвет",
             "importance": "unimportant",
             "isDone": false,
-            "dateCreation": "1970-01-01 03:20:30",
-        ] as [String : Any]
-        
+            "dateCreation": "1970-01-01 03:20:30"
+        ] as [String: Any]
+
         let todoItem = TodoItem.parse(json: todoItemJSON)!
-        
+
         XCTAssertEqual(todoItem.id, "testId3")
         XCTAssertEqual(todoItem.text, "Покрасить траву в зеленый цвет")
         XCTAssertEqual(todoItem.importance, Importance.unimportant)
         XCTAssertEqual(todoItem.isDone, false)
         XCTAssertEqual(todoItem.dateCreation, Date(timeIntervalSince1970: 1230))
-        
+
         XCTAssertNil(todoItem.deadline)
         XCTAssertNil(todoItem.dateChanging)
     }
-    
+
 //    Тест парсинга словоря без указанной важности
     func testParsingWithoutImportacne() {
-        
+
         let todoItemJSON = [
             "id": "testId3",
             "text": "Почистить песчаную дорогу от песка",
@@ -57,17 +56,17 @@ final class ParsingFromJSONTests: XCTestCase {
             "isDone": false,
             "dateCreation": "1970-01-01 03:20:30",
             "dateChanging": "1970-01-01 03:20:31"
-            
-        ] as [String : Any]
-        
+
+        ] as [String: Any]
+
         let todoItem = TodoItem.parse(json: todoItemJSON)!
-        
+
         XCTAssertEqual(todoItem.id, "testId3")
         XCTAssertEqual(todoItem.text, "Почистить песчаную дорогу от песка")
-        
+
 //        Так как importance - обязательное свойство TodoItem, его остутствие в JSON-представлении означает, что у оригинального экземпляра TodoItem данное свойство равнялось .ordinary (так как только лишь в этом случае, мы по ТЗ не сохраняем его в JSON)
         XCTAssertEqual(todoItem.importance, Importance.ordinary)
-        
+
         XCTAssertEqual(todoItem.deadline, Date(timeIntervalSince1970: 1234))
         XCTAssertEqual(todoItem.isDone, false)
         XCTAssertEqual(todoItem.dateCreation, Date(timeIntervalSince1970: 1230))

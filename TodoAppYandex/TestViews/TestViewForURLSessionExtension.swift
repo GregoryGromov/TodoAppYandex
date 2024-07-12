@@ -7,16 +7,14 @@
 
 import SwiftUI
 
-
-
 struct TestViewForURLSessionExtension: View {
     @StateObject var imageLoader = ImageLoader()
     @State var isLoading: Bool = false
     @State var image: Image?
-    
+
     var body: some View {
         VStack {
-            
+
             if !imageLoader.isLoading {
                 Button("Show image") {
                     print("Нажата")
@@ -29,7 +27,6 @@ struct TestViewForURLSessionExtension: View {
                     imageLoader.cancelImageLoad()
                 }
             }
-
 
             if let image = imageLoader.image {
                 image

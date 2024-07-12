@@ -6,7 +6,7 @@ target 'TodoAppYandex' do
   use_frameworks!
 
   # Pods for TodoAppYandex
-pod 'SwiftLint'
+  pod 'SwiftLint'
   target 'TodoAppYandexTests' do
     inherit! :search_paths
     # Pods for testing

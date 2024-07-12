@@ -25,26 +25,23 @@ final class ConvertToCSVTests: XCTestCase {
                 dateChanging: Date(timeIntervalSince1970: 1229)
             )
         ]
-        
-        
-        
+
 //      Act
         let dataAsCSV = TodoItem.convertToCSV(todoItems: todoItems)
-        
+
 //      Then
         let CSVRight = """
         4ocnho43yrpq,write to Misha,unimportant,1970-01-01 03:20:34,false,1970-01-01 03:20:33,1970-01-01 03:20:32
         fu39ubjhaq12,finish the program,important,1970-01-01 03:20:31,true,1970-01-01 03:20:30,1970-01-01 03:20:29
         """
-        
+
         XCTAssertEqual(dataAsCSV, CSVRight)
-        
+
     }
-    
-    
+
     func testCSVConvertingWithOnlyRequiredProperties() {
 //      Given
-        
+
         let todoItems = [
             TodoItem(
                 id: "4ocnho43yrpq",
@@ -65,31 +62,28 @@ final class ConvertToCSVTests: XCTestCase {
                 dateChanging: nil
             )
         ]
-        
-        
-        
+
 //      Act
         let dataAsCSV = TodoItem.convertToCSV(todoItems: todoItems)
-        
+
 //      Then
         let CSVRight = """
         4ocnho43yrpq,write to Misha,unimportant,,false,1970-01-01 03:20:33,
         fu39ubjhaq12,finish the program,important,,true,1970-01-01 03:20:30,
         """
-        
+
         XCTAssertEqual(dataAsCSV, CSVRight)
-        
+
     }
-    
-    
+
     func testCSVConvertingWithEmptyArray() {
-        
+
 //        Given
         let todoItems = [TodoItem]()
-        
+
 //        Act
         let dataAsCSV = TodoItem.convertToCSV(todoItems: todoItems)
-        
+
 //        Then
         let CSVRight = ""
         XCTAssertEqual(dataAsCSV, CSVRight)

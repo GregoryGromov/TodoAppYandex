@@ -1,6 +1,5 @@
 import Foundation
 
-
 public final class CancellablesStorage: Cancellable, @unchecked Sendable {
     public enum State {
         case active
@@ -12,7 +11,6 @@ public final class CancellablesStorage: Cancellable, @unchecked Sendable {
     private var cancellables: [Cancellable] = []
     private var _state = State.active
 
-    
     public var state: State {
         defer { lock.unlock() }
 
@@ -23,8 +21,6 @@ public final class CancellablesStorage: Cancellable, @unchecked Sendable {
 
     public init() { }
 
-    
-    
     public func cancel() {
         lock.lock()
 
@@ -35,7 +31,7 @@ public final class CancellablesStorage: Cancellable, @unchecked Sendable {
         _state = State.cancelled
 
         let cancellables = self.cancellables
-        
+
         self.cancellables.removeAll()
 
         lock.unlock()
@@ -43,7 +39,6 @@ public final class CancellablesStorage: Cancellable, @unchecked Sendable {
         cancellables.forEach { $0.cancel() }
     }
 
-    
     @discardableResult public func add(_ cancellable: Cancellable) -> Bool {
         lock.lock()
 
@@ -69,7 +64,6 @@ public final class CancellablesStorage: Cancellable, @unchecked Sendable {
         }
     }
 
-    
     public func deactivate() -> Bool {
         lock.lock()
 

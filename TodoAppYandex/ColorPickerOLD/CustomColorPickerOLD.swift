@@ -5,14 +5,14 @@
 ////  Created by Григорий Громов on 29.06.2024.
 ////
 //
-//import SwiftUI
+// import SwiftUI
 //
 //
 //
 //
-//// TODO: сделать нормальный UX
+// TODO: сделать нормальный UX
 //
-//struct CustomColorPicker: View {
+// struct CustomColorPicker: View {
 //    let  radius: CGFloat = 100
 //    var diameter: CGFloat {
 //        radius * 2
@@ -164,4 +164,4 @@
 //                location = nil
 //            }
 //    }
-//}
+// }

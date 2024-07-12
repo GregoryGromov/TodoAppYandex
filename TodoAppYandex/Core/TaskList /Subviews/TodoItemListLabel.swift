@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct TodoCheckmarkLabel: View {
-    
+
     let item: TodoItem
-    
+
     var body: some View {
         HStack {
             if item.isDone {
@@ -23,7 +23,7 @@ struct TodoCheckmarkLabel: View {
                     Image(systemName: "circle.fill")
                         .foregroundStyle(.red)
                         .opacity(0.1)
-                    
+
                 }
             } else {
                 Image(systemName: "circle")
@@ -33,5 +33,3 @@ struct TodoCheckmarkLabel: View {
         .font(.title2)
     }
 }
-
-

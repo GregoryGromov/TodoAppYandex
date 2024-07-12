@@ -63,22 +63,22 @@ extension TodoItem {
     var json: Any {
 
         var dictionary = [
-            "id": self.id,
-            "text": self.text,
-            "isDone": self.isDone,
-            "dateCreation": self.dateCreation.convertToString()
+            JSONKeys.id: self.id,
+            JSONKeys.text: self.text,
+            JSONKeys.isDone: self.isDone,
+            JSONKeys.dateCreation: self.dateCreation.convertToString()
         ] as [String: Any]
 
         if importance != .ordinary {
-            dictionary["importance"] = importance.rawValue
+            dictionary[JSONKeys.importance] = importance.rawValue
         }
 
         if let deadline = self.deadline {
-            dictionary["deadline"] = deadline.convertToString()
+            dictionary[JSONKeys.deadline] = deadline.convertToString()
         }
 
         if let dateChanging = self.dateChanging {
-            dictionary["dateChanging"] = dateChanging.convertToString()
+            dictionary[JSONKeys.dateChanging] = dateChanging.convertToString()
         }
 
         return dictionary
@@ -92,14 +92,14 @@ extension TodoItem {
         }
 
         // извлекаем из JSON обязательные поля
-        guard let id = jsonObject["id"] as? String,
-              let text = jsonObject["text"] as? String,
-              let isDone = jsonObject["isDone"] as? Bool,
-              let dateCreationAsString = jsonObject["dateCreation"] as? String
+        guard let id = jsonObject[JSONKeys.id] as? String,
+              let text = jsonObject[JSONKeys.id] as? String,
+              let isDone = jsonObject[JSONKeys.isDone] as? Bool,
+              let dateCreationAsString = jsonObject[JSONKeys.dateChanging] as? String
 
         else { return nil }
 
-        let importanceString = jsonObject["importance"] as? String
+        let importanceString = jsonObject[JSONKeys.importance] as? String
 
         var importance = Importance.ordinary
 
@@ -118,14 +118,14 @@ extension TodoItem {
         var dateChanging: Date?
 
         // проверяем, задан ли дедлайн
-        if let deadlineAsString = jsonObject["deadline"] as? String {
+        if let deadlineAsString = jsonObject[JSONKeys.deadline] as? String {
             if let deadlineFromJSON = deadlineAsString.convertToDate() {
                 deadline = deadlineFromJSON
             }
         }
 
         // проверяем, задана ли дата изменения
-        if let dateChangingAsString = jsonObject["dateChanging"] as? String {
+        if let dateChangingAsString = jsonObject[JSONKeys.dateChanging] as? String {
             if let dateChangingFromJSON = dateChangingAsString.convertToDate() {
                 dateChanging = dateChangingFromJSON
             }

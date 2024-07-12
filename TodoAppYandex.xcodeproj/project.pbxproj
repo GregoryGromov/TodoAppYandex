@@ -17,6 +17,7 @@
 		5F6F4C762C418E62008DD5C9 /* CocoaLumberjack in Frameworks */ = {isa = PBXBuildFile; productRef = 5F6F4C752C418E62008DD5C9 /* CocoaLumberjack */; };
 		5F6F4C782C418E62008DD5C9 /* CocoaLumberjackSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 5F6F4C772C418E62008DD5C9 /* CocoaLumberjackSwift */; };
 		5F6F4C7A2C418E62008DD5C9 /* CocoaLumberjackSwiftLogBackend in Frameworks */ = {isa = PBXBuildFile; productRef = 5F6F4C792C418E62008DD5C9 /* CocoaLumberjackSwiftLogBackend */; };
+		5F6F4C812C41B8E3008DD5C9 /* JSONKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6F4C802C41B8E3008DD5C9 /* JSONKeys.swift */; };
 		5F7ABB3D2C3D6E9100261F7F /* CustomPicker in Frameworks */ = {isa = PBXBuildFile; productRef = 5F7ABB3C2C3D6E9100261F7F /* CustomPicker */; };
 		5F7DC3092C29A73A00954EC0 /* TaskEditingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7DC3082C29A73A00954EC0 /* TaskEditingView.swift */; };
 		5F7DC30B2C29A77900954EC0 /* TaskEditingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7DC30A2C29A77900954EC0 /* TaskEditingViewModel.swift */; };
@@ -83,6 +84,7 @@
 		5F6F4C712C417E62008DD5C9 /* TodoAppYandex.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TodoAppYandex.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F6F4C722C418DA6008DD5C9 /* TodoAppYandexTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TodoAppYandexTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F6F4C732C418DA6008DD5C9 /* TodoAppYandexUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TodoAppYandexUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5F6F4C802C41B8E3008DD5C9 /* JSONKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONKeys.swift; sourceTree = "<group>"; };
 		5F7DC3082C29A73A00954EC0 /* TaskEditingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskEditingView.swift; sourceTree = "<group>"; };
 		5F7DC30A2C29A77900954EC0 /* TaskEditingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskEditingViewModel.swift; sourceTree = "<group>"; };
 		5F9765712C2AC42F004CA12E /* TaskListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListView.swift; sourceTree = "<group>"; };
@@ -193,6 +195,14 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		5F6F4C7F2C41B8D6008DD5C9 /* Keys */ = {
+			isa = PBXGroup;
+			children = (
+				5F6F4C802C41B8E3008DD5C9 /* JSONKeys.swift */,
+			);
+			path = Keys;
+			sourceTree = "<group>";
+		};
 		5F7DC3052C29A66D00954EC0 /* TaskEditing */ = {
 			isa = PBXGroup;
 			children = (
@@ -278,6 +288,7 @@
 		5FCE53BF2C263D9A005187A4 /* TodoAppYandex */ = {
 			isa = PBXGroup;
 			children = (
+				5F6F4C7F2C41B8D6008DD5C9 /* Keys */,
 				5FD7804F2C415BE1000F342F /* TestViews */,
 				5F63F71D2C2F80DE001248A8 /* ColorPickerOLD */,
 				5FCE53EF2C263EBB005187A4 /* Services */,
@@ -647,6 +658,7 @@
 				5F63F7162C2EAA19001248A8 /* Color+Extension.swift in Sources */,
 				5F63F7022C2C2469001248A8 /* TaskListViewModel.swift in Sources */,
 				5FCE53F42C263F19005187A4 /* TodoItem+Extension.swift in Sources */,
+				5F6F4C812C41B8E3008DD5C9 /* JSONKeys.swift in Sources */,
 				5FD780512C415C11000F342F /* TestViewForURLSessionExtension.swift in Sources */,
 				5F63F7252C2F8EF7001248A8 /* DetailViewIPad.swift in Sources */,
 				5FD7804A2C415937000F342F /* Cancellable.swift in Sources */,

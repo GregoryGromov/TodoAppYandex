@@ -21,35 +21,35 @@ class FileCache {
     }
 
     func editTodoItem(_ todoItem: TodoItem) {
-        for index in todoItems.indices {
-            if todoItems[index].id == todoItem.id {
-                todoItems[index] = todoItem
-            }
+        for index in todoItems.indices where todoItems[index].id == todoItem.id {
+            todoItems[index] = todoItem
         }
     }
 
+//    func editTodoItem(_ todoItem: TodoItem) {
+//        for index in todoItems.indices {
+//            if todoItems[index].id == todoItem.id {
+//                todoItems[index] = todoItem
+//            }
+//        }
+//    }
+
     func switchIsDone(byId id: String) {
-        for index in todoItems.indices {
-            if todoItems[index].id == id {
-                todoItems[index].isDone.toggle()
-            }
+        for index in todoItems.indices where todoItems[index].id == id {
+            todoItems[index].isDone.toggle()
         }
     }
 
     func deleteTodoItem(byId id: String) {
-        for index in todoItems.indices {
-            if todoItems[index].id == id {
-                todoItems.remove(at: index)
-                return
-            }
+        for index in todoItems.indices where todoItems[index].id == id {
+            todoItems.remove(at: index)
+            return
         }
     }
 
     private func noSameItem(withId id: String) -> Bool {
-        for item in todoItems {
-            if item.id == id {
-                return false
-            }
+        for item in todoItems where item.id == id {
+            return false
         }
         return true
     }

@@ -5,8 +5,8 @@
 //  Created by Григорий Громов on 12.07.2024.
 //
 
-import Foundation
 import SwiftUI
+import CocoaLumberjackSwift
 
 final class ImageLoader: ObservableObject, @unchecked Sendable {
     @Published var image: Image?
@@ -22,7 +22,7 @@ final class ImageLoader: ObservableObject, @unchecked Sendable {
                 self.isLoading = true
             }
 
-            await Task.sleep(3 * 1_000_000_000)
+            try? await Task.sleep(nanoseconds: 3 * 1_000_000_000)
 
             do {
                 let urlRequest = URLRequest(url: getUrl())
@@ -36,9 +36,10 @@ final class ImageLoader: ObservableObject, @unchecked Sendable {
                 let fetchedImage = Image(uiImage: uiImage)
 
                 await MainActor.run {
-                    self.isLoading = false
-                    print("Картинка поставлена")
+
                     self.image = fetchedImage
+                    DDLogInfo("The picture is mounted on the screen")
+                    self.isLoading = false
                 }
             } catch {
                 await MainActor.run {

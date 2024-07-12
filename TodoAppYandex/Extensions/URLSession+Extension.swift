@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CocoaLumberjackSwift
 
 extension URLSession {
     func dataTask(for urlRequest: URLRequest) async throws -> (Data, URLResponse) {
@@ -37,6 +38,7 @@ extension URLSession {
                 }
             }
         } onCancel: {
+            DDLogInfo("URLSession dataTask received external notice of termination")
             cancellableStorage.cancel()
         }
     }

@@ -64,7 +64,6 @@ final class ParsingFromJSONTests: XCTestCase {
         XCTAssertEqual(todoItem.id, "testId3")
         XCTAssertEqual(todoItem.text, "Почистить песчаную дорогу от песка")
 
-//        Так как importance - обязательное свойство TodoItem, его остутствие в JSON-представлении означает, что у оригинального экземпляра TodoItem данное свойство равнялось .ordinary (так как только лишь в этом случае, мы по ТЗ не сохраняем его в JSON)
         XCTAssertEqual(todoItem.importance, Importance.ordinary)
 
         XCTAssertEqual(todoItem.deadline, Date(timeIntervalSince1970: 1234))

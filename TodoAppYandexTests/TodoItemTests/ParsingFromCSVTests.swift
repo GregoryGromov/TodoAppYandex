@@ -14,9 +14,25 @@ final class ParsingFromCSVTests: XCTestCase {
         let parsedCSV = TodoItem.parseCSV(CSVExample)!
 
 //      Then
-        let item1Right = TodoItem(id: "4ocnho43yrpq", text: "write to Misha", importance: .unimportant, deadline: Date(timeIntervalSince1970: 1234), isDone: false, dateCreation: Date(timeIntervalSince1970: 1233), dateChanging: Date(timeIntervalSince1970: 1232))
+        let item1Right = TodoItem(
+            id: "4ocnho43yrpq",
+            text: "write to Misha",
+            importance: .unimportant,
+            deadline: Date(timeIntervalSince1970: 1234),
+            isDone: false,
+            dateCreation: Date(timeIntervalSince1970: 1233),
+            dateChanging: Date(timeIntervalSince1970: 1232)
+        )
 
-        let item2Right = TodoItem(id: "fu39ubjhaq12", text: "finish the program", importance: .important, deadline: Date(timeIntervalSince1970: 1231), isDone: true, dateCreation: Date(timeIntervalSince1970: 1230), dateChanging: Date(timeIntervalSince1970: 1229))
+        let item2Right = TodoItem(
+            id: "fu39ubjhaq12",
+            text: "finish the program",
+            importance: .important,
+            deadline: Date(timeIntervalSince1970: 1231),
+            isDone: true,
+            dateCreation: Date(timeIntervalSince1970: 1230),
+            dateChanging: Date(timeIntervalSince1970: 1229)
+        )
 
         XCTAssertEqual(parsedCSV[0], item1Right)
         XCTAssertEqual(parsedCSV[1], item2Right)
@@ -33,9 +49,23 @@ final class ParsingFromCSVTests: XCTestCase {
         let parsedCSV = TodoItem.parseCSV(CSVExample)!
 
 //      Then
-        let item1Right = TodoItem(id: "4ocnho43yrpq", text: "write to Misha", importance: .unimportant, deadline: nil, isDone: false, dateCreation: Date(timeIntervalSince1970: 1233), dateChanging: nil)
+        let item1Right = TodoItem(
+            id: "4ocnho43yrpq", text: "write to Misha",
+            importance: .unimportant,
+            deadline: nil, isDone: false,
+            dateCreation: Date(timeIntervalSince1970: 1233),
+            dateChanging: nil
+        )
 
-        let item2Right = TodoItem(id: "fu39ubjhaq12", text: "finish the program", importance: .important, deadline: nil, isDone: true, dateCreation: Date(timeIntervalSince1970: 1230), dateChanging: nil)
+        let item2Right = TodoItem(
+            id: "fu39ubjhaq12",
+            text: "finish the program",
+            importance: .important,
+            deadline: nil,
+            isDone: true,
+            dateCreation: Date(timeIntervalSince1970: 1230),
+            dateChanging: nil
+        )
 
         XCTAssertEqual(parsedCSV[0], item1Right)
         XCTAssertEqual(parsedCSV[1], item2Right)
@@ -52,9 +82,25 @@ final class ParsingFromCSVTests: XCTestCase {
         let parsedCSV = TodoItem.parseCSV(CSVExample)!
 
 //      Then
-        let item1Right = TodoItem(id: "4ocnho43yrpq", text: "write to Misha", importance: .unimportant, deadline: Date(timeIntervalSince1970: 1234), isDone: false, dateCreation: Date(timeIntervalSince1970: 1233), dateChanging: nil)
+        let item1Right = TodoItem(
+            id: "4ocnho43yrpq",
+            text: "write to Misha",
+            importance: .unimportant,
+            deadline: Date(timeIntervalSince1970: 1234),
+            isDone: false,
+            dateCreation: Date(timeIntervalSince1970: 1233),
+            dateChanging: nil
+        )
 
-        let item2Right = TodoItem(id: "fu39ubjhaq12", text: "finish the program", importance: .ordinary, deadline: nil, isDone: true, dateCreation: Date(timeIntervalSince1970: 1230), dateChanging: Date(timeIntervalSince1970: 1229))
+        let item2Right = TodoItem(
+            id: "fu39ubjhaq12",
+            text: "finish the program",
+            importance: .ordinary,
+            deadline: nil,
+            isDone: true,
+            dateCreation: Date(timeIntervalSince1970: 1230),
+            dateChanging: Date(timeIntervalSince1970: 1229)
+        )
 
         XCTAssertEqual(parsedCSV[0], item1Right)
         XCTAssertEqual(parsedCSV[1], item2Right)

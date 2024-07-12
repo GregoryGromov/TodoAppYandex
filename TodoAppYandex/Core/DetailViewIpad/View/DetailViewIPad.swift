@@ -63,11 +63,18 @@ struct DetailViewIPad: View {
     }
 
     func deleteItem() {
-        for index in todoItems.indices {
-            if todoItems[index].id == selectedTodoItem.id {
-                todoItems.remove(at: index)
-                return
-            }
+        for index in todoItems.indices where todoItems[index].id == selectedTodoItem.id {
+            todoItems.remove(at: index)
+            return
         }
     }
+
+//    func deleteItem() {
+//        for index in todoItems.indices {
+//            if todoItems[index].id == selectedTodoItem.id {
+//                todoItems.remove(at: index)
+//                return
+//            }
+//        }
+//    }
 }

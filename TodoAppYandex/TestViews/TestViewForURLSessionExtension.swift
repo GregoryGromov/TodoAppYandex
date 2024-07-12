@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CocoaLumberjackSwift
 
 struct TestViewForURLSessionExtension: View {
     @StateObject var imageLoader = ImageLoader()
@@ -17,13 +18,13 @@ struct TestViewForURLSessionExtension: View {
 
             if !imageLoader.isLoading {
                 Button("Show image") {
-                    print("Нажата")
+                    DDLogInfo("'Show image' button pressed")
                     imageLoader.loadImage()
                 }
             } else {
                 ProgressView()
                 Button("Cancel") {
-                    print("Нажата кнопка отмены")
+                    DDLogInfo("'Cancel' button pressed")
                     imageLoader.cancelImageLoad()
                 }
             }

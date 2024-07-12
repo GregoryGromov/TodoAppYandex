@@ -69,12 +69,21 @@ struct TaskListView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     NavigationLink {
-                        
-                        
-                        
                         SwiftUICalendar()
                     } label: {
                         Image(systemName: "calendar")
+                            .font(.title3)
+                    }
+                    
+                }
+            }
+            
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    NavigationLink {
+                        TestViewForURLSessionExtension()
+                    } label: {
+                        Image(systemName: "photo.fill")
                             .font(.title3)
                     }
                     

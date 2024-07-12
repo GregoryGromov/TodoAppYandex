@@ -33,12 +33,9 @@ struct ContentView: View {
         
 //        TestMain()
         
-        
+//        TestViewForURLSessionExtension()
         TaskListView()
-//        TestView()
-        
-//        CustomColorPicker()
-        
+
     }
 }
 

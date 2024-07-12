@@ -7,15 +7,16 @@
 
 import SwiftUI
 
+import CustomPicker
 
 struct TaskEditingView: View {
-    
+
     @Environment(\.dismiss) var dismiss
-    
+
     @StateObject var viewModel: TaskEditingViewModel
-    
+
     init(mode: TodoEditMode, todoItem: TodoItem? = nil, todoItems: Binding<[TodoItem]>) {
-        
+
         if mode == .create {
             self._viewModel = StateObject(
                 wrappedValue: TaskEditingViewModel(mode: .create, todoItem: nil)
@@ -31,14 +32,12 @@ struct TaskEditingView: View {
                 )
             }
         }
-        
+
         if let colorString = todoItem?.color {
             self.viewModel.color = Color(hex: colorString)
         }
     }
-    
- 
-    
+
     var body: some View {
         NavigationView {
             List {
@@ -53,12 +52,11 @@ struct TaskEditingView: View {
             .toolbar {
                 cancelToolBarItem
                 saveToolBatItem
-                
+
             }
         }
     }
-    
-    
+
     var textEditorSection: some View {
         Section {
             ZStack(alignment: .topLeading) {
@@ -67,9 +65,9 @@ struct TaskEditingView: View {
                     .padding()
             }
         }
-        
+
     }
-    
+
     var importanceAndDateSection: some View {
         Section {
             HStack {
@@ -84,7 +82,7 @@ struct TaskEditingView: View {
                 .pickerStyle(.segmented)
                 .frame(width: 180)
             }
-            
+
             HStack {
                 VStack(alignment: .leading) {
                     Text("Сделать до")
@@ -97,13 +95,13 @@ struct TaskEditingView: View {
                                 viewModel.showCalendar.toggle()
                             }
                     }
-                    
+
                 }
-                
+
                 Spacer()
                 Toggle("", isOn: $viewModel.deadlineSet)
             }
-            
+
             if viewModel.showCalendar {
                 HStack {
                     DatePicker(
@@ -117,14 +115,14 @@ struct TaskEditingView: View {
             }
         }
     }
-    
+
     var deleteButtonSection: some View {
         Section {
             Button {
                 dismiss()
-                    
+
             } label: {
-                HStack() {
+                HStack {
                     Spacer()
                     Text("Удалить")
                     Spacer()
@@ -133,7 +131,7 @@ struct TaskEditingView: View {
             .disabled(viewModel.text.isEmpty)
         }
     }
-    
+
     var colorSelectionSection: some View {
         Section {
             HStack {
@@ -143,13 +141,13 @@ struct TaskEditingView: View {
                     .padding(.horizontal, 4)
                     .background(RoundedRectangle(cornerRadius: 15).fill(.gray).opacity(0.3))
                     .padding(.horizontal)
-                
+
                 RoundedRectangle(cornerRadius: 5)
                     .fill(Color(hex: viewModel.color.toHex()))
                     .frame(width: 50, height: 5)
-                
+
                 Spacer()
-                
+
                 Button {
                     viewModel.showColorPicker = true
                     viewModel.colorIsSet = true // TODO: лучше проработать логику изменения данного свойства
@@ -157,37 +155,40 @@ struct TaskEditingView: View {
                     Text("Show picker")
                 }
             }
-        }     
+        }
+
         .sheet(isPresented: $viewModel.showColorPicker) {
-            CustomColorPicker(bgColor: $viewModel.color)
+            CustomPicker.ColorPickerUI(bgColor: $viewModel.color)
+
+//            CustomColorPicker(bgColor: $viewModel.color)
         }
     }
-    
+
     var cancelToolBarItem: some ToolbarContent {
         ToolbarItem(placement: .topBarLeading) {
-            
+
             Button {
                 dismiss()
             } label: {
                 Text("Отменить")
                     .foregroundStyle(.blue)
             }
-            
+
         }
     }
-    
+
     var saveToolBatItem: some ToolbarContent {
         ToolbarItem(placement: .topBarTrailing) {
-            
+
             Button {
                 if viewModel.mode == .create {
                     viewModel.addTodoItem()
-                } else if viewModel.mode == .edit{
+                } else if viewModel.mode == .edit {
                     viewModel.editTodoItem()
                 }
-                
+
                 dismiss()
-                
+
             } label: {
                 Text("Сохранить")
                     .foregroundStyle(.blue)
@@ -196,10 +197,5 @@ struct TaskEditingView: View {
             }
         }
     }
-    
-    
+
 }
-
-
-
-

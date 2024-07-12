@@ -8,32 +8,30 @@
 import Foundation
 
 class FileManagerService {
-    
+
     static let shared = FileManagerService()
-    
+
     func writeDataToFile(withName fileName: String, data: Any) throws {
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: data, options: [])
-            
+
             guard let path = getPathForFile(withName: fileName) else { return }
-            
+
             do {
                 try jsonData.write(to: path)
             } catch {
                 print("Error saving data to file")
                 throw error
             }
-        }
-        catch {
+        } catch {
             print("Error converting data from Any to Data")
             throw error
         }
     }
 
-
     func readDataFromFile(withName fileName: String) -> Data? {
         guard let path = getPathForFile(withName: fileName) else { return nil }
-        
+
         if FileManager.default.fileExists(atPath: path.path) {
             if let data = try? Data(contentsOf: path) {
                 print("Success reading")
@@ -47,8 +45,7 @@ class FileManagerService {
             return nil
         }
     }
-    
-    
+
     private func getPathForFile(withName fileName: String) -> URL? {
         guard
             let path = FileManager
@@ -60,7 +57,7 @@ class FileManagerService {
             print("Error getting path")
             return nil
         }
-        
+
         return path
     }
 }

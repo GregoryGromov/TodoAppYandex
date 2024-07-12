@@ -1,20 +1,18 @@
 import Foundation
 
 struct TodoItem: Identifiable, Equatable {
-    
+
     let id: String
-    
+
     var text: String
     var importance: Importance
     var deadline: Date?
     var isDone: Bool
-    
+
     var dateCreation: Date
     var dateChanging: Date?
-    
+
     var color: String?
-    
-    
 
     init(
         id: String = UUID().uuidString,
@@ -31,24 +29,10 @@ struct TodoItem: Identifiable, Equatable {
         self.importance = importance
         self.deadline = deadline
         self.isDone = isDone
-        
+
         self.dateCreation = dateCreation
         self.dateChanging = dateChanging
-        
+
         self.color = color
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

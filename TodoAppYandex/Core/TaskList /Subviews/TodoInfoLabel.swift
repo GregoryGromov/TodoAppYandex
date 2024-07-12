@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct TodoInfoLabel: View {
-    
+
     let item: TodoItem
-    
+
     var body: some View {
         VStack(alignment: .leading) {
             HStack(spacing: 2) {
@@ -22,19 +22,16 @@ struct TodoInfoLabel: View {
                 Text(item.text)
                     .strikethrough(item.isDone ? true : false)
                     .opacity(item.isDone ? 0.4 : 1)
-                
-                
-                
+
                 if let colorString = item.color {
                     RoundedRectangle(cornerRadius: 5)
                         .foregroundStyle(Color(hex: colorString))
                     //
                         .frame(width: 50, height: 5)
                 }
-                
-                
+
             }
-            
+
             if !item.isDone {
                 if let deadline = item.deadline {
                     HStack(spacing: 2) {
@@ -46,12 +43,10 @@ struct TodoInfoLabel: View {
                     .font(.caption)
                 }
             }
-            
+
         }
         Spacer()
         Image(systemName: "chevron.right")
             .foregroundStyle(Color(.systemGray3))
     }
 }
-
-

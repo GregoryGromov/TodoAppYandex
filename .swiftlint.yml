@@ -1,0 +1,21 @@
+line_length:
+- 200 # warning
+- 400 # error
+
+identifier_name:
+  min_length: # only min_length
+    error: 0
+disabled_rules:
+- force_cast
+
+swiftlint-autocorrect:
+  enabled: true
+
+
+
+
+
+
+
+
+

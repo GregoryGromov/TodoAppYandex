@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-//struct TestView2: View {
+// struct TestView2: View {
 //    
 //    init(name: String) {
 //        self._viewModel = StateObject(
@@ -26,14 +26,11 @@ import SwiftUI
 //            }
 //        }
 //    }
-//}
+// }
 //
-//class TestView2ViewModel: ObservableObject {
+// class TestView2ViewModel: ObservableObject {
 //    init(name: String) {
 //        self.newName = name
 //    }
 //    @Published var newName: String
-//}
-
-
-
+// }

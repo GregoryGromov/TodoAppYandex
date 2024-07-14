@@ -1,10 +1,3 @@
-//
-//  TaskListViewModel.swift
-//  TodoAppYandex
-//
-//  Created by Григорий Громов on 26.06.2024.
-//
-
 import Foundation
 import Combine
 
@@ -89,7 +82,6 @@ class TaskListViewModel: ObservableObject {
         }
     }
 
-//  TODO: проверить, всегда ли работает правильно
     func sortArrayByImportance(_ array: [TodoItem]) -> [TodoItem] {
         let sortedArray = array.sorted { (item1, item2) in
             if item1.importance == .important && item2.importance != .important {
@@ -106,11 +98,8 @@ class TaskListViewModel: ObservableObject {
 
     func getSelectedTodoItem() -> TodoItem? {
         for index in todoItems.indices where todoItems[index].id == selectedTaskId {
-
             return todoItems[index]
-
         }
-
         return nil
     }
 

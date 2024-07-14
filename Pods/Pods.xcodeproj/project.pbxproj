@@ -60,7 +60,7 @@
 		05F35715DF213CE5D7FC33D5E35DF73F /* Pods-TodoAppYandexTests */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-TodoAppYandexTests"; path = Pods_TodoAppYandexTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0D6D776976D4E57C82F79A93B0F6722B /* Pods-TodoAppYandexTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-TodoAppYandexTests.debug.xcconfig"; sourceTree = "<group>"; };
 		106089D5A2A0D9A727B307AF73D13695 /* Pods-TodoAppYandexTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-TodoAppYandexTests-acknowledgements.markdown"; sourceTree = "<group>"; };
-		16F232CA44DD122D0499AB594EC9F04E /* Pods-TodoAppYandex */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-TodoAppYandex"; path = Pods_TodoAppYandex.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		16F232CA44DD122D0499AB594EC9F04E /* Pods_TodoAppYandex.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TodoAppYandex.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2265AA9CF80553F0D3B1EA2521B9DB94 /* Pods-TodoAppYandex-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-TodoAppYandex-umbrella.h"; sourceTree = "<group>"; };
 		28B8B35B5C1EE48DAE1AFABC3A1467AE /* Pods-TodoAppYandexTests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-TodoAppYandexTests-Info.plist"; sourceTree = "<group>"; };
 		35C66EF46F0A8C23608B4FD2F7100F49 /* Pods-TodoAppYandex-TodoAppYandexUITests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-TodoAppYandex-TodoAppYandexUITests-dummy.m"; sourceTree = "<group>"; };
@@ -120,7 +120,7 @@
 		319D9AB8DF10E4F722E7C0FE48590F7E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				16F232CA44DD122D0499AB594EC9F04E /* Pods-TodoAppYandex */,
+				16F232CA44DD122D0499AB594EC9F04E /* Pods_TodoAppYandex.framework */,
 				3CB18197F5B8505062AB26D16E6C82D1 /* Pods-TodoAppYandex-TodoAppYandexUITests */,
 				05F35715DF213CE5D7FC33D5E35DF73F /* Pods-TodoAppYandexTests */,
 			);
@@ -284,7 +284,7 @@
 			);
 			name = "Pods-TodoAppYandex";
 			productName = Pods_TodoAppYandex;
-			productReference = 16F232CA44DD122D0499AB594EC9F04E /* Pods-TodoAppYandex */;
+			productReference = 16F232CA44DD122D0499AB594EC9F04E /* Pods_TodoAppYandex.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		CD414ADCFB3215BA86D3C289868CBB5A /* Pods-TodoAppYandexTests */ = {

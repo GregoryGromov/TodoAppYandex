@@ -1,9 +1,3 @@
-//
-//  TaskEditingViewModel.swift
-//  TodoAppYandex
-//
-//  Created by Григорий Громов on 24.06.2024.
-//
 import SwiftUI
 import Foundation
 
@@ -33,49 +27,48 @@ class TaskEditingViewModel: ObservableObject {
     @Published var showColorPicker: Bool
 
     init(mode: TodoEditMode, todoItem: TodoItem?) {
-            self.mode = mode
-            self.showCalendar = false
-            self.showColorPicker = false
+        self.mode = mode
+        self.showCalendar = false
+        self.showColorPicker = false
 
-            if let oldTodoItem = todoItem {
+        if let oldTodoItem = todoItem {
+            self.id = oldTodoItem.id
+            self.isDone = oldTodoItem.isDone
+            self.dateCreation = oldTodoItem.dateCreation
 
-                self.id = oldTodoItem.id
-                self.isDone = oldTodoItem.isDone
-                self.dateCreation = oldTodoItem.dateCreation
+            self.text = oldTodoItem.text
+            self.selectedImportance = oldTodoItem.importance
 
-                self.text = oldTodoItem.text
-                self.selectedImportance = oldTodoItem.importance
-
-                if let color = oldTodoItem.color {
-                    self.color = Color(hex: color)
-                    self.colorIsSet = true
-                } else {
-                    self.color = .white
-                    self.colorIsSet = false // исправлено на правильное свойство
-                }
-
-                if let deadline = oldTodoItem.deadline {
-                    self.deadline = deadline
-                    self.deadlineSet = true
-                } else {
-                    self.deadline = Date().addingTimeInterval(86_400)
-                    self.deadlineSet = false
-                }
-
+            if let color = oldTodoItem.color {
+                self.color = Color(hex: color)
+                self.colorIsSet = true
             } else {
-                self.id = UUID().uuidString
-                self.isDone = false
-                self.dateCreation = nil
-
-                self.text = ""
-                self.selectedImportance = .ordinary
                 self.color = .white
-                self.deadline = Date().addingTimeInterval(86_400)
-
-                self.deadlineSet = false
                 self.colorIsSet = false
             }
+
+            if let deadline = oldTodoItem.deadline {
+                self.deadline = deadline
+                self.deadlineSet = true
+            } else {
+                self.deadline = Date().addingTimeInterval(86_400)
+                self.deadlineSet = false
+            }
+
+        } else {
+            self.id = UUID().uuidString
+            self.isDone = false
+            self.dateCreation = nil
+
+            self.text = ""
+            self.selectedImportance = .ordinary
+            self.color = .white
+            self.deadline = Date().addingTimeInterval(86_400)
+
+            self.deadlineSet = false
+            self.colorIsSet = false
         }
+    }
 
     func addTodoItem() {
         let newTodoItem = assembleTodoItem()
@@ -88,7 +81,6 @@ class TaskEditingViewModel: ObservableObject {
     }
 
     private func assembleTodoItem() -> TodoItem {
-
         let deadline: Date? = deadlineSet ? deadline : nil
         let dateChanging: Date? = (mode == .create) ? nil : Date()
         let colorHEX: String? = colorIsSet ? color.toHex() : nil
@@ -104,18 +96,17 @@ class TaskEditingViewModel: ObservableObject {
             dateChanging: dateChanging,
             color: colorHEX
         )
-
         return todoItem
     }
 
     func getPickerPreview(for importance: Importance) -> some View {
         switch importance {
         case .unimportant:
-            return Image(systemName: "arrow.down").eraseToAnyView()
+            return ImageCollection.arrowDown.eraseToAnyView()
         case .ordinary:
             return Text("нет").eraseToAnyView()
         case .important:
-            return Image(systemName: "exclamationmark.2").eraseToAnyView()
+            return ImageCollection.exclamationMark.eraseToAnyView()
         }
     }
 }

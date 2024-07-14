@@ -1,10 +1,3 @@
-//
-//  Color+Extension.swift
-//  TodoAppYandex
-//
-//  Created by Григорий Громов on 28.06.2024.
-//
-
 import Foundation
 import SwiftUI
 

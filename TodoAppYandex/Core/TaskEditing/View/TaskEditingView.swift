@@ -1,18 +1,8 @@
-//
-//  TaskEditingView.swift
-//  TodoAppYandex
-//
-//  Created by Григорий Громов on 24.06.2024.
-//
-
 import SwiftUI
-
 import CustomPicker
 
 struct TaskEditingView: View {
-
     @Environment(\.dismiss) var dismiss
-
     @StateObject var viewModel: TaskEditingViewModel
 
     init(mode: TodoEditMode, todoItem: TodoItem? = nil, todoItems: Binding<[TodoItem]>) {
@@ -26,13 +16,12 @@ struct TaskEditingView: View {
                 self._viewModel = StateObject(
                     wrappedValue: TaskEditingViewModel(mode: .edit, todoItem: todoItem)
                 )
-            } else { // при правильном использовании, мы тут никогда не окажется. Можно ли как-то избежать написание кода ниже?
+            } else { // TODO: при правильном использовании, мы тут никогда не окажется. Можно ли как-то избежать написание кода ниже?
                 self._viewModel = StateObject(
                     wrappedValue: TaskEditingViewModel(mode: .create, todoItem: nil)
                 )
             }
         }
-
         if let colorString = todoItem?.color {
             self.viewModel.color = Color(hex: colorString)
         }
@@ -52,7 +41,6 @@ struct TaskEditingView: View {
             .toolbar {
                 cancelToolBarItem
                 saveToolBatItem
-
             }
         }
     }
@@ -65,7 +53,6 @@ struct TaskEditingView: View {
                     .padding()
             }
         }
-
     }
 
     var importanceAndDateSection: some View {
@@ -73,7 +60,6 @@ struct TaskEditingView: View {
             HStack {
                 Text("Важность")
                 Spacer()
-
                 Picker("", selection: $viewModel.selectedImportance) {
                     ForEach(Importance.allCases, id: \.self) { option in
                         viewModel.getPickerPreview(for: option)
@@ -82,7 +68,6 @@ struct TaskEditingView: View {
                 .pickerStyle(.segmented)
                 .frame(width: 180)
             }
-
             HStack {
                 VStack(alignment: .leading) {
                     Text("Сделать до")
@@ -95,9 +80,7 @@ struct TaskEditingView: View {
                                 viewModel.showCalendar.toggle()
                             }
                     }
-
                 }
-
                 Spacer()
                 Toggle("", isOn: $viewModel.deadlineSet)
             }
@@ -120,7 +103,6 @@ struct TaskEditingView: View {
         Section {
             Button {
                 dismiss()
-
             } label: {
                 HStack {
                     Spacer()
@@ -156,39 +138,31 @@ struct TaskEditingView: View {
                 }
             }
         }
-
         .sheet(isPresented: $viewModel.showColorPicker) {
             CustomPicker.ColorPickerUI(bgColor: $viewModel.color)
-
-//            CustomColorPicker(bgColor: $viewModel.color)
         }
     }
 
     var cancelToolBarItem: some ToolbarContent {
         ToolbarItem(placement: .topBarLeading) {
-
             Button {
                 dismiss()
             } label: {
                 Text("Отменить")
                     .foregroundStyle(.blue)
             }
-
         }
     }
 
     var saveToolBatItem: some ToolbarContent {
         ToolbarItem(placement: .topBarTrailing) {
-
             Button {
                 if viewModel.mode == .create {
                     viewModel.addTodoItem()
                 } else if viewModel.mode == .edit {
                     viewModel.editTodoItem()
                 }
-
                 dismiss()
-
             } label: {
                 Text("Сохранить")
                     .foregroundStyle(.blue)
@@ -197,5 +171,4 @@ struct TaskEditingView: View {
             }
         }
     }
-
 }

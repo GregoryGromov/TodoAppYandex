@@ -107,7 +107,7 @@ struct CalendarUIViewRepresentable: UIViewRepresentable {
             DispatchQueue.main.async {
                 collectionView.selectItem(at: indexPath, animated: false, scrollPosition: [])
                 context.coordinator.collectionView(collectionView, didSelectItemAt: indexPath)
-                // Центрируем ячейку
+
                 context.coordinator.centerCell(at: indexPath, in: collectionView)
             }
         }
@@ -156,7 +156,6 @@ struct CalendarUIViewRepresentable: UIViewRepresentable {
             selectedIndexPath = indexPath
             parent.selectedDate = parent.dateTuples[indexPath.item]
             collectionView.reloadData()
-            // Центрируем ячейку
             centerCell(at: indexPath, in: collectionView)
         }
 

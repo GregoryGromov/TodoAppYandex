@@ -1,6 +1,6 @@
 import Foundation
 
-public final class CancellablesStorage: Cancellable, @unchecked Sendable {
+final class CancellablesStorage: Cancellable, @unchecked Sendable {
     public enum State {
         case active
         case cancelled

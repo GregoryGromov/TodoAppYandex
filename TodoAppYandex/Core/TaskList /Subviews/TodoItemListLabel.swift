@@ -1,10 +1,3 @@
-//
-//  TodoItemListLabel.swift
-//  TodoAppYandex
-//
-//  Created by Григорий Громов on 05.07.2024.
-//
-
 import SwiftUI
 
 struct TodoCheckmarkLabel: View {
@@ -14,19 +7,19 @@ struct TodoCheckmarkLabel: View {
     var body: some View {
         HStack {
             if item.isDone {
-                Image(systemName: "checkmark.circle.fill")
+                ImageCollection.checkmarkCircle
                     .foregroundStyle(.green)
             } else if item.importance == .important {
                 ZStack {
-                    Image(systemName: "circle")
+                    ImageCollection.circle
                         .foregroundStyle(.red)
-                    Image(systemName: "circle.fill")
+                    ImageCollection.circleFill
                         .foregroundStyle(.red)
                         .opacity(0.1)
 
                 }
             } else {
-                Image(systemName: "circle")
+                ImageCollection.circle
                     .foregroundStyle(Color(.systemGray))
             }
         }

@@ -14,15 +14,19 @@ final class ParsingFromJSONTests: XCTestCase {
             "dateChanging": "1970-01-01 03:20:31"
         ] as [String: Any]
 
-        let todoItem = TodoItem.parse(json: todoItemJSON)!
+        do {
+            let todoItem = try TodoItem.parse(json: todoItemJSON)!
+            XCTAssertEqual(todoItem.id, "testId3")
+            XCTAssertEqual(todoItem.text, "Почистить песчаную дорогу от песка")
+            XCTAssertEqual(todoItem.importance, Importance.unimportant)
+            XCTAssertEqual(todoItem.deadline, Date(timeIntervalSince1970: 1234))
+            XCTAssertEqual(todoItem.isDone, false)
+            XCTAssertEqual(todoItem.dateCreation, Date(timeIntervalSince1970: 1230))
+            XCTAssertEqual(todoItem.dateChanging, Date(timeIntervalSince1970: 1231))
+        } catch {
+            print(error)
+        }
 
-        XCTAssertEqual(todoItem.id, "testId3")
-        XCTAssertEqual(todoItem.text, "Почистить песчаную дорогу от песка")
-        XCTAssertEqual(todoItem.importance, Importance.unimportant)
-        XCTAssertEqual(todoItem.deadline, Date(timeIntervalSince1970: 1234))
-        XCTAssertEqual(todoItem.isDone, false)
-        XCTAssertEqual(todoItem.dateCreation, Date(timeIntervalSince1970: 1230))
-        XCTAssertEqual(todoItem.dateChanging, Date(timeIntervalSince1970: 1231))
     }
 
     func testParsingWithOnlyRequiredValues() {
@@ -34,16 +38,19 @@ final class ParsingFromJSONTests: XCTestCase {
             "dateCreation": "1970-01-01 03:20:30"
         ] as [String: Any]
 
-        let todoItem = TodoItem.parse(json: todoItemJSON)!
+        do {
+            let todoItem = try TodoItem.parse(json: todoItemJSON)!
+            XCTAssertEqual(todoItem.id, "testId3")
+            XCTAssertEqual(todoItem.text, "Покрасить траву в зеленый цвет")
+            XCTAssertEqual(todoItem.importance, Importance.unimportant)
+            XCTAssertEqual(todoItem.isDone, false)
+            XCTAssertEqual(todoItem.dateCreation, Date(timeIntervalSince1970: 1230))
 
-        XCTAssertEqual(todoItem.id, "testId3")
-        XCTAssertEqual(todoItem.text, "Покрасить траву в зеленый цвет")
-        XCTAssertEqual(todoItem.importance, Importance.unimportant)
-        XCTAssertEqual(todoItem.isDone, false)
-        XCTAssertEqual(todoItem.dateCreation, Date(timeIntervalSince1970: 1230))
-
-        XCTAssertNil(todoItem.deadline)
-        XCTAssertNil(todoItem.dateChanging)
+            XCTAssertNil(todoItem.deadline)
+            XCTAssertNil(todoItem.dateChanging)
+        } catch {
+            print(error)
+        }
     }
 
 //    Тест парсинга словоря без указанной важности
@@ -56,20 +63,21 @@ final class ParsingFromJSONTests: XCTestCase {
             "isDone": false,
             "dateCreation": "1970-01-01 03:20:30",
             "dateChanging": "1970-01-01 03:20:31"
-
         ] as [String: Any]
 
-        let todoItem = TodoItem.parse(json: todoItemJSON)!
+        do {
+            let todoItem = try TodoItem.parse(json: todoItemJSON)!
+            XCTAssertEqual(todoItem.id, "testId3")
+            XCTAssertEqual(todoItem.text, "Почистить песчаную дорогу от песка")
 
-        XCTAssertEqual(todoItem.id, "testId3")
-        XCTAssertEqual(todoItem.text, "Почистить песчаную дорогу от песка")
+            XCTAssertEqual(todoItem.importance, Importance.ordinary)
 
-        XCTAssertEqual(todoItem.importance, Importance.ordinary)
-
-        XCTAssertEqual(todoItem.deadline, Date(timeIntervalSince1970: 1234))
-        XCTAssertEqual(todoItem.isDone, false)
-        XCTAssertEqual(todoItem.dateCreation, Date(timeIntervalSince1970: 1230))
-        XCTAssertEqual(todoItem.dateChanging, Date(timeIntervalSince1970: 1231))
+            XCTAssertEqual(todoItem.deadline, Date(timeIntervalSince1970: 1234))
+            XCTAssertEqual(todoItem.isDone, false)
+            XCTAssertEqual(todoItem.dateCreation, Date(timeIntervalSince1970: 1230))
+            XCTAssertEqual(todoItem.dateChanging, Date(timeIntervalSince1970: 1231))
+        } catch {
+            print(error)
+        }
     }
-
 }

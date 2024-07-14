@@ -32,7 +32,6 @@ class TaskEditingViewModel: ObservableObject {
         self.showColorPicker = false
 
         if let oldTodoItem = todoItem {
-
             self.id = oldTodoItem.id
             self.isDone = oldTodoItem.isDone
             self.dateCreation = oldTodoItem.dateCreation
@@ -82,7 +81,6 @@ class TaskEditingViewModel: ObservableObject {
     }
 
     private func assembleTodoItem() -> TodoItem {
-
         let deadline: Date? = deadlineSet ? deadline : nil
         let dateChanging: Date? = (mode == .create) ? nil : Date()
         let colorHEX: String? = colorIsSet ? color.toHex() : nil

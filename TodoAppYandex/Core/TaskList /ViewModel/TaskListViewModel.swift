@@ -98,11 +98,8 @@ class TaskListViewModel: ObservableObject {
 
     func getSelectedTodoItem() -> TodoItem? {
         for index in todoItems.indices where todoItems[index].id == selectedTaskId {
-
             return todoItems[index]
-
         }
-
         return nil
     }
 

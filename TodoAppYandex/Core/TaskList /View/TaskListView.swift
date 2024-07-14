@@ -1,9 +1,9 @@
 import SwiftUI
 
 struct TaskListView: View {
-
+    
     @StateObject var viewModel = TaskListViewModel()
-
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -12,9 +12,9 @@ struct TaskListView: View {
                         ForEach(viewModel.todoItems.filter(viewModel.selectedFilter)) { item in
                             HStack {
                                 TodoCheckmarkLabel(item: item)
-                                .onTapGesture {
-                                    viewModel.switchIsDone(byId: item.id)
-                                }
+                                    .onTapGesture {
+                                        viewModel.switchIsDone(byId: item.id)
+                                    }
                                 TodoInfoLabel(item: item)
                             }
                             .padding(.vertical, 6)
@@ -36,7 +36,6 @@ struct TaskListView: View {
                             }
                         }
                     }
-
                 }
                 .sheet(isPresented: $viewModel.showEditView) {
                     // TODO: сделать это более изящно
@@ -49,11 +48,9 @@ struct TaskListView: View {
                     } else {
                         Text("Ошибка: невозможно открыть страницу редактирования задчи")
                     }
-
                 }
                 .navigationTitle("Мои дела")
                 .navigationBarTitleDisplayMode(.large)
-
             }
             .overlay {
                 plusButton
@@ -66,10 +63,8 @@ struct TaskListView: View {
                         ImageCollection.calendar
                             .font(.title3)
                     }
-
                 }
             }
-
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     NavigationLink {
@@ -78,31 +73,28 @@ struct TaskListView: View {
                         Image(systemName: "photo.fill")
                             .font(.title3)
                     }
-
                 }
             }
-
+            
         }
         .sheet(isPresented: $viewModel.showAddView) {
             TaskEditingView(mode: .create, todoItems: $viewModel.todoItems) // ИСПРАВИТЬ
         }
-
+        
     }
-
+    
     var topBar: some View {
         HStack {
             Text("Выполнено — \(viewModel.isDoneCount)")
                 .foregroundStyle(.gray)
-
             Spacer()
-
             Menu {
                 Button("Сортировка по добавлению/важности", action: viewModel.showImportanceSortingButton)
                 Button("Скрыть/показать выполненное", action: viewModel.showIsDoneFilterButton)
             } label: {
                 Label("", systemImage: "line.horizontal.3.decrease")
             }
-
+            
             switch viewModel.selectedListDisplayMode {
             case .importanceSorting:
                 Button {
@@ -129,11 +121,11 @@ struct TaskListView: View {
                     }
                 }
             }
-
+            
         }
         .padding(.horizontal)
     }
-
+    
     var plusButton: some View {
         VStack {
             Spacer()
@@ -147,7 +139,6 @@ struct TaskListView: View {
                         .font(.largeTitle)
                         .fontWeight(.semibold)
                 }
-
                 Spacer()
             }
             .padding(.bottom, 25)

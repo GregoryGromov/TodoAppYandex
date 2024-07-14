@@ -15,7 +15,7 @@ struct TodoInfoLabel: View {
         VStack(alignment: .leading) {
             HStack(spacing: 2) {
                 if item.importance == .important && !item.isDone {
-                    Image(systemName: "exclamationmark.2")
+                    ImageCollection.exclamationMark
                         .foregroundStyle(.red)
                         .fontWeight(.bold)
                 }
@@ -35,7 +35,7 @@ struct TodoInfoLabel: View {
             if !item.isDone {
                 if let deadline = item.deadline {
                     HStack(spacing: 2) {
-                        Image(systemName: "calendar")
+                        ImageCollection.calendar
                         Text(deadline.dayMonth)
                         Spacer()
                     }
@@ -46,7 +46,7 @@ struct TodoInfoLabel: View {
 
         }
         Spacer()
-        Image(systemName: "chevron.right")
+        ImageCollection.chevronRight
             .foregroundStyle(Color(.systemGray3))
     }
 }

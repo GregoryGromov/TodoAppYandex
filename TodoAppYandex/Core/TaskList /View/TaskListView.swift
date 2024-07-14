@@ -29,7 +29,7 @@ struct TaskListView: View {
                                 Button {
                                     viewModel.openEditPage(forItem: item)
                                 } label: {
-                                    Image(systemName: "info.circle")
+                                    ImageCollection.info
                                 }
                                 .tint(Color(.systemGray).opacity(0.3))
                             }
@@ -37,7 +37,7 @@ struct TaskListView: View {
                                 Button {
                                     viewModel.switchIsDone(byId: item.id)
                                 } label: {
-                                    Image(systemName: "checkmark.circle.fill")
+                                    ImageCollection.checkmarkCircle
                                 }
                                 .tint(.green)
                             }
@@ -70,7 +70,7 @@ struct TaskListView: View {
                     NavigationLink {
                         SwiftUICalendar()
                     } label: {
-                        Image(systemName: "calendar")
+                        ImageCollection.calendar
                             .font(.title3)
                     }
 
@@ -149,7 +149,7 @@ struct TaskListView: View {
                 Button {
                     viewModel.showAddView = true
                 } label: {
-                    Image(systemName: "plus.circle.fill")
+                    ImageCollection.plusCircle
                         .foregroundStyle(.blue)
                         .font(.largeTitle)
                         .fontWeight(.semibold)

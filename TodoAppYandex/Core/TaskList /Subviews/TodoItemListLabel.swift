@@ -14,19 +14,19 @@ struct TodoCheckmarkLabel: View {
     var body: some View {
         HStack {
             if item.isDone {
-                Image(systemName: "checkmark.circle.fill")
+                ImageCollection.checkmarkCircle
                     .foregroundStyle(.green)
             } else if item.importance == .important {
                 ZStack {
-                    Image(systemName: "circle")
+                    ImageCollection.circle
                         .foregroundStyle(.red)
-                    Image(systemName: "circle.fill")
+                    ImageCollection.circleFill
                         .foregroundStyle(.red)
                         .opacity(0.1)
 
                 }
             } else {
-                Image(systemName: "circle")
+                ImageCollection.circle
                     .foregroundStyle(Color(.systemGray))
             }
         }

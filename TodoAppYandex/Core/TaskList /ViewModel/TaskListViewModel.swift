@@ -89,7 +89,6 @@ class TaskListViewModel: ObservableObject {
         }
     }
 
-//  TODO: проверить, всегда ли работает правильно
     func sortArrayByImportance(_ array: [TodoItem]) -> [TodoItem] {
         let sortedArray = array.sorted { (item1, item2) in
             if item1.importance == .important && item2.importance != .important {

@@ -13,7 +13,6 @@
 		5F63F7102C2C7067001248A8 /* SortMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F63F70F2C2C7067001248A8 /* SortMode.swift */; };
 		5F63F7162C2EAA19001248A8 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F63F7152C2EAA19001248A8 /* Color+Extension.swift */; };
 		5F63F7252C2F8EF7001248A8 /* DetailViewIPad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F63F7242C2F8EF7001248A8 /* DetailViewIPad.swift */; };
-		5F63F7272C2F9A2F001248A8 /* CustomColorPickerOLD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F63F7262C2F9A2F001248A8 /* CustomColorPickerOLD.swift */; };
 		5F6F4C762C418E62008DD5C9 /* CocoaLumberjack in Frameworks */ = {isa = PBXBuildFile; productRef = 5F6F4C752C418E62008DD5C9 /* CocoaLumberjack */; };
 		5F6F4C782C418E62008DD5C9 /* CocoaLumberjackSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 5F6F4C772C418E62008DD5C9 /* CocoaLumberjackSwift */; };
 		5F6F4C7A2C418E62008DD5C9 /* CocoaLumberjackSwiftLogBackend in Frameworks */ = {isa = PBXBuildFile; productRef = 5F6F4C792C418E62008DD5C9 /* CocoaLumberjackSwiftLogBackend */; };
@@ -81,7 +80,6 @@
 		5F63F70F2C2C7067001248A8 /* SortMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortMode.swift; sourceTree = "<group>"; };
 		5F63F7152C2EAA19001248A8 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 		5F63F7242C2F8EF7001248A8 /* DetailViewIPad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewIPad.swift; sourceTree = "<group>"; };
-		5F63F7262C2F9A2F001248A8 /* CustomColorPickerOLD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomColorPickerOLD.swift; sourceTree = "<group>"; };
 		5F6F4C712C417E62008DD5C9 /* TodoAppYandex.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TodoAppYandex.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F6F4C722C418DA6008DD5C9 /* TodoAppYandexTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TodoAppYandexTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F6F4C732C418DA6008DD5C9 /* TodoAppYandexUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TodoAppYandexUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -171,14 +169,6 @@
 				CFB9AC2E81359EDA7DFFD6F8 /* Pods-TodoAppYandexTests.release.xcconfig */,
 			);
 			path = Pods;
-			sourceTree = "<group>";
-		};
-		5F63F71D2C2F80DE001248A8 /* ColorPickerOLD */ = {
-			isa = PBXGroup;
-			children = (
-				5F63F7262C2F9A2F001248A8 /* CustomColorPickerOLD.swift */,
-			);
-			path = ColorPickerOLD;
 			sourceTree = "<group>";
 		};
 		5F63F7222C2F8ED6001248A8 /* DetailViewIpad */ = {
@@ -293,7 +283,6 @@
 				5FD2E3DE2C43D6C70003FF22 /* Resources */,
 				5F6F4C7F2C41B8D6008DD5C9 /* Keys */,
 				5FD7804F2C415BE1000F342F /* TestViews */,
-				5F63F71D2C2F80DE001248A8 /* ColorPickerOLD */,
 				5FCE53EF2C263EBB005187A4 /* Services */,
 				5FCE53EE2C263EB3005187A4 /* Core */,
 				5FCE53ED2C263EAD005187A4 /* Enums */,
@@ -301,7 +290,6 @@
 				5FD780462C415937000F342F /* HelpersForCuncurrency */,
 				5FCE53EB2C263EA1005187A4 /* Models */,
 				5FCE53EA2C263E8E005187A4 /* Root */,
-				5FCE53C42C263D9B005187A4 /* Assets.xcassets */,
 				5FCE53C62C263D9B005187A4 /* Preview Content */,
 			);
 			path = TodoAppYandex;
@@ -401,6 +389,7 @@
 		5FD2E3DE2C43D6C70003FF22 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				5FCE53C42C263D9B005187A4 /* Assets.xcassets */,
 				5FD2E3DF2C43D6E50003FF22 /* ImageCollection.swift */,
 			);
 			path = Resources;
@@ -682,7 +671,6 @@
 				5F9A70C72C38A96A002E82FC /* UIColor+Extension.swift in Sources */,
 				5FCE53F22C263F0D005187A4 /* TodoItem.swift in Sources */,
 				5F9765722C2AC42F004CA12E /* TaskListView.swift in Sources */,
-				5F63F7272C2F9A2F001248A8 /* CustomColorPickerOLD.swift in Sources */,
 				5FCE53F62C263F20005187A4 /* String+Extension.swift in Sources */,
 				5FCE53C12C263D9A005187A4 /* TodoAppYandexApp.swift in Sources */,
 				5F63F70E2C2C690E001248A8 /* ListDisplayModificationOptions.swift in Sources */,

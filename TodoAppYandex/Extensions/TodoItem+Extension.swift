@@ -84,11 +84,10 @@ extension TodoItem {
         return dictionary
     }
 
-    static func parse(json: Any) -> TodoItem? {
+    static func parse(json: Any) throws -> TodoItem? {
 
         guard let jsonObject = json as? [String: Any] else {
-            print("Error converting input json to type [String: Any]")
-            return nil
+            throw DataStorageError.convertingDataFailed
         }
 
         // извлекаем из JSON обязательные поля
@@ -146,7 +145,7 @@ extension TodoItem {
     // 4ocnho43yrpq,write to Misha,,,false,2024-06-18 20:05:42,2023-06-18 11:06:29
     // fu39ubjhaq12,finish the program,,,true,2024-06-18 15:05:42,
     // """
-    static func parseCSV(_ csvString: String) -> [TodoItem]? {
+    static func parseCSV(_ csvString: String) throws -> [TodoItem]? {
 
         let lines = csvString.split(separator: "\n").map { String($0) }
 
@@ -172,7 +171,7 @@ extension TodoItem {
 
                 todoItems.append(todoItem)
             } else {
-                print("Неверный формат CSV файла: в некоторой строке меньше семи столбцов")
+                throw DataStorageError.invalidCSVFormat
             }
         }
 

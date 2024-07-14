@@ -15,38 +15,33 @@ class FileManagerService {
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: data, options: [])
 
-            guard let path = getPathForFile(withName: fileName) else { return }
+            guard let path = try getPathForFile(withName: fileName) else { return }
 
             do {
                 try jsonData.write(to: path)
             } catch {
-                print("Error saving data to file")
-                throw error
+                throw DataStorageError.writingToFileFailed
             }
         } catch {
-            print("Error converting data from Any to Data")
-            throw error
+            throw DataStorageError.convertingDataFailed
         }
     }
 
-    func readDataFromFile(withName fileName: String) -> Data? {
-        guard let path = getPathForFile(withName: fileName) else { return nil }
+    func readDataFromFile(withName fileName: String) throws -> Data? {
+        guard let path = try getPathForFile(withName: fileName) else { return nil }
 
         if FileManager.default.fileExists(atPath: path.path) {
             if let data = try? Data(contentsOf: path) {
-                print("Success reading")
                 return data
             } else {
-                print("Error reading data from file")
-                return nil
+                throw DataStorageError.readingFromFileFailed
             }
         } else {
-            print("Error: there no file with this name")
-            return nil
+            throw DataStorageError.invalidPath
         }
     }
 
-    private func getPathForFile(withName fileName: String) -> URL? {
+    private func getPathForFile(withName fileName: String) throws -> URL? {
         guard
             let path = FileManager
                 .default
@@ -54,8 +49,7 @@ class FileManagerService {
                 .first?
                 .appendingPathComponent("\(fileName)")
         else {
-            print("Error getting path")
-            return nil
+            throw DataStorageError.pathCreationFailed
         }
 
         return path

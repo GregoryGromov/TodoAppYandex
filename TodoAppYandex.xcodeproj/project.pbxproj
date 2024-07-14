@@ -44,6 +44,8 @@
 		5FCE54042C263F63005187A4 /* ConvertToCSVTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FCE54032C263F63005187A4 /* ConvertToCSVTests.swift */; };
 		5FCE54062C263F66005187A4 /* ParsingFromCSVTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FCE54052C263F66005187A4 /* ParsingFromCSVTests.swift */; };
 		5FD2E3E02C43D6E50003FF22 /* ImageCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD2E3DF2C43D6E50003FF22 /* ImageCollection.swift */; };
+		5FD2E3E22C43DC0A0003FF22 /* FileName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD2E3E12C43DC0A0003FF22 /* FileName.swift */; };
+		5FD2E3E52C43DD510003FF22 /* DataStorageError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD2E3E42C43DD510003FF22 /* DataStorageError.swift */; };
 		5FD780492C415937000F342F /* CancellableStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD780472C415937000F342F /* CancellableStorage.swift */; };
 		5FD7804A2C415937000F342F /* Cancellable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD780482C415937000F342F /* Cancellable.swift */; };
 		5FD7804C2C415AA0000F342F /* URLSession+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD7804B2C415AA0000F342F /* URLSession+Extension.swift */; };
@@ -110,6 +112,8 @@
 		5FCE54032C263F63005187A4 /* ConvertToCSVTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConvertToCSVTests.swift; sourceTree = "<group>"; };
 		5FCE54052C263F66005187A4 /* ParsingFromCSVTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParsingFromCSVTests.swift; sourceTree = "<group>"; };
 		5FD2E3DF2C43D6E50003FF22 /* ImageCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollection.swift; sourceTree = "<group>"; };
+		5FD2E3E12C43DC0A0003FF22 /* FileName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileName.swift; sourceTree = "<group>"; };
+		5FD2E3E42C43DD510003FF22 /* DataStorageError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStorageError.swift; sourceTree = "<group>"; };
 		5FD780472C415937000F342F /* CancellableStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CancellableStorage.swift; sourceTree = "<group>"; };
 		5FD780482C415937000F342F /* Cancellable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cancellable.swift; sourceTree = "<group>"; };
 		5FD7804B2C415AA0000F342F /* URLSession+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Extension.swift"; sourceTree = "<group>"; };
@@ -191,6 +195,7 @@
 			isa = PBXGroup;
 			children = (
 				5F6F4C802C41B8E3008DD5C9 /* JSONKeys.swift */,
+				5FD2E3E12C43DC0A0003FF22 /* FileName.swift */,
 			);
 			path = Keys;
 			sourceTree = "<group>";
@@ -280,6 +285,7 @@
 		5FCE53BF2C263D9A005187A4 /* TodoAppYandex */ = {
 			isa = PBXGroup;
 			children = (
+				5FD2E3E32C43DD3C0003FF22 /* Errors */,
 				5FD2E3DE2C43D6C70003FF22 /* Resources */,
 				5F6F4C7F2C41B8D6008DD5C9 /* Keys */,
 				5FD7804F2C415BE1000F342F /* TestViews */,
@@ -393,6 +399,14 @@
 				5FD2E3DF2C43D6E50003FF22 /* ImageCollection.swift */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		5FD2E3E32C43DD3C0003FF22 /* Errors */ = {
+			isa = PBXGroup;
+			children = (
+				5FD2E3E42C43DD510003FF22 /* DataStorageError.swift */,
+			);
+			path = Errors;
 			sourceTree = "<group>";
 		};
 		5FD780462C415937000F342F /* HelpersForCuncurrency */ = {
@@ -656,9 +670,11 @@
 			files = (
 				5FCE53FA2C263F29005187A4 /* TodoImportance.swift in Sources */,
 				5F63F7162C2EAA19001248A8 /* Color+Extension.swift in Sources */,
+				5FD2E3E22C43DC0A0003FF22 /* FileName.swift in Sources */,
 				5F63F7022C2C2469001248A8 /* TaskListViewModel.swift in Sources */,
 				5FCE53F42C263F19005187A4 /* TodoItem+Extension.swift in Sources */,
 				5F6F4C812C41B8E3008DD5C9 /* JSONKeys.swift in Sources */,
+				5FD2E3E52C43DD510003FF22 /* DataStorageError.swift in Sources */,
 				5FD780512C415C11000F342F /* TestViewForURLSessionExtension.swift in Sources */,
 				5F63F7252C2F8EF7001248A8 /* DetailViewIPad.swift in Sources */,
 				5FD7804A2C415937000F342F /* Cancellable.swift in Sources */,

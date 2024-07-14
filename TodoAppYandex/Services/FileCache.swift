@@ -26,14 +26,6 @@ class FileCache {
         }
     }
 
-//    func editTodoItem(_ todoItem: TodoItem) {
-//        for index in todoItems.indices {
-//            if todoItems[index].id == todoItem.id {
-//                todoItems[index] = todoItem
-//            }
-//        }
-//    }
-
     func switchIsDone(byId id: String) {
         for index in todoItems.indices where todoItems[index].id == id {
             todoItems[index].isDone.toggle()
@@ -58,15 +50,14 @@ class FileCache {
         let arrayOfJSONs = todoItems.map { $0.json }
 
         do {
-            try FileManagerService.shared.writeDataToFile(withName: "todoItems", data: arrayOfJSONs)
+            try FileManagerService.shared.writeDataToFile(withName: FileNames.todoItems, data: arrayOfJSONs)
         } catch {
-            print("Error saving todoItems to file, error: \(error)")
-            throw error
+            throw DataStorageError.savingToFileFailed
         }
     }
 
     func getTodoItemsFromFile() throws {
-        guard let data = FileManagerService.shared.readDataFromFile(withName: "todoItems") else { return }
+        guard let data = try FileManagerService.shared.readDataFromFile(withName: FileNames.todoItems) else { return }
 
         do {
             if let itemsAsJSON = try JSONSerialization.jsonObject(with: data, options: []) as? [[String: Any]] {
@@ -74,7 +65,7 @@ class FileCache {
                 var todoItemsFromJSON = [TodoItem]()
 
                 for itemAsJson in itemsAsJSON {
-                    if let parsedTodoItem = TodoItem.parse(json: itemAsJson) {
+                    if let parsedTodoItem = try TodoItem.parse(json: itemAsJson) {
                         todoItemsFromJSON.append(parsedTodoItem)
                     }
                 }
@@ -82,8 +73,7 @@ class FileCache {
                 todoItems = todoItemsFromJSON
             }
         } catch {
-            print("Ошибка при преобразовании Data в [[String: Any]]: \(error.localizedDescription)")
-            throw error
+            throw DataStorageError.convertingDataFailed
         }
     }
 }

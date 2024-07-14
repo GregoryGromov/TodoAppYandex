@@ -1,10 +1,3 @@
-//
-//  DetailViewIPad.swift
-//  TodoAppYandex
-//
-//  Created by Григорий Громов on 29.06.2024.
-//
-
 import SwiftUI
 
 struct DetailViewIPad: View {

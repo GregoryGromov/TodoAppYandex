@@ -90,7 +90,6 @@ extension TodoItem {
             throw DataStorageError.convertingDataFailed
         }
 
-        // извлекаем из JSON обязательные поля
         guard let id = jsonObject[JSONKeys.id] as? String,
               let text = jsonObject[JSONKeys.id] as? String,
               let isDone = jsonObject[JSONKeys.isDone] as? Bool,
@@ -106,45 +105,31 @@ extension TodoItem {
             importance = importanceFromJSON
         }
 
-        // проверяем, удалось ли перевести dateCreation из типа String в тип Date
         guard
             let dateCreation = dateCreationAsString.convertToDate()
 
         else { return nil }
 
-        // определяем необязательные поля и изначально инициализируем их nil
         var deadline: Date?
         var dateChanging: Date?
 
-        // проверяем, задан ли дедлайн
         if let deadlineAsString = jsonObject[JSONKeys.deadline] as? String {
             if let deadlineFromJSON = deadlineAsString.convertToDate() {
                 deadline = deadlineFromJSON
             }
         }
 
-        // проверяем, задана ли дата изменения
         if let dateChangingAsString = jsonObject[JSONKeys.dateChanging] as? String {
             if let dateChangingFromJSON = dateChangingAsString.convertToDate() {
                 dateChanging = dateChangingFromJSON
             }
         }
 
-        // создаем экземпляр TodoItem с ранее полученными данными
         let todoItem = TodoItem(id: id, text: text, importance: importance, deadline: deadline, isDone: isDone, dateCreation: dateCreation, dateChanging: dateChanging)
         return todoItem
 
     }
 
-    //    данная функция требует чтобы столбцы, находящиеся в файле типа CSV, шли в порядке, как в инициализаторе TodoItem
-    //    то есть: id, text, importance, deadline, isDone, dateCreation, dateChanging
-    //    (конечно, некоторые опциональные столбцы могут быть пропушены, однако если в некоторой строке будет пропущен неопциональный столбец, функция вернет nil)
-
-    //    пример входных данный, которые может обрабатывать функция:
-    // let CSVExample = """
-    // 4ocnho43yrpq,write to Misha,,,false,2024-06-18 20:05:42,2023-06-18 11:06:29
-    // fu39ubjhaq12,finish the program,,,true,2024-06-18 15:05:42,
-    // """
     static func parseCSV(_ csvString: String) throws -> [TodoItem]? {
 
         let lines = csvString.split(separator: "\n").map { String($0) }
@@ -167,7 +152,15 @@ extension TodoItem {
                 let deadline = elements[3].convertToDate()
                 let dateChanging = elements[6].convertToDate()
 
-                let todoItem = TodoItem(id: id, text: text, importance: importance, deadline: deadline, isDone: isDone, dateCreation: dateCreation, dateChanging: dateChanging)
+                let todoItem = TodoItem(
+                    id: id,
+                    text: text,
+                    importance: importance,
+                    deadline: deadline,
+                    isDone: isDone,
+                    dateCreation: dateCreation,
+                    dateChanging: dateChanging
+                )
 
                 todoItems.append(todoItem)
             } else {
@@ -188,7 +181,6 @@ extension TodoItem {
 
         for todoItem in todoItems {
 
-            //      используем этот необычный метод, чтобы получить доступ к полям структуры, не обращаясь к ним напрямую по именам
             let mirror = Mirror(reflecting: todoItem)
 
             var CSVLine = ""
@@ -208,7 +200,7 @@ extension TodoItem {
                 }
             }
 
-            CSVLine.removeLast() // убираем последнюю запятую из строки
+            CSVLine.removeLast()
             CSVLine.append("\n")
 
             CSVResult.append(CSVLine)

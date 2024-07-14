@@ -1,9 +1,3 @@
-//
-//  TaskEditingViewModel.swift
-//  TodoAppYandex
-//
-//  Created by Григорий Громов on 24.06.2024.
-//
 import SwiftUI
 import Foundation
 

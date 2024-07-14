@@ -1,10 +1,3 @@
-//
-//  SwiftUICalendar.swift
-//  TodoAppYandex
-//
-//  Created by Григорий Громов on 06.07.2024.
-//
-
 import SwiftUI
 
 struct SwiftUICalendar: View {

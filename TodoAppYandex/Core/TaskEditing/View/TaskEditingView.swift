@@ -1,12 +1,4 @@
-//
-//  TaskEditingView.swift
-//  TodoAppYandex
-//
-//  Created by Григорий Громов on 24.06.2024.
-//
-
 import SwiftUI
-
 import CustomPicker
 
 struct TaskEditingView: View {
@@ -159,8 +151,6 @@ struct TaskEditingView: View {
 
         .sheet(isPresented: $viewModel.showColorPicker) {
             CustomPicker.ColorPickerUI(bgColor: $viewModel.color)
-
-//            CustomColorPicker(bgColor: $viewModel.color)
         }
     }
 

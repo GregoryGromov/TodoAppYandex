@@ -1,10 +1,3 @@
-//
-//  Errors.swift
-//  TodoAppYandex
-//
-//  Created by Григорий Громов on 14.07.2024.
-//
-
 import Foundation
 
 enum DataStorageError: Error {

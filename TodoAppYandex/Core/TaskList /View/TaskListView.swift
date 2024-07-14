@@ -1,10 +1,3 @@
-//
-//  TaskListView.swift
-//  TodoAppYandex
-//
-//  Created by Григорий Громов on 25.06.2024.
-//
-
 import SwiftUI
 
 struct TaskListView: View {

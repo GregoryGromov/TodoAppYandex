@@ -1,10 +1,3 @@
-//
-//  UIColor+Extension.swift
-//  TodoAppYandex
-//
-//  Created by Григорий Громов on 06.07.2024.
-//
-
 import Foundation
 import UIKit
 

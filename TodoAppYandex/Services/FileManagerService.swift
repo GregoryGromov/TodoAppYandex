@@ -1,10 +1,3 @@
-//
-//  FileManagerService.swift
-//  ToDoAppYandex
-//
-//  Created by Григорий Громов on 19.06.2024.
-//
-
 import Foundation
 
 class FileManagerService {

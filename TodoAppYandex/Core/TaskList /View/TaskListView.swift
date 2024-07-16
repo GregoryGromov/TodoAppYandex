@@ -1,9 +1,9 @@
 import SwiftUI
 
 struct TaskListView: View {
-    
+
     @StateObject var viewModel = TaskListViewModel()
-    
+
     var body: some View {
         NavigationView {
             VStack {
@@ -75,14 +75,13 @@ struct TaskListView: View {
                     }
                 }
             }
-            
         }
         .sheet(isPresented: $viewModel.showAddView) {
             TaskEditingView(mode: .create, todoItems: $viewModel.todoItems) // ИСПРАВИТЬ
         }
-        
+
     }
-    
+
     var topBar: some View {
         HStack {
             Text("Выполнено — \(viewModel.isDoneCount)")
@@ -94,7 +93,7 @@ struct TaskListView: View {
             } label: {
                 Label("", systemImage: "line.horizontal.3.decrease")
             }
-            
+
             switch viewModel.selectedListDisplayMode {
             case .importanceSorting:
                 Button {
@@ -121,11 +120,11 @@ struct TaskListView: View {
                     }
                 }
             }
-            
+
         }
         .padding(.horizontal)
     }
-    
+
     var plusButton: some View {
         VStack {
             Spacer()

@@ -12,7 +12,6 @@
 		5F63F70E2C2C690E001248A8 /* ListDisplayModificationOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F63F70D2C2C690E001248A8 /* ListDisplayModificationOptions.swift */; };
 		5F63F7102C2C7067001248A8 /* SortMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F63F70F2C2C7067001248A8 /* SortMode.swift */; };
 		5F63F7162C2EAA19001248A8 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F63F7152C2EAA19001248A8 /* Color+Extension.swift */; };
-		5F63F7252C2F8EF7001248A8 /* DetailViewIPad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F63F7242C2F8EF7001248A8 /* DetailViewIPad.swift */; };
 		5F6F4C762C418E62008DD5C9 /* CocoaLumberjack in Frameworks */ = {isa = PBXBuildFile; productRef = 5F6F4C752C418E62008DD5C9 /* CocoaLumberjack */; };
 		5F6F4C782C418E62008DD5C9 /* CocoaLumberjackSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 5F6F4C772C418E62008DD5C9 /* CocoaLumberjackSwift */; };
 		5F6F4C7A2C418E62008DD5C9 /* CocoaLumberjackSwiftLogBackend in Frameworks */ = {isa = PBXBuildFile; productRef = 5F6F4C792C418E62008DD5C9 /* CocoaLumberjackSwiftLogBackend */; };
@@ -81,7 +80,6 @@
 		5F63F70D2C2C690E001248A8 /* ListDisplayModificationOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListDisplayModificationOptions.swift; sourceTree = "<group>"; };
 		5F63F70F2C2C7067001248A8 /* SortMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortMode.swift; sourceTree = "<group>"; };
 		5F63F7152C2EAA19001248A8 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
-		5F63F7242C2F8EF7001248A8 /* DetailViewIPad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewIPad.swift; sourceTree = "<group>"; };
 		5F6F4C712C417E62008DD5C9 /* TodoAppYandex.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TodoAppYandex.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F6F4C722C418DA6008DD5C9 /* TodoAppYandexTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TodoAppYandexTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F6F4C732C418DA6008DD5C9 /* TodoAppYandexUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TodoAppYandexUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -173,22 +171,6 @@
 				CFB9AC2E81359EDA7DFFD6F8 /* Pods-TodoAppYandexTests.release.xcconfig */,
 			);
 			path = Pods;
-			sourceTree = "<group>";
-		};
-		5F63F7222C2F8ED6001248A8 /* DetailViewIpad */ = {
-			isa = PBXGroup;
-			children = (
-				5F63F7232C2F8EDD001248A8 /* View */,
-			);
-			path = DetailViewIpad;
-			sourceTree = "<group>";
-		};
-		5F63F7232C2F8EDD001248A8 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				5F63F7242C2F8EF7001248A8 /* DetailViewIPad.swift */,
-			);
-			path = View;
 			sourceTree = "<group>";
 		};
 		5F6F4C7F2C41B8D6008DD5C9 /* Keys */ = {
@@ -365,7 +347,6 @@
 			isa = PBXGroup;
 			children = (
 				5F9A70E82C38B933002E82FC /* TaskCalendar */,
-				5F63F7222C2F8ED6001248A8 /* DetailViewIpad */,
 				5F97656E2C2AC414004CA12E /* TaskList  */,
 				5F7DC3052C29A66D00954EC0 /* TaskEditing */,
 			);
@@ -676,7 +657,6 @@
 				5F6F4C812C41B8E3008DD5C9 /* JSONKeys.swift in Sources */,
 				5FD2E3E52C43DD510003FF22 /* DataStorageError.swift in Sources */,
 				5FD780512C415C11000F342F /* TestViewForURLSessionExtension.swift in Sources */,
-				5F63F7252C2F8EF7001248A8 /* DetailViewIPad.swift in Sources */,
 				5FD7804A2C415937000F342F /* Cancellable.swift in Sources */,
 				5FD780492C415937000F342F /* CancellableStorage.swift in Sources */,
 				5FD2E3E02C43D6E50003FF22 /* ImageCollection.swift in Sources */,

@@ -9,6 +9,10 @@ extension Date {
         return dateString
     }
 
+    func convertToUnixTimestamp() -> Int64 {
+        return Int64(self.timeIntervalSince1970)
+    }
+
     var dayMonthYear: String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "d MMMM yyyy"
@@ -20,4 +24,5 @@ extension Date {
         dateFormatter.dateFormat = "d MMMM"
         return dateFormatter.string(from: self)
     }
+
 }

@@ -61,7 +61,7 @@ class TaskEditingViewModel: ObservableObject {
             self.dateCreation = nil
 
             self.text = ""
-            self.selectedImportance = .ordinary
+            self.selectedImportance = .basic
             self.color = .white
             self.deadline = Date().addingTimeInterval(86_400)
 
@@ -101,9 +101,9 @@ class TaskEditingViewModel: ObservableObject {
 
     func getPickerPreview(for importance: Importance) -> some View {
         switch importance {
-        case .unimportant:
+        case .low:
             return ImageCollection.arrowDown.eraseToAnyView()
-        case .ordinary:
+        case .basic:
             return Text("нет").eraseToAnyView()
         case .important:
             return ImageCollection.exclamationMark.eraseToAnyView()

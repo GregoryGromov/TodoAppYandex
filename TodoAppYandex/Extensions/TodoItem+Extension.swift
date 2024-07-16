@@ -12,13 +12,13 @@ extension TodoItem {
             ),
             TodoItem(
                 text: "Помыть собаку",
-                importance: .ordinary,
+                importance: .basic,
                 isDone: true,
                 dateCreation: Date(timeIntervalSince1970: 439824700)
             ),
             TodoItem(
                 text: "Выкинуть дерево",
-                importance: .unimportant,
+                importance: .low,
                 deadline: Date(),
                 isDone: false,
                 dateCreation: Date()
@@ -31,28 +31,28 @@ extension TodoItem {
             ),
             TodoItem(
                 text: "Выкинуть дерево",
-                importance: .unimportant,
+                importance: .low,
                 deadline: Date().addingTimeInterval(3243203023),
                 isDone: false,
                 dateCreation: Date()
             ),
             TodoItem(
                 text: "Выкинуть дерево",
-                importance: .unimportant,
+                importance: .low,
                 deadline: Date().addingTimeInterval(39243203023),
                 isDone: false,
                 dateCreation: Date()
             ),
             TodoItem(
                 text: "Выкинуть дерево",
-                importance: .unimportant,
+                importance: .low,
                 deadline: Date().addingTimeInterval(2243203023),
                 isDone: false,
                 dateCreation: Date()
             ),
             TodoItem(
                 text: "Выкинуть дерево",
-                importance: .unimportant,
+                importance: .low,
                 deadline: Date().addingTimeInterval(10243203023),
                 isDone: false,
                 dateCreation: Date()
@@ -69,7 +69,7 @@ extension TodoItem {
             JSONKeys.dateCreation: self.dateCreation.convertToString()
         ] as [String: Any]
 
-        if importance != .ordinary {
+        if importance != .basic {
             dictionary[JSONKeys.importance] = importance.rawValue
         }
 
@@ -79,6 +79,38 @@ extension TodoItem {
 
         if let dateChanging = self.dateChanging {
             dictionary[JSONKeys.dateChanging] = dateChanging.convertToString()
+        }
+
+        if let color = self.color {
+            dictionary[JSONKeys.color] = color
+        }
+
+        return dictionary
+    }
+
+    var jsonNetworking: Any {
+
+        var dictionary = [
+            JSONKeys.id: self.id,
+            JSONKeys.text: self.text,
+            JSONKeys.isDone: self.isDone,
+            JSONKeys.dateCreation: self.dateCreation.convertToUnixTimestamp()
+        ] as [String: Any]
+
+        if importance != .basic {
+            dictionary[JSONKeys.importance] = importance.rawValue
+        }
+
+        if let deadline = self.deadline {
+            dictionary[JSONKeys.deadline] = deadline.convertToUnixTimestamp()
+        }
+
+        if let dateChanging = self.dateChanging {
+            dictionary[JSONKeys.dateChanging] = dateChanging.convertToUnixTimestamp()
+        }
+
+        if let color = self.color {
+            dictionary[JSONKeys.color] = color
         }
 
         return dictionary
@@ -99,7 +131,7 @@ extension TodoItem {
 
         let importanceString = jsonObject[JSONKeys.importance] as? String
 
-        var importance = Importance.ordinary
+        var importance = Importance.basic
 
         if let importanceFromJSON = importanceString?.convertToImportance() {
             importance = importanceFromJSON

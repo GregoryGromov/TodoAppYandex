@@ -29,11 +29,11 @@ final class ConvertToJSONTests: XCTestCase {
             XCTAssertNil(todoAsJSON["dateChanging"])
         }
 
-    //    Тестируем var json: Any: случай когда, выбрана обычная важность .ordinary.
+    //    Тестируем var json: Any: случай когда, выбрана обычная важность .basic.
     //    По ТЗ в этом случае она не должна сохраняться
         func testJSONEncodingWithOrdinaryImportance() {
             // Given
-            let todoItem = TodoItem(id: "idtest1", text: "Помыть посуду", importance: .ordinary, isDone: false, dateCreation: Date(timeIntervalSince1970: 1234))
+            let todoItem = TodoItem(id: "idtest1", text: "Помыть посуду", importance: .basic, isDone: false, dateCreation: Date(timeIntervalSince1970: 1234))
 
             // Act
             guard let todoAsJSON = todoItem.json as? [String: Any] else {

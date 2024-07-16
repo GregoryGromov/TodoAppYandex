@@ -86,7 +86,7 @@ class TaskListViewModel: ObservableObject {
         let sortedArray = array.sorted { (item1, item2) in
             if item1.importance == .important && item2.importance != .important {
                 return true
-            } else if item1.importance == .ordinary && item2.importance != .important && item2.importance != .ordinary {
+            } else if item1.importance == .basic && item2.importance != .important && item2.importance != .basic {
                 return true
             } else {
                 return false

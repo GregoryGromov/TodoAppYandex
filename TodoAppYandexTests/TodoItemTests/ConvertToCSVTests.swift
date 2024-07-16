@@ -9,7 +9,7 @@ final class ConvertToCSVTests: XCTestCase {
             TodoItem(
                 id: "4ocnho43yrpq",
                 text: "write to Misha",
-                importance: .unimportant,
+                importance: .low,
                 deadline: Date(timeIntervalSince1970: 1234),
                 isDone: false,
                 dateCreation: Date(timeIntervalSince1970: 1233),
@@ -31,7 +31,7 @@ final class ConvertToCSVTests: XCTestCase {
 
 //      Then
         let CSVRight = """
-        4ocnho43yrpq,write to Misha,unimportant,1970-01-01 03:20:34,false,1970-01-01 03:20:33,1970-01-01 03:20:32
+        4ocnho43yrpq,write to Misha,low,1970-01-01 03:20:34,false,1970-01-01 03:20:33,1970-01-01 03:20:32
         fu39ubjhaq12,finish the program,important,1970-01-01 03:20:31,true,1970-01-01 03:20:30,1970-01-01 03:20:29
         """
 
@@ -46,7 +46,7 @@ final class ConvertToCSVTests: XCTestCase {
             TodoItem(
                 id: "4ocnho43yrpq",
                 text: "write to Misha",
-                importance: .unimportant,
+                importance: .low,
                 deadline: nil,
                 isDone: false,
                 dateCreation: Date(timeIntervalSince1970: 1233),
@@ -68,7 +68,7 @@ final class ConvertToCSVTests: XCTestCase {
 
 //      Then
         let CSVRight = """
-        4ocnho43yrpq,write to Misha,unimportant,,false,1970-01-01 03:20:33,
+        4ocnho43yrpq,write to Misha,low,,false,1970-01-01 03:20:33,
         fu39ubjhaq12,finish the program,important,,true,1970-01-01 03:20:30,
         """
 

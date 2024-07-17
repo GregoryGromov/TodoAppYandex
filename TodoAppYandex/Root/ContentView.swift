@@ -8,7 +8,7 @@ struct ContentView: View {
         TaskListView()
             .onAppear {
                 Task {
-                    try await manager.postTODOs()
+                    try await manager.updateList(with: TestForDefaultNetworkingService().MOCK)
                 }
 
             }

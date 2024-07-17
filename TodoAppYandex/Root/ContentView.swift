@@ -3,10 +3,12 @@ import SwiftUI
 struct ContentView: View {
 
     let manager = DefaultNetworkingService()
+    
+    let items = TodoItem.MOCK2
 
     let testTodoItem = TodoItem(
-        id: "pchelaID4",
-        text: "Обновленное Хо-хо",
+        id: "pchelaID2",
+        text: "Обновленное x100 Хо-хо",
         importance: .important,
         deadline: nil,
         isDone: false,
@@ -20,20 +22,20 @@ struct ContentView: View {
             .onAppear {
                 Task {
 //                    Обновить список
-//                    let items = try await manager.updateList(with: TestForDefaultNetworkingService().MOCK)
+//                    let items = try await manager.updateList(with: items, revision: 14)
 //                    print(items)
 
 //                    Получить все элементы и вывести их
-                    let items = try await manager.getList()
-                    print("Ура, мы получили элементы с сервера:")
-                    for item in items {
-                        print(item)
-                    }
+//                    let items = try await manager.getList()
+//                    print("Ура, мы получили элементы с сервера:")
+//                    for item in items {
+//                        print(item)
+//                    }
                     
                     
 //                    Обновить элемент
 //                    do {
-//                        let el = try await manager.updateElement(byId: "pchelaID4", with: testTodoItem, revision: 13)
+//                        let el = try await manager.updateElement(byId: "pchelaID2", with: testTodoItem, revision: 18)
 //                        print(el)
 //                    } catch {
 //                        print(error)
@@ -45,23 +47,23 @@ struct ContentView: View {
 
 //                    Добавить элемент
 //                    do {
-//                        let el = try await manager.addElement(testTodoItem, revision: 12)
+//                        let el = try await manager.addElement(testTodoItem, revision: 16)
 //                        print(el)
 //                    } catch {
 //                        print(error)
 //                    }
 
 //                    Удалить элемент
-//                    do {
-//                        let el = try await manager.deleteElement(byId: "pchelaID2", revision: 14)
-//                        print(el)
-//                    } catch {
-//                        print(error)
-//                    }
+                    do {
+                        let el = try await manager.deleteElement(byId: "pchelaID5", revision: 20)
+                        print(el)
+                    } catch {
+                        print(error)
+                    }
 
 //                    Получить элемент по id
 //                    do {
-//                        let el = try await manager.getElement(byId: "pchelaID2")
+//                        let el = try await manager.getElement(byId: "pchelaID3")
 //                        print(el)
 //                    } catch {
 //                        print(error)

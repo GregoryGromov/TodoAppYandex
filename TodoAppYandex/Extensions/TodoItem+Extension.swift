@@ -1,6 +1,32 @@
 import Foundation
 
 extension TodoItem {
+    
+    static var MOCK2: [TodoItem] {
+        return [
+            TodoItem(
+                id: "pchelaID2",
+                text: "Потсавить будильник",
+                importance: .important,
+                deadline: nil,
+                isDone: false,
+                dateCreation: Date(),
+                dateChanging: Date(),
+                color: "#32892899"
+            ),
+            TodoItem(
+                id: "pchelaID3",
+                text: "Вырастить дерево",
+                importance: .important,
+                deadline: nil,
+                isDone: false,
+                dateCreation: Date(),
+                dateChanging: Date(),
+                color: "#32892899"
+            )
+        ]
+        
+    }
 
     static var MOCK: [TodoItem] {
         return [

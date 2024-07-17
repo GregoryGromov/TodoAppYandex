@@ -26,6 +26,13 @@ class TestForDefaultNetworkingService {
 
 }
 
+
+
+// ОСТАНОВКА:
+// 1) нужно сделать, чтобы функции возвращали полученный ответ
+// 2) нужно сделать рефакторинг
+
+
 class DefaultNetworkingService {
 
     enum RequestMode {
@@ -57,7 +64,6 @@ class DefaultNetworkingService {
             if let httpResponse = response as? HTTPURLResponse {
                 switch httpResponse.statusCode {
                 case 200...299:
-                    //                    print("Success: \(httpResponse.statusCode)")
                     if let responseData = try? JSONSerialization.jsonObject(with: data, options: []),
                        let dictionary = responseData as? [String: Any],
                        let list = dictionary[NetworkingKeys.list] as? [[String: Any]] {
@@ -90,7 +96,7 @@ class DefaultNetworkingService {
 
 //    PATCH обновить спиок #2 - OK
 //    удаляет имеющийся и добавляет новый
-    func updateList(with list: [TodoItem]) async throws {
+    func updateList(with list: [TodoItem]) async throws -> [TodoItem] {
 
         guard let url = URL(string: baseURL + "/list") else {
             throw NetworkError.URLCreationFailed
@@ -108,9 +114,16 @@ class DefaultNetworkingService {
             if let httpResponse = response as? HTTPURLResponse {
                 switch httpResponse.statusCode {
                 case 200...299:
-                    print("Success: \(httpResponse.statusCode)")
-                    if let responseData = try? JSONSerialization.jsonObject(with: data, options: []) {
-                        print("Response data: \(responseData)")
+                    if let responseData = try? JSONSerialization.jsonObject(with: data, options: []),
+                       let dictionary = responseData as? [String: Any],
+                       let list = dictionary[NetworkingKeys.list] as? [[String: Any]] {
+                        var todoItems = [TodoItem]()
+                        for element in list {
+                            if let todoItem = try TodoItem.parseNetworking(json: element) {
+                                todoItems.append(todoItem)
+                            }
+                        }
+                        return todoItems
                     }
                 case 400:
                     throw NetworkError.incorrectRequestFormat
@@ -127,10 +140,12 @@ class DefaultNetworkingService {
         } catch {
             throw error
         }
+        
+        throw NetworkError.unknownError
     }
 
 //    GET element #3 - OK
-    func getElement(byId id: String) async throws {
+    func getElement(byId id: String) async throws -> TodoItem {
         guard let url = URL(string: baseURL + "/list/" + id) else {
             throw NetworkError.URLCreationFailed
         }
@@ -146,8 +161,12 @@ class DefaultNetworkingService {
                 switch httpResponse.statusCode {
                 case 200...299:
                     print("Success: \(httpResponse.statusCode)")
-                    if let responseData = try? JSONSerialization.jsonObject(with: data, options: []) {
-                        print("Response data: \(responseData)")
+                    if let responseData = try? JSONSerialization.jsonObject(with: data, options: []),
+                       let dictionary = responseData as? [String: Any],
+                       let element = dictionary[NetworkingKeys.element] as? [String: Any] {
+                        if let todoItem = try TodoItem.parseNetworking(json: element) {
+                            return todoItem
+                        }
                     }
                 case 400:
                     throw NetworkError.incorrectRequestFormat
@@ -164,10 +183,12 @@ class DefaultNetworkingService {
         } catch {
             throw error
         }
+        
+        throw NetworkError.unknownError
     }
 
 //    POST #4 - ОК
-    func addElement(_ todoItem: TodoItem, revision: Int) async throws {
+    func addElement(_ todoItem: TodoItem, revision: Int) async throws -> TodoItem {
         guard let url = URL(string: baseURL + "/list/") else {
             throw NetworkError.URLCreationFailed
         }
@@ -184,9 +205,12 @@ class DefaultNetworkingService {
             if let httpResponse = response as? HTTPURLResponse {
                 switch httpResponse.statusCode {
                 case 200...299:
-                    print("Success: \(httpResponse.statusCode)")
-                    if let responseData = try? JSONSerialization.jsonObject(with: data, options: []) {
-                        print("Response data: \(responseData)")
+                    if let responseData = try? JSONSerialization.jsonObject(with: data, options: []),
+                       let dictionary = responseData as? [String: Any],
+                       let element = dictionary[NetworkingKeys.element] as? [String: Any] {
+                        if let todoItem = try TodoItem.parseNetworking(json: element) {
+                            return todoItem
+                        }
                     }
                 case 400:
                     throw NetworkError.incorrectRequestFormat
@@ -203,13 +227,14 @@ class DefaultNetworkingService {
         } catch {
             throw error
         }
+        
+        throw NetworkError.unknownError
     }
 
     
     
     //    PUT #5
-    //    TODO: на данный момент возвращается ошибка 400, хотя формат, кажется правильный. В ТЗ написано, что ошибка 400 может значить "если ревизии не сходятся". Что это значит? Мы ведь даже не передаем никакую revision в это запросе
-    func updateElement(byId id: String, with todoItem: TodoItem, revision: Int) async throws {
+    func updateElement(byId id: String, with todoItem: TodoItem, revision: Int) async throws -> TodoItem {
 
         guard let url = URL(string: baseURL + "/list/" + id) else {
             throw NetworkError.URLCreationFailed
@@ -221,11 +246,6 @@ class DefaultNetworkingService {
         request.setValue("Bearer " + token, forHTTPHeaderField: "Authorization")
         request.setValue(String(revision), forHTTPHeaderField: "X-Last-Known-Revision")
         request.httpBody = try createHttpBody(element: todoItem)
-        
-
-//        print("REQUSET:", request.httpBody)
-//        let x = try? JSONSerialization.jsonObject(with: request.httpBody!, options: [])
-//        print(x!)
 
         do {
             let (data, response) = try await URLSession.shared.dataTask(for: request)
@@ -233,8 +253,12 @@ class DefaultNetworkingService {
                 switch httpResponse.statusCode {
                 case 200...299:
                     print("Success: \(httpResponse.statusCode)")
-                    if let responseData = try? JSONSerialization.jsonObject(with: data, options: []) {
-                        print("Response data: \(responseData)")
+                    if let responseData = try? JSONSerialization.jsonObject(with: data, options: []),
+                       let dictionary = responseData as? [String: Any],
+                       let element = dictionary[NetworkingKeys.element] as? [String: Any] {
+                        if let todoItem = try TodoItem.parseNetworking(json: element) {
+                            return todoItem
+                        }
                     }
                 case 400:
                     throw NetworkError.incorrectRequestFormat
@@ -251,10 +275,12 @@ class DefaultNetworkingService {
         } catch {
             throw error
         }
+        
+        throw NetworkError.unknownError
     }
 
 // DELETE #6 - OK
-    func deleteElement(byId id: String) async throws {
+    func deleteElement(byId id: String, revision: Int) async throws -> TodoItem {
         guard let url = URL(string: baseURL + "/list/" + id) else {
             throw NetworkError.URLCreationFailed
         }
@@ -265,7 +291,7 @@ class DefaultNetworkingService {
 
         request.httpMethod = "DELETE"
         request.setValue("Bearer " + token, forHTTPHeaderField: "Authorization")
-        request.setValue("7", forHTTPHeaderField: "X-Last-Known-Revision")
+        request.setValue(String(revision), forHTTPHeaderField: "X-Last-Known-Revision")
 
         do {
             let (data, response) = try await URLSession.shared.dataTask(for: request)
@@ -273,8 +299,12 @@ class DefaultNetworkingService {
                 switch httpResponse.statusCode {
                 case 200...299:
                     print("Success: \(httpResponse.statusCode)")
-                    if let responseData = try? JSONSerialization.jsonObject(with: data, options: []) {
-                        print("Response data: \(responseData)")
+                    if let responseData = try? JSONSerialization.jsonObject(with: data, options: []),
+                       let dictionary = responseData as? [String: Any],
+                       let element = dictionary[NetworkingKeys.element] as? [String: Any] {
+                        if let todoItem = try TodoItem.parseNetworking(json: element) {
+                            return todoItem
+                        }
                     }
                 case 400:
                     throw NetworkError.incorrectRequestFormat
@@ -291,6 +321,8 @@ class DefaultNetworkingService {
         } catch {
             throw error
         }
+        
+        throw NetworkError.unknownError
     }
 
     private func createHttpBody(list: [TodoItem]) throws -> Data {
@@ -334,26 +366,3 @@ class DefaultNetworkingService {
         }
     }
 }
-
-//    func setUpReqest(mode: RequestMode, request: inout URLRequest, revision: Int?, list: [TodoItem]?) throws {
-//        switch mode {
-//        case .getAll:
-//            <#code#>
-//        case .patch:
-//            request.httpMethod = "PATCH"
-//            request.setValue("Bearer " + token, forHTTPHeaderField: "Authorization")
-//            request.setValue("1", forHTTPHeaderField: "X-Last-Known-Revision")
-//
-//            guard let list = list else {
-//                return
-//            }
-//            let httpBody = try createHttpBody(list: list, revision: 3)
-//            request.httpBody = httpBody
-//        case .getItem:
-//            <#code#>
-//        case .post:
-//            <#code#>
-//        case .delete:
-//            <#code#>
-//        }
-//    }

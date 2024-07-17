@@ -166,7 +166,7 @@ extension TodoItem {
             throw DataStorageError.convertingDataFailed
         }
         guard let id = jsonObject[JSONKeys.id] as? String,
-              let text = jsonObject[JSONKeys.id] as? String,
+              let text = jsonObject[JSONKeys.text] as? String,
               let isDone = jsonObject[JSONKeys.isDone] as? Bool,
               let dateCreationAsInt = jsonObject[JSONKeys.dateChanging] as? Int
         else { return nil }

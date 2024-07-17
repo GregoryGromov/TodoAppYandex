@@ -5,8 +5,8 @@ struct ContentView: View {
     let manager = DefaultNetworkingService()
 
     let testTodoItem = TodoItem(
-        id: "pchelaID3",
-        text: "Обновленная штука",
+        id: "pchelaID4",
+        text: "Обновленное Хо-хо",
         importance: .important,
         deadline: nil,
         isDone: false,
@@ -20,7 +20,8 @@ struct ContentView: View {
             .onAppear {
                 Task {
 //                    Обновить список
-//                    try await manager.updateList(with: TestForDefaultNetworkingService().MOCK)
+//                    let items = try await manager.updateList(with: TestForDefaultNetworkingService().MOCK)
+//                    print(items)
 
 //                    Получить все элементы и вывести их
 //                    let items = try await manager.getList()
@@ -32,7 +33,8 @@ struct ContentView: View {
                     
 //                    Обновить элемент
 //                    do {
-//                        try await manager.updateElement(byId: "pchelaID3", with: testTodoItem, revision: 10)
+//                        let el = try await manager.updateElement(byId: "pchelaID4", with: testTodoItem, revision: 13)
+//                        print(el)
 //                    } catch {
 //                        print(error)
 //                    }
@@ -43,21 +45,24 @@ struct ContentView: View {
 
 //                    Добавить элемент
 //                    do {
-//                        try await manager.addElement(testTodoItem, revision: 8)
+//                        let el = try await manager.addElement(testTodoItem, revision: 12)
+//                        print(el)
 //                    } catch {
 //                        print(error)
 //                    }
 
 //                    Удалить элемент
 //                    do {
-//                        try await manager.deleteElement(byId: "osaID")
+//                        let el = try await manager.deleteElement(byId: "pchelaID2", revision: 14)
+//                        print(el)
 //                    } catch {
 //                        print(error)
 //                    }
 
 //                    Получить элемент по id
 //                    do {
-//                        try await manager.getElement(byId: "osaID2")
+//                        let el = try await manager.getElement(byId: "pchelaID2")
+//                        print(el)
 //                    } catch {
 //                        print(error)
 //                    }

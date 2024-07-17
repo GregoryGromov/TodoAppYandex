@@ -26,8 +26,9 @@ struct ContentView: View {
 //                    print(items)
 
 //                    Получить все элементы и вывести их
-//                    let items = try await manager.getList()
+//                    let (items, revision) = try await manager.getList()
 //                    print("Ура, мы получили элементы с сервера:")
+//                    print("Ревизия:", revision)
 //                    for item in items {
 //                        print(item)
 //                    }
@@ -54,12 +55,12 @@ struct ContentView: View {
 //                    }
 
 //                    Удалить элемент
-                    do {
-                        let el = try await manager.deleteElement(byId: "pchelaID5", revision: 20)
-                        print(el)
-                    } catch {
-                        print(error)
-                    }
+//                    do {
+//                        let el = try await manager.deleteElement(byId: "pchelaID3", revision: 21)
+//                        print(el)
+//                    } catch {
+//                        print(error)
+//                    }
 
 //                    Получить элемент по id
 //                    do {

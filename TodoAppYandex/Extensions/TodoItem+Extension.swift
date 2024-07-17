@@ -159,7 +159,50 @@ extension TodoItem {
 
         let todoItem = TodoItem(id: id, text: text, importance: importance, deadline: deadline, isDone: isDone, dateCreation: dateCreation, dateChanging: dateChanging)
         return todoItem
+    }
 
+    static func parseNetworking(json: Any) throws -> TodoItem? {
+        guard let jsonObject = json as? [String: Any] else {
+            throw DataStorageError.convertingDataFailed
+        }
+        guard let id = jsonObject[JSONKeys.id] as? String,
+              let text = jsonObject[JSONKeys.id] as? String,
+              let isDone = jsonObject[JSONKeys.isDone] as? Bool,
+              let dateCreationAsInt = jsonObject[JSONKeys.dateChanging] as? Int
+        else { return nil }
+
+        var importance = Importance.basic
+        let importanceString = jsonObject[JSONKeys.importance] as? String
+        if let importanceFromJSON = importanceString?.convertToImportance() {
+            importance = importanceFromJSON
+        }
+
+        let dateCreation = dateCreationAsInt.toDate()
+
+        var deadline: Date?
+        var dateChanging: Date?
+
+        if let deadlineAsInt = jsonObject[JSONKeys.deadline] as? Int {
+            deadline = deadlineAsInt.toDate()
+        }
+
+        if let dateChangingAsInt = jsonObject[JSONKeys.dateChanging] as? Int {
+            dateChanging = dateChangingAsInt.toDate()
+        }
+
+        let color = jsonObject[JSONKeys.color] as? String ?? nil
+
+        let todoItem = TodoItem(
+            id: id,
+            text: text,
+            importance: importance,
+            deadline: deadline,
+            isDone: isDone,
+            dateCreation: dateCreation,
+            dateChanging: dateChanging,
+            color: color
+        )
+        return todoItem
     }
 
     static func parseCSV(_ csvString: String) throws -> [TodoItem]? {

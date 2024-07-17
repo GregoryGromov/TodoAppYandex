@@ -24,11 +24,11 @@ struct ContentView: View {
 //                    print(items)
 
 //                    Получить все элементы и вывести их
-//                    let items = try await manager.getList()
-//                    print("Ура, мы получили элементы с сервера:")
-//                    for item in items {
-//                        print(item)
-//                    }
+                    let items = try await manager.getList()
+                    print("Ура, мы получили элементы с сервера:")
+                    for item in items {
+                        print(item)
+                    }
                     
                     
 //                    Обновить элемент

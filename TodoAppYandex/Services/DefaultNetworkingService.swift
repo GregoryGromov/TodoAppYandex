@@ -26,13 +26,6 @@ class TestForDefaultNetworkingService {
 
 }
 
-
-
-// ОСТАНОВКА:
-// 1) нужно сделать, чтобы функции возвращали полученный ответ
-// 2) нужно сделать рефакторинг
-
-
 class DefaultNetworkingService {
 
     enum RequestMode {
@@ -40,63 +33,162 @@ class DefaultNetworkingService {
         case patch
         case getItem
         case post
+        case put
         case delete
     }
 
     private let baseURL = "https://hive.mrdekk.ru/todo"
     private let testDeveiceID = "iphoneXSgregory"
     private let token = "Amras"
-
-//    Получает все элементы списка #1 - OK
-    //    TODO: сделать рефакторинг
-    func getList() async throws -> [TodoItem] {
-        guard let url = URL(string: baseURL + "/list") else {
-            throw NetworkError.URLCreationFailed
+    
+    func isRequestSuccessful(response: HTTPURLResponse) -> Bool {
+        switch response.statusCode {
+        case 200...299:
+            return true
+        default:
+            return false
         }
-
+        
+    }
+    
+    private func handleErrors(response: HTTPURLResponse) throws {
+        switch response.statusCode {
+        case 400:
+            throw NetworkError.incorrectRequestFormat
+        case 401:
+            throw NetworkError.incorrectAuthorization
+        case 404:
+            throw NetworkError.elementNotFound
+        case 500:
+            throw NetworkError.serverError
+        default:
+            throw NetworkError.unknownError
+        }
+    }
+    
+    private func handleMultipleDataResponce(data: Data) throws -> [TodoItem] {
+        if let responseData = try? JSONSerialization.jsonObject(with: data, options: []),
+           let dictionary = responseData as? [String: Any],
+           let list = dictionary[NetworkingKeys.list] as? [[String: Any]] {
+            var todoItems = [TodoItem]()
+            for element in list {
+                if let todoItem = try TodoItem.parseNetworking(json: element) {
+                    todoItems.append(todoItem)
+                }
+            }
+            return todoItems
+        }
+        throw DataStorageError.JSONSerializingFailed
+    }
+    
+    private func handleSingleDataResponce(data: Data) throws -> TodoItem {
+        if let responseData = try? JSONSerialization.jsonObject(with: data, options: []),
+           let dictionary = responseData as? [String: Any],
+           let element = dictionary[NetworkingKeys.element] as? [String: Any] {
+            if let todoItem = try TodoItem.parseNetworking(json: element) {
+                return todoItem
+            }
+        }
+        throw DataStorageError.JSONSerializingFailed
+    }
+    
+    private func handleServerResponse(data: Data, response: URLResponse, mode: RequestMode) throws -> Any {
+        if let httpResponse = response as? HTTPURLResponse {
+            if isRequestSuccessful(response: httpResponse) {
+                switch mode {
+                case .getAll, .patch:
+                    let todoItems = try handleMultipleDataResponce(data: data)
+                    return todoItems
+                case .getItem, .post, .delete, .put:
+                    let todoItem = try handleSingleDataResponce(data: data)
+                    return todoItem
+                }
+            } else {
+                try handleErrors(response: httpResponse)
+            }
+        }
+        throw NetworkError.unknownError
+    }
+    
+    
+    private func makeURLRequest(forMode mode: RequestMode, url: URL, revision: Int? = nil, list: [TodoItem]? = nil, element: TodoItem? = nil) throws -> URLRequest {
         var request = URLRequest(url: url)
-
-        request.httpMethod = "GET"
         request.setValue("Bearer " + token, forHTTPHeaderField: "Authorization")
+        
+        switch mode {
+        case .getAll:
+            request.httpMethod = "GET"
+        case .patch:
+            request.httpMethod = "PATCH"
+            if let revision = revision,
+            let list = list {
+                request.setValue(String(revision), forHTTPHeaderField: "X-Last-Known-Revision")
+                request.httpBody = try createHttpBody(list: list)
+            }
+        case .getItem:
+            request.httpMethod = "GET"
+            request.setValue("Bearer " + token, forHTTPHeaderField: "Authorization")
+        case .post:
+            request.httpMethod = "POST"
+            if let revision = revision,
+            let element = element {
+                request.setValue(String(revision), forHTTPHeaderField: "X-Last-Known-Revision")
+                request.httpBody = try createHttpBody(element: element)
+            }
+        case .put:
+            request.httpMethod = "PUT"
+            if let revision = revision,
+            let element = element {
+                request.setValue(String(revision), forHTTPHeaderField: "X-Last-Known-Revision")
+                request.httpBody = try createHttpBody(element: element)
+            }
+        case .delete:
+            request.httpMethod = "DELETE"
+            if let revision = revision {
+                request.setValue(String(revision), forHTTPHeaderField: "X-Last-Known-Revision")
+            }
+        }
+        
+        return request
+    }
+    
+    private func makeURL(forMode mode: RequestMode, elementId: String? = nil) throws -> URL {
+        switch mode {
+        case .getAll, .patch, .post:
+            guard let url = URL(string: baseURL + "/list") else {
+                throw NetworkError.URLCreationFailed
+            }
+            return url
+        case .getItem, .put, .delete:
+            if let id = elementId {
+                guard let url = URL(string: baseURL + "/list/" + id) else {
+                    throw NetworkError.URLCreationFailed
+                }
+                return url
+            }
+        }
+        throw NetworkError.unknownError
+    }
+    
+    func getList() async throws -> [TodoItem] {
+        let url = try makeURL(forMode: .getAll)
+        let request = try makeURLRequest(forMode: .getAll, url: url)
 
         do {
             let (data, response) = try await URLSession.shared.dataTask(for: request)
-            if let httpResponse = response as? HTTPURLResponse {
-                switch httpResponse.statusCode {
-                case 200...299:
-                    if let responseData = try? JSONSerialization.jsonObject(with: data, options: []),
-                       let dictionary = responseData as? [String: Any],
-                       let list = dictionary[NetworkingKeys.list] as? [[String: Any]] {
-                        var todoItems = [TodoItem]()
-                        for element in list {
-                            if let todoItem = try TodoItem.parseNetworking(json: element) {
-                                todoItems.append(todoItem)
-                            }
-                        }
-                        return todoItems
-                    }
-                case 400:
-                    throw NetworkError.incorrectRequestFormat
-                case 401:
-                    throw NetworkError.incorrectAuthorization
-                case 404:
-                    throw NetworkError.elementNotFound
-                case 500:
-                    throw NetworkError.serverError
-                default:
-                    throw NetworkError.unknownError
-                }
+            if let todoItems = try handleServerResponse(data: data, response: response, mode: .getAll) as? [TodoItem] {
+                return todoItems
             }
         } catch {
             throw error
         }
-
+        
         throw NetworkError.unknownError
     }
 
 //    PATCH обновить спиок #2 - OK
 //    удаляет имеющийся и добавляет новый
-    func updateList(with list: [TodoItem]) async throws -> [TodoItem] {
+    func updateList(with list: [TodoItem], revision: Int) async throws -> [TodoItem] {
 
         guard let url = URL(string: baseURL + "/list") else {
             throw NetworkError.URLCreationFailed
@@ -106,7 +198,7 @@ class DefaultNetworkingService {
 
         request.httpMethod = "PATCH"
         request.setValue("Bearer " + token, forHTTPHeaderField: "Authorization")
-        request.setValue("6", forHTTPHeaderField: "X-Last-Known-Revision")
+        request.setValue(String(revision), forHTTPHeaderField: "X-Last-Known-Revision")
         request.httpBody = try createHttpBody(list: list)
 
         do {
@@ -189,7 +281,7 @@ class DefaultNetworkingService {
 
 //    POST #4 - ОК
     func addElement(_ todoItem: TodoItem, revision: Int) async throws -> TodoItem {
-        guard let url = URL(string: baseURL + "/list/") else {
+        guard let url = URL(string: baseURL + "/list") else {
             throw NetworkError.URLCreationFailed
         }
 
@@ -197,7 +289,7 @@ class DefaultNetworkingService {
 
         request.httpMethod = "POST"
         request.setValue("Bearer " + token, forHTTPHeaderField: "Authorization")
-        request.setValue(String(revision), forHTTPHeaderField: "X-Last-Known-Revision") // мб можно и без String() ???
+        request.setValue(String(revision), forHTTPHeaderField: "X-Last-Known-Revision")
         request.httpBody = try createHttpBody(element: todoItem)
 
         do {
@@ -231,8 +323,6 @@ class DefaultNetworkingService {
         throw NetworkError.unknownError
     }
 
-    
-    
     //    PUT #5
     func updateElement(byId id: String, with todoItem: TodoItem, revision: Int) async throws -> TodoItem {
 

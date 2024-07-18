@@ -84,20 +84,17 @@ class TaskEditingViewModel: ObservableObject {
     func addTodoItem() {
         
         let newTodoItem = assembleTodoItem()
-        FileCache.shared.addTodoItem(newTodoItem)
-        FileCache.shared.addTodoItemMain(newTodoItem)
-        print("addTodoItem - OK")
+        
+        FileCache.shared.addTodo(newTodoItem)
     }
 
     func editTodoItem() {
         let modifiedTodoItem = assembleTodoItem()
-        FileCache.shared.editTodoItem(modifiedTodoItem)
-        FileCache.shared.refreshTodoMain(byId: modifiedTodoItem.id)
+//        FileCache.shared.editTodoItem(modifiedTodoItem)
+//        FileCache.shared.updateTodo(byId: modifiedTodoItem.id)
+        FileCache.shared.editTodo(modifiedTodoItem)
     }
     
-    func deleteTodoItem() {
-        
-    }
 
     private func assembleTodoItem() -> TodoItem {
         let deadline: Date? = deadlineSet ? deadline : nil

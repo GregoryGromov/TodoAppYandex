@@ -11,102 +11,149 @@ class FileCache {
     let service = DefaultNetworkingService()
 
     init(todoItems: [TodoItem] = TodoItem.MOCK) {
-//        self.todoItems = todoItems
         self.todoItems = []
         self.currentRevision = 1
     }
     
-    func getTodo(byId id: String) -> TodoItem? {
-        for todoItem in todoItems {
-            if todoItem.id == id {
-                return todoItem
-            }
-        }
-        return nil
-    }
+//    MARK: - Adding
     
-    
-//------------------------------->
-    
-    func addTodoItemMain(_ todoItem: TodoItem) {
-        print("Передан: \(todoItem)")
+    func addTodo(_ todoItem: TodoItem) {
+        addTodoLocally(todoItem)
+
         Task {
             do {
                 if isDirty {
-//                   если не обновить у всех id, то оно не работает:
-                    var newTodos = [TodoItem]()
-                    for todo in todoItems {
-                        var newTodo = todo
-                        newTodo.id = UUID().uuidString
-                        newTodos.append(newTodo)
-                    }
-                    
-                    try await updateServerData(with: newTodos)
-                    await MainActor.run {
-                        isDirty = false
-                    }
+                    try await synchronizeData()
                 } else {
-                    try await addTodo(todoItem)
+                    try await addTodoOnServer(todoItem)
                 }
             } catch {
                 await MainActor.run {
                     isDirty = true
                 }
-                print("FileCache-refreshTodo:", error)
             }
         }
     }
     
-    func addTodo(_ todoItem: TodoItem) async throws {
+    func addTodoLocally(_ todoItem: TodoItem) {
+        if noSameItem(withId: todoItem.id) {
+            todoItems.append(todoItem)
+        }
+    }
+    
+    func addTodoOnServer(_ todoItem: TodoItem) async throws {
         do {
-            print(currentRevision)
             let (_, revision) = try await service.addElement(todoItem, revision: currentRevision)
             currentRevision = revision
         } catch {
-            print("АГА(")
             throw error
         }
     }
     
+//    MARK: - Switching "isDone" propertie
     
+    func switchIsDone(byId id: String) {
+        switchIsDoneLocally(byId: id)
+        updateTodo(byId: id)
+    }
     
-    func refreshTodoMain(byId id: String) {
+    func switchIsDoneLocally(byId id: String) {
+        for index in todoItems.indices where todoItems[index].id == id {
+            todoItems[index].isDone.toggle()
+        }
+    }
+    
+//    MARK: - Editing
+    
+    func editTodo(_ todoItem: TodoItem) {
+        editTodoLocally(todoItem)
+        updateTodo(byId: todoItem.id)
+    }
+    
+    func editTodoLocally(_ todoItem: TodoItem) {
+        for index in todoItems.indices where todoItems[index].id == todoItem.id {
+            todoItems[index] = todoItem
+        }
+    }
+    
+//    MARK: - Updating
+    
+    func updateTodo(byId id: String) {
+        if let updatedTodo = getTodo(byId: id) {
+            Task {
+                do {
+                    if isDirty {
+                        try await synchronizeData()
+                    } else {
+                        try await updateTodoOnServer(with: updatedTodo)
+                    }
+                } catch {
+                    await MainActor.run {
+                        isDirty = true
+                    }
+                }
+            }
+        }
+    }
+    
+    func updateTodoOnServer(with updatedTodo: TodoItem) async throws {
+        do {
+            let (_, revision) = try await service.updateElement(byId: updatedTodo.id, with: updatedTodo, revision: currentRevision)
+            currentRevision = revision
+        } catch {
+            throw error
+        }
+    }
+    
+//  MARK: - Synchronization
+    
+    private func synchronizeData() async throws {
+        let todosWithUpdatedIDs = updateIDsOfList()
+        
+        try await updateServerData(with: todosWithUpdatedIDs)
+        await MainActor.run {
+            isDirty = false
+        }
+    }
+    
+    private func updateIDsOfList() -> [TodoItem] {
+        return todoItems.map { todo -> TodoItem in
+            var updatedTodo = todo
+            updatedTodo.id = UUID().uuidString
+            return updatedTodo
+        }
+    }
+    
+    private func updateServerData(with items: [TodoItem]) async throws {
+        do {
+            let (_, revision) = try await service.updateList(with: items, revision: 1)
+            currentRevision = revision
+            let (loadedTodoItems, revision2) = try await service.getList()
+            await MainActor.run {
+                self.currentRevision = revision2
+                self.todoItems = loadedTodoItems
+            }
+        } catch {
+            throw error
+        }
+    }
+
+// MARK: - Deletion
+    
+    func deleteTodo(byId id: String) {
+        deleteTodoLocally(byId: id)
+        
         Task {
             do {
                 if isDirty {
-//                   если не обновить у всех id, то оно не работает:
-                    var newTodos = [TodoItem]()
-                    for todo in todoItems {
-                        var newTodo = todo
-                        newTodo.id = UUID().uuidString
-                        newTodos.append(newTodo)
-                    }
-                    
-                    try await updateServerData(with: newTodos)
-                    await MainActor.run {
-                        isDirty = false
-                    }
+                    try await synchronizeData()
                 } else {
-                    try await refreshTodo(byId: id)
+                    try await deleteTodoOnServer(byId: id)
                 }
             } catch {
                 await MainActor.run {
                     isDirty = true
                 }
-                print("FileCache-refreshTodo:", error)
-            }
-        }
-    }
-    
-    
-    
-    func refreshTodo(byId id: String) async throws {
-        if let modifiedTodo = getTodo(byId: id) {
-            do {
-                let (_, revision) = try await service.updateElement(byId: modifiedTodo.id, with: modifiedTodo, revision: currentRevision)
-                currentRevision = revision
-            } catch {
-                throw error
             }
         }
     }
@@ -120,112 +167,27 @@ class FileCache {
         }
     }
     
-    func deleteTodoMain(byId id: String) {
-        Task {
-            do {
-                if isDirty {
-//                   если не обновить у всех id, то оно не работает:
-                    var newTodos = [TodoItem]()
-                    for todo in todoItems {
-                        var newTodo = todo
-                        newTodo.id = UUID().uuidString
-                        newTodos.append(newTodo)
-                    }
-                    
-                    try await updateServerData(with: newTodos)
-                    await MainActor.run {
-                        isDirty = false
-                    }
-                } else {
-                    try await deleteTodo(byId: id)
-                }
-            } catch {
-                await MainActor.run {
-                    isDirty = true
-                }
-                print("FileCache-refreshTodo:", error)
-            }
-        }
-    }
-    
-    func deleteTodo(byId id: String) async throws {
+    private func deleteTodoOnServer(byId id: String) async throws {
         do {
             let (_, revision) = try await service.deleteElement(byId: id, revision: currentRevision)
             currentRevision = revision
         } catch {
             throw error
         }
-        
     }
     
-    
-    func updateServerData(with items: [TodoItem]) async throws {
-        do {
-            let (fromUpdateList, revision) = try await service.updateList(with: items, revision: 1)
-            currentRevision = revision
-            let (loadedTodoItems, revision2) = try await service.getList()
-            await MainActor.run {
-                self.currentRevision = revision2
-                self.todoItems = loadedTodoItems
-            }
-        } catch {
-            throw error
-        }
-    }
-    
+//  MARK: - Loading
     
     func loadTodoItems() async throws {
         let (loadedTodoItems, revision)  = try await service.getList()
         await MainActor.run {
-            print("Revision в loadTodoItems:", revision)
             currentRevision = revision
-//            print("Установлена на:", currentRevision)
             todoItems = loadedTodoItems
-            print(currentRevision)
         }
     }
+
+// MARK: - Local saving to file
     
-    
-//----------------------------------------<
-    
-    
-    func getTodoItems() -> [TodoItem] {
-        return todoItems
-    }
-    
-
-    func addTodoItem(_ todoItem: TodoItem) {
-        if noSameItem(withId: todoItem.id) {
-            todoItems.append(todoItem)
-        }
-    }
-
-    func editTodoItem(_ todoItem: TodoItem) {
-        for index in todoItems.indices where todoItems[index].id == todoItem.id {
-            todoItems[index] = todoItem
-        }
-    }
-
-    func switchIsDone(byId id: String) {
-        for index in todoItems.indices where todoItems[index].id == id {
-            todoItems[index].isDone.toggle()
-        }
-    }
-
-    func deleteTodoItem(byId id: String) {
-        for index in todoItems.indices where todoItems[index].id == id {
-            todoItems.remove(at: index)
-            return
-        }
-    }
-
-    private func noSameItem(withId id: String) -> Bool {
-        for item in todoItems where item.id == id {
-            return false
-        }
-        return true
-    }
-
     func saveTodoItemsToFile() throws {
         let arrayOfJSONs = todoItems.map { $0.json }
 
@@ -249,11 +211,28 @@ class FileCache {
                         todoItemsFromJSON.append(parsedTodoItem)
                     }
                 }
-
                 todoItems = todoItemsFromJSON
             }
         } catch {
             throw DataStorageError.convertingDataFailed
         }
+    }
+    
+//  MARK: - Utilities
+    
+    private func noSameItem(withId id: String) -> Bool {
+        for item in todoItems where item.id == id {
+            return false
+        }
+        return true
+    }
+    
+    func getTodo(byId id: String) -> TodoItem? {
+        for todoItem in todoItems {
+            if todoItem.id == id {
+                return todoItem
+            }
+        }
+        return nil
     }
 }

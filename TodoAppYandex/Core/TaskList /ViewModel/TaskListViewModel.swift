@@ -144,10 +144,6 @@ class TaskListViewModel: ObservableObject {
         return nil
     }
 
-    func deleteItem(byId id: String) {
-        FileCache.shared.deleteTodoItem(byId: id)
-    }
-
     func showImportanceSortingButton() {
         selectedListDisplayMode = .importanceSorting
     }

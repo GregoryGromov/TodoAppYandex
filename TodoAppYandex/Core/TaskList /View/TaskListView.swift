@@ -12,15 +12,9 @@ struct TaskListView: View {
                         ForEach(viewModel.todoItems.filter(viewModel.selectedFilter)) { item in
                             HStack {
                                 TodoCheckmarkLabel(item: item)
-                                
                                     .onTapGesture {
                                         viewModel.switchIsDone(byId: item.id)
-                                        
-                                        FileCache.shared.refreshTodoMain(byId: item.id)
-//                                        viewModel.refreshTodo(byId: item.id)
                                     }
-                                
-                                
                                 TodoInfoLabel(item: item)
                             }
                             .padding(.vertical, 6)
@@ -95,9 +89,6 @@ struct TaskListView: View {
                 } catch {
                     print(error)
                 }
-                
-               
-
             }
         }
 

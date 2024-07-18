@@ -102,7 +102,6 @@ struct TaskEditingView: View {
     var deleteButtonSection: some View {
         Section {
             Button {
-//                FileCache.shared.deleteTodoLocally(byId: viewModel.id)
                 FileCache.shared.deleteTodo(byId: viewModel.id)
                 dismiss()
             } label: {

@@ -26,7 +26,7 @@ class TaskEditingViewModel: ObservableObject {
     @Published var showCalendar: Bool
     @Published var showColorPicker: Bool
     
-    @Published var isDirty = false // TODO: хранить в UserDefaults
+    @Published var isDirty = false // TODO: мб лучше хранить в UserDefaults
 
     private var cancellables = Set<AnyCancellable>()
 
@@ -82,23 +82,17 @@ class TaskEditingViewModel: ObservableObject {
     }
 
     func addTodoItem() {
-        
         let newTodoItem = assembleTodoItem()
-        
         FileCache.shared.addTodo(newTodoItem)
     }
 
     func editTodoItem() {
         let modifiedTodoItem = assembleTodoItem()
-//        FileCache.shared.editTodoItem(modifiedTodoItem)
-//        FileCache.shared.updateTodo(byId: modifiedTodoItem.id)
         FileCache.shared.editTodo(modifiedTodoItem)
     }
-    
 
     private func assembleTodoItem() -> TodoItem {
         let deadline: Date? = deadlineSet ? deadline : nil
-//        let dateChanging: Date? = (mode == .create) ? nil : Date()
         let dateChanging = Date()
 
         let colorHEX: String? = colorIsSet ? color.toHex() : nil

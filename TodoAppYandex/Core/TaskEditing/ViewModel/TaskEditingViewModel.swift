@@ -1,5 +1,5 @@
 import SwiftUI
-import Foundation
+import Combine
 
 class TaskEditingViewModel: ObservableObject {
 
@@ -25,8 +25,13 @@ class TaskEditingViewModel: ObservableObject {
 
     @Published var showCalendar: Bool
     @Published var showColorPicker: Bool
+    
+    @Published var isDirty = false // TODO: хранить в UserDefaults
+
+    private var cancellables = Set<AnyCancellable>()
 
     init(mode: TodoEditMode, todoItem: TodoItem?) {
+  
         self.mode = mode
         self.showCalendar = false
         self.showColorPicker = false
@@ -68,21 +73,37 @@ class TaskEditingViewModel: ObservableObject {
             self.deadlineSet = false
             self.colorIsSet = false
         }
+        
+        FileCache.shared.$isDirty
+            .sink { [weak self] isDirty in
+                self?.isDirty = isDirty
+            }
+            .store(in: &cancellables)
     }
 
     func addTodoItem() {
+        
         let newTodoItem = assembleTodoItem()
         FileCache.shared.addTodoItem(newTodoItem)
+        FileCache.shared.addTodoItemMain(newTodoItem)
+        print("addTodoItem - OK")
     }
 
     func editTodoItem() {
         let modifiedTodoItem = assembleTodoItem()
         FileCache.shared.editTodoItem(modifiedTodoItem)
+        FileCache.shared.refreshTodoMain(byId: modifiedTodoItem.id)
+    }
+    
+    func deleteTodoItem() {
+        
     }
 
     private func assembleTodoItem() -> TodoItem {
         let deadline: Date? = deadlineSet ? deadline : nil
-        let dateChanging: Date? = (mode == .create) ? nil : Date()
+//        let dateChanging: Date? = (mode == .create) ? nil : Date()
+        let dateChanging = Date()
+
         let colorHEX: String? = colorIsSet ? color.toHex() : nil
         let dateCreation: Date = dateCreation ?? Date()
 

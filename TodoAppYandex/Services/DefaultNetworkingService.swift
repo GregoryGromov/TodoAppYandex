@@ -37,21 +37,12 @@ class DefaultNetworkingService {
 //    #2 "Обновить список на сервере"
     func updateList(with list: [TodoItem], revision: Int) async throws -> (list: [TodoItem], revision: Int) {
         
-//    print("В updateList поступило:")
-//        for el in list {
-//            print(el.isDone)
-//        }
-        
         let url = try makeURL(forMode: .patch)
         let request = try makeURLRequest(forMode: .patch, url: url, revision: revision, list: list)
 
         do {
             let (data, response) = try await URLSession.shared.dataTask(for: request)
             if let (todoItems, revision) = try handleServerResponse(data: data, response: response, mode: .patch) as? ([TodoItem], Int) {
-//                print("ПРИШЛО С СЕРВЕРА В updateList:")
-//                for el in todoItems {
-//                    print(el.isDone)
-//                }
                 return (todoItems, revision)
             }
         } catch {
@@ -243,6 +234,8 @@ class DefaultNetworkingService {
             if let revision = revision,
             let element = element {
                 request.setValue(String(revision), forHTTPHeaderField: "X-Last-Known-Revision")
+                request.setValue(String(50), forHTTPHeaderField: "X-Generate-Fails")
+
                 request.httpBody = try createHttpBody(element: element)
             }
         case .put:
@@ -250,13 +243,15 @@ class DefaultNetworkingService {
             if let revision = revision,
             let element = element {
                 request.setValue(String(revision), forHTTPHeaderField: "X-Last-Known-Revision")
-                request.setValue(String(95), forHTTPHeaderField: "X-Generate-Fails")
+
+                request.setValue(String(50), forHTTPHeaderField: "X-Generate-Fails")
                 request.httpBody = try createHttpBody(element: element)
             }
         case .delete:
             request.httpMethod = "DELETE"
             if let revision = revision {
                 request.setValue(String(revision), forHTTPHeaderField: "X-Last-Known-Revision")
+                request.setValue(String(50), forHTTPHeaderField: "X-Generate-Fails")
             }
         }
         
@@ -290,6 +285,10 @@ class DefaultNetworkingService {
         guard var decodedElement = element.jsonNetworking as? [String: Any] else {
             throw DataStorageError.convertingDataFailed
         }
+        
+        print("createHttpBody-decodedElement:")
+        print(decodedElement)
+        
         decodedElement[JSONKeys.lastUpdatedBy] = testDeveiceID
 
         var httpBodyDict = [String: Any]()

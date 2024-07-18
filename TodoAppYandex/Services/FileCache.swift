@@ -28,6 +28,48 @@ class FileCache {
     
 //------------------------------->
     
+    func addTodoItemMain(_ todoItem: TodoItem) {
+        print("Передан: \(todoItem)")
+        Task {
+            do {
+                if isDirty {
+//                   если не обновить у всех id, то оно не работает:
+                    var newTodos = [TodoItem]()
+                    for todo in todoItems {
+                        var newTodo = todo
+                        newTodo.id = UUID().uuidString
+                        newTodos.append(newTodo)
+                    }
+                    
+                    try await updateServerData(with: newTodos)
+                    await MainActor.run {
+                        isDirty = false
+                    }
+                } else {
+                    try await addTodo(todoItem)
+                }
+            } catch {
+                await MainActor.run {
+                    isDirty = true
+                }
+                print("FileCache-refreshTodo:", error)
+            }
+        }
+    }
+    
+    func addTodo(_ todoItem: TodoItem) async throws {
+        do {
+            print(currentRevision)
+            let (_, revision) = try await service.addElement(todoItem, revision: currentRevision)
+            currentRevision = revision
+        } catch {
+            print("АГА(")
+            throw error
+        }
+    }
+    
+    
+    
     func refreshTodoMain(byId id: String) {
         Task {
             do {
@@ -60,7 +102,6 @@ class FileCache {
     
     func refreshTodo(byId id: String) async throws {
         if let modifiedTodo = getTodo(byId: id) {
-//            print("CurrentRevision:", currentRevision)
             do {
                 let (_, revision) = try await service.updateElement(byId: modifiedTodo.id, with: modifiedTodo, revision: currentRevision)
                 currentRevision = revision
@@ -68,6 +109,53 @@ class FileCache {
                 throw error
             }
         }
+    }
+    
+    func deleteTodoLocally(byId id: String) {
+        for index in todoItems.indices {
+            if todoItems[index].id == id {
+                todoItems.remove(at: index)
+                return
+            }
+        }
+    }
+    
+    func deleteTodoMain(byId id: String) {
+        Task {
+            do {
+                if isDirty {
+//                   если не обновить у всех id, то оно не работает:
+                    var newTodos = [TodoItem]()
+                    for todo in todoItems {
+                        var newTodo = todo
+                        newTodo.id = UUID().uuidString
+                        newTodos.append(newTodo)
+                    }
+                    
+                    try await updateServerData(with: newTodos)
+                    await MainActor.run {
+                        isDirty = false
+                    }
+                } else {
+                    try await deleteTodo(byId: id)
+                }
+            } catch {
+                await MainActor.run {
+                    isDirty = true
+                }
+                print("FileCache-refreshTodo:", error)
+            }
+        }
+    }
+    
+    func deleteTodo(byId id: String) async throws {
+        do {
+            let (_, revision) = try await service.deleteElement(byId: id, revision: currentRevision)
+            currentRevision = revision
+        } catch {
+            throw error
+        }
+        
     }
     
     
@@ -89,11 +177,11 @@ class FileCache {
     func loadTodoItems() async throws {
         let (loadedTodoItems, revision)  = try await service.getList()
         await MainActor.run {
-//            print("Revision в loadTodoItems:", loadTodoItems)
+            print("Revision в loadTodoItems:", revision)
             currentRevision = revision
 //            print("Установлена на:", currentRevision)
             todoItems = loadedTodoItems
-            
+            print(currentRevision)
         }
     }
     

@@ -102,6 +102,8 @@ struct TaskEditingView: View {
     var deleteButtonSection: some View {
         Section {
             Button {
+                FileCache.shared.deleteTodoLocally(byId: viewModel.id)
+                FileCache.shared.deleteTodoMain(byId: viewModel.id)
                 dismiss()
             } label: {
                 HStack {
@@ -162,9 +164,6 @@ struct TaskEditingView: View {
                 } else if viewModel.mode == .edit {
                     viewModel.editTodoItem()
                 }
-                
-                
-                
                 dismiss()
             } label: {
                 Text("Сохранить")

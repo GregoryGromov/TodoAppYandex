@@ -169,9 +169,9 @@ extension TodoItem {
             JSONKeys.dateCreation: self.dateCreation.convertToUnixTimestamp()
         ] as [String: Any]
 
-        if importance != .basic {
-            dictionary[JSONKeys.importance] = importance.rawValue
-        }
+        
+        dictionary[JSONKeys.importance] = importance.rawValue
+        
 
         if let deadline = self.deadline {
             dictionary[JSONKeys.deadline] = deadline.convertToUnixTimestamp()

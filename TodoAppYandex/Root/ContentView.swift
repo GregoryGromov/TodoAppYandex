@@ -7,14 +7,14 @@ struct ContentView: View {
     let items = TodoItem.MOCK2
 
     let testTodoItem = TodoItem(
-        id: "pchelaID2",
-        text: "Обновленное x100 Хо-хо",
-        importance: .important,
+        id: "pch35345232353324",
+        text: "Динеро",
+        importance: .low,
         deadline: nil,
         isDone: false,
         dateCreation: Date(),
         dateChanging: Date(),
-        color: "#32892899"
+        color: "#77892899"
     )
 
     var body: some View {
@@ -47,12 +47,13 @@ struct ContentView: View {
                     
 
 //                    Добавить элемент
-//                    do {
-//                        let el = try await manager.addElement(testTodoItem, revision: 16)
-//                        print(el)
-//                    } catch {
-//                        print(error)
-//                    }
+                    do {
+                        print("Добавление при инициализции")
+                        let el = try await manager.addElement(testTodoItem, revision: 577)
+                        print(el)
+                    } catch {
+                        print(error)
+                    }
 
 //                    Удалить элемент
 //                    do {

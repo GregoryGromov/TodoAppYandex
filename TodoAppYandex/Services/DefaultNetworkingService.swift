@@ -36,12 +36,22 @@ class DefaultNetworkingService {
 
 //    #2 "Обновить список на сервере"
     func updateList(with list: [TodoItem], revision: Int) async throws -> (list: [TodoItem], revision: Int) {
+        
+//    print("В updateList поступило:")
+//        for el in list {
+//            print(el.isDone)
+//        }
+        
         let url = try makeURL(forMode: .patch)
         let request = try makeURLRequest(forMode: .patch, url: url, revision: revision, list: list)
 
         do {
             let (data, response) = try await URLSession.shared.dataTask(for: request)
             if let (todoItems, revision) = try handleServerResponse(data: data, response: response, mode: .patch) as? ([TodoItem], Int) {
+//                print("ПРИШЛО С СЕРВЕРА В updateList:")
+//                for el in todoItems {
+//                    print(el.isDone)
+//                }
                 return (todoItems, revision)
             }
         } catch {
@@ -87,6 +97,7 @@ class DefaultNetworkingService {
 
 //    #5 "Изменить элемент списка"
     func updateElement(byId id: String, with todoItem: TodoItem, revision: Int) async throws -> (item: TodoItem, revision: Int) {
+//        print("Функция запущена")
         let url = try makeURL(forMode: .put, elementId: id)
         let request = try makeURLRequest(forMode: .put, url: url, revision: revision, element: todoItem)
 
@@ -184,6 +195,7 @@ class DefaultNetworkingService {
            let dictionary = responseData as? [String: Any],
            let element = dictionary[NetworkingKeys.element] as? [String: Any],
            let revision = dictionary[NetworkingKeys.revision] as? Int{
+//            print("Dict answer:", dictionary)
             if let todoItem = try TodoItem.parseNetworking(json: element) {
                 return (todoItem, revision)
             }
@@ -230,7 +242,6 @@ class DefaultNetworkingService {
             request.httpMethod = "POST"
             if let revision = revision,
             let element = element {
-                print("Зашли")
                 request.setValue(String(revision), forHTTPHeaderField: "X-Last-Known-Revision")
                 request.httpBody = try createHttpBody(element: element)
             }
@@ -239,13 +250,12 @@ class DefaultNetworkingService {
             if let revision = revision,
             let element = element {
                 request.setValue(String(revision), forHTTPHeaderField: "X-Last-Known-Revision")
+                request.setValue(String(95), forHTTPHeaderField: "X-Generate-Fails")
                 request.httpBody = try createHttpBody(element: element)
             }
         case .delete:
             request.httpMethod = "DELETE"
-            print("Здеся 1.5")
             if let revision = revision {
-                print("Здеся 2")
                 request.setValue(String(revision), forHTTPHeaderField: "X-Last-Known-Revision")
             }
         }

@@ -2,7 +2,7 @@ import Foundation
 
 struct TodoItem: Identifiable, Equatable {
 
-    let id: String
+    var id: String
 
     var text: String
     var importance: Importance

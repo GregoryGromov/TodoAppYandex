@@ -22,7 +22,7 @@ struct ContentView: View {
             .onAppear {
                 Task {
 //                    Обновить список
-//                    let items = try await manager.updateList(with: items, revision: 14)
+//                    let items = try await manager.updateList(with: items, revision: 22)
 //                    print(items)
 
 //                    Получить все элементы и вывести их

@@ -12,9 +12,13 @@ struct TaskListView: View {
                         ForEach(viewModel.todoItems.filter(viewModel.selectedFilter)) { item in
                             HStack {
                                 TodoCheckmarkLabel(item: item)
+                                
                                     .onTapGesture {
                                         viewModel.switchIsDone(byId: item.id)
+                                        viewModel.refreshTodo(byId: item.id)
                                     }
+                                
+                                
                                 TodoInfoLabel(item: item)
                             }
                             .padding(.vertical, 6)
@@ -67,17 +71,29 @@ struct TaskListView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    NavigationLink {
-                        TestViewForURLSessionExtension()
-                    } label: {
-                        Image(systemName: "photo.fill")
+                    if viewModel.isDirty {
+                        Image(systemName: "exclamationmark.icloud")
                             .font(.title3)
+                            .foregroundStyle(.red)
+                    } else {
+                        Image(systemName: "checkmark.icloud")
+                            .font(.title3)
+                            .foregroundStyle(.green)
                     }
                 }
             }
         }
         .sheet(isPresented: $viewModel.showAddView) {
             TaskEditingView(mode: .create, todoItems: $viewModel.todoItems) // ИСПРАВИТЬ
+        }
+        .onAppear {
+            Task {
+                do {
+                    try await viewModel.loadTasks()
+                } catch {
+                    print(error)
+                }
+            }
         }
 
     }

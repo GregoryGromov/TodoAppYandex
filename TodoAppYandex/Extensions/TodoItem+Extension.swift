@@ -6,7 +6,7 @@ extension TodoItem {
         return [
             TodoItem(
                 id: "pchelaID2",
-                text: "Потсавить будильник",
+                text: "Помыть посуду 3",
                 importance: .important,
                 deadline: nil,
                 isDone: false,
@@ -16,14 +16,60 @@ extension TodoItem {
             ),
             TodoItem(
                 id: "pchelaID3",
-                text: "Вырастить дерево",
+                text: "Нарезать яблоки 3",
+                importance: .important,
+                deadline: nil,
+                isDone: false,
+                dateCreation: Date(),
+                dateChanging: Date(),
+                color: "#F2B9D877"
+            ),
+            TodoItem(
+                id: "pchelaID7",
+                text: "Застелить кровать 3",
+                importance: .important,
+                deadline: nil,
+                isDone: false,
+                dateCreation: Date(),
+                dateChanging: Date(),
+                color: "#19А92899"
+            ),
+        ]
+        
+    }
+    
+    static var MOCK3: [TodoItem] {
+        return [
+            TodoItem(
+                id: "pchelaID54",
+                text: "Помыть посуду 3",
                 importance: .important,
                 deadline: nil,
                 isDone: false,
                 dateCreation: Date(),
                 dateChanging: Date(),
                 color: "#32892899"
-            )
+            ),
+            TodoItem(
+                id: "pchelaID3",
+                text: "Нарезать яблоки 3",
+                importance: .important,
+                deadline: nil,
+                isDone: false,
+                dateCreation: Date(),
+                dateChanging: Date(),
+                color: "#F2B9D877"
+            ),
+            TodoItem(
+                id: "pchelaID7543",
+                text: "Застелить кровать",
+                importance: .important,
+                deadline: nil,
+                isDone: true,
+                dateCreation: Date(),
+                dateChanging: Date(),
+                color: "#19А92899"
+            ),
         ]
         
     }

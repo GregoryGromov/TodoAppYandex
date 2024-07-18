@@ -4,6 +4,7 @@ class FileCache {
 
     @Published var todoItems: [TodoItem]
     @Published var currentRevision: Int
+    @Published var isDirty = false
 
     static let shared = FileCache()
     
@@ -26,6 +27,34 @@ class FileCache {
     
     
 //------------------------------->
+    
+    func refreshTodoMain(byId id: String) {
+        Task {
+            do {
+                if isDirty {
+//                   если не обновить у всех id, то оно не работает:
+                    var newTodos = [TodoItem]()
+                    for todo in todoItems {
+                        var newTodo = todo
+                        newTodo.id = UUID().uuidString
+                        newTodos.append(newTodo)
+                    }
+                    
+                    try await updateServerData(with: newTodos)
+                    await MainActor.run {
+                        isDirty = false
+                    }
+                } else {
+                    try await refreshTodo(byId: id)
+                }
+            } catch {
+                await MainActor.run {
+                    isDirty = true
+                }
+                print("FileCache-refreshTodo:", error)
+            }
+        }
+    }
     
     
     

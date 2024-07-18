@@ -15,7 +15,9 @@ struct TaskListView: View {
                                 
                                     .onTapGesture {
                                         viewModel.switchIsDone(byId: item.id)
-                                        viewModel.refreshTodo(byId: item.id)
+                                        
+                                        FileCache.shared.refreshTodoMain(byId: item.id)
+//                                        viewModel.refreshTodo(byId: item.id)
                                     }
                                 
                                 

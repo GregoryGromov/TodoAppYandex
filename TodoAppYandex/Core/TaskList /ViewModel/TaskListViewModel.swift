@@ -25,6 +25,11 @@ class TaskListViewModel: ObservableObject {
                 self?.todoItems = todoItems
             }
             .store(in: &cancellables)
+        FileCache.shared.$isDirty
+            .sink { [weak self] isDirty in
+                self?.isDirty = isDirty
+            }
+            .store(in: &cancellables)
     }
 
     var isDoneCount: Int {
@@ -39,33 +44,33 @@ class TaskListViewModel: ObservableObject {
         try await FileCache.shared.loadTodoItems()
     }
     
-    func refreshTodo(byId id: String) {
-        Task {
-            do {
-                if isDirty {
-//                   если не обновить у всех id, то оно не работает:
-                    var newTodos = [TodoItem]()
-                    for todo in todoItems {
-                        var newTodo = todo
-                        newTodo.id = UUID().uuidString
-                        newTodos.append(newTodo)
-                    }
-                    
-                    try await FileCache.shared.updateServerData(with: newTodos)
-                    await MainActor.run {
-                        isDirty = false
-                    }
-                } else {
-                    try await FileCache.shared.refreshTodo(byId: id)
-                }
-            } catch {
-                await MainActor.run {
-                    isDirty = true
-                }
-                print("vm-refreshTodo:", error)
-            }
-        }
-    }
+//    func refreshTodo(byId id: String) {
+//        Task {
+//            do {
+//                if isDirty {
+////                   если не обновить у всех id, то оно не работает:
+//                    var newTodos = [TodoItem]()
+//                    for todo in todoItems {
+//                        var newTodo = todo
+//                        newTodo.id = UUID().uuidString
+//                        newTodos.append(newTodo)
+//                    }
+//                    
+//                    try await FileCache.shared.updateServerData(with: newTodos)
+//                    await MainActor.run {
+//                        isDirty = false
+//                    }
+//                } else {
+//                    try await FileCache.shared.refreshTodo(byId: id)
+//                }
+//            } catch {
+//                await MainActor.run {
+//                    isDirty = true
+//                }
+//                print("vm-refreshTodo:", error)
+//            }
+//        }
+//    }
 
     func openEditPage(forItem item: TodoItem) {
         selectedTaskId = item.id

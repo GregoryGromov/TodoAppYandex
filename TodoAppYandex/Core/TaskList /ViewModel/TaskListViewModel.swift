@@ -15,7 +15,9 @@ class TaskListViewModel: ObservableObject {
     @Published var selectedTaskId = ""
     @Published var selectedListDisplayMode: ListDisplayModificationOptions = .isDoneFilter
 
-    @Published var isDirty = false // TODO: хранить в UserDefaults
+    @Published var isDirty = false
+
+    @Published var isTaskIDsEmpty = false
 
     var isDoneCount: Int {
         todoItems.filter { $0.isDone }.count
@@ -34,6 +36,14 @@ class TaskListViewModel: ObservableObject {
                 self?.isDirty = isDirty
             }
             .store(in: &cancellables)
+//        FileCache.shared.$retryInProgress
+//            .sink { [weak self] retryInProgress in
+//                self?.retryInProgress = retryInProgress
+//            }
+//            .store(in: &cancellables)
+        FileCache.shared.$IDsOfActiveTasks
+            .map { $0.isEmpty }
+            .assign(to: &$isTaskIDsEmpty)
     }
 
 // MARK: - Loading data
@@ -58,7 +68,7 @@ class TaskListViewModel: ObservableObject {
         selectedFilter = isDoneFilter
     }
 
-    let isDoneFilter: (TodoItem) -> Bool = { todoItem in
+    private let isDoneFilter: (TodoItem) -> Bool = { todoItem in
         return !todoItem.isDone
     }
 

@@ -31,6 +31,7 @@
 		5F9A70CA2C38A98E002E82FC /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9A70C92C38A98E002E82FC /* UILabel+Extension.swift */; };
 		5F9A70EA2C38B96D002E82FC /* CalendarUIViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9A70E92C38B96D002E82FC /* CalendarUIViewRepresentable.swift */; };
 		5F9A70F92C38BC7E002E82FC /* SwiftUICalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9A70F82C38BC7E002E82FC /* SwiftUICalendar.swift */; };
+		5FC171312C4B146100C9D7B4 /* BackendHTTPHeaderField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC171302C4B146100C9D7B4 /* BackendHTTPHeaderField.swift */; };
 		5FCE53C12C263D9A005187A4 /* TodoAppYandexApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FCE53C02C263D9A005187A4 /* TodoAppYandexApp.swift */; };
 		5FCE53C32C263D9A005187A4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FCE53C22C263D9A005187A4 /* ContentView.swift */; };
 		5FCE53C52C263D9B005187A4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5FCE53C42C263D9B005187A4 /* Assets.xcassets */; };
@@ -102,6 +103,7 @@
 		5F9A70C92C38A98E002E82FC /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
 		5F9A70E92C38B96D002E82FC /* CalendarUIViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarUIViewRepresentable.swift; sourceTree = "<group>"; };
 		5F9A70F82C38BC7E002E82FC /* SwiftUICalendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUICalendar.swift; sourceTree = "<group>"; };
+		5FC171302C4B146100C9D7B4 /* BackendHTTPHeaderField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackendHTTPHeaderField.swift; sourceTree = "<group>"; };
 		5FCE53C02C263D9A005187A4 /* TodoAppYandexApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoAppYandexApp.swift; sourceTree = "<group>"; };
 		5FCE53C22C263D9A005187A4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		5FCE53C42C263D9B005187A4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -187,6 +189,7 @@
 				5F6F4C802C41B8E3008DD5C9 /* JSONKeys.swift */,
 				5FD2E3E12C43DC0A0003FF22 /* FileNames.swift */,
 				5F1AC0182C46B0D1001B2F62 /* NetworkingKeys.swift */,
+				5FC171302C4B146100C9D7B4 /* BackendHTTPHeaderField.swift */,
 			);
 			path = Keys;
 			sourceTree = "<group>";
@@ -671,6 +674,7 @@
 				5FD2E3E52C43DD510003FF22 /* DataStorageError.swift in Sources */,
 				5FD780512C415C11000F342F /* TestViewForURLSessionExtension.swift in Sources */,
 				5FD7804A2C415937000F342F /* Cancellable.swift in Sources */,
+				5FC171312C4B146100C9D7B4 /* BackendHTTPHeaderField.swift in Sources */,
 				5FD780492C415937000F342F /* CancellableStorage.swift in Sources */,
 				5FD2E3E02C43D6E50003FF22 /* ImageCollection.swift in Sources */,
 				5F7DC30B2C29A77900954EC0 /* TaskEditingViewModel.swift in Sources */,

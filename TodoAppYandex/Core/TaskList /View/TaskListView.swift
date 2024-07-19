@@ -67,9 +67,13 @@ struct TaskListView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    if viewModel.isDirty {
+
+                    if !viewModel.isTaskIDsEmpty {
                         ProgressView()
+                    } else if viewModel.isDirty {
+                        ImageCollection.cloudError
                             .font(.title3)
+                            .foregroundStyle(.red)
                     } else {
                         ImageCollection.cloud
                             .font(.title3)

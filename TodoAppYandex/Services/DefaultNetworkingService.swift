@@ -20,10 +20,10 @@ class DefaultNetworkingService {
 // MARK: - #1 "Получить список с сервера"
 
     func getList() async throws -> (list: [TodoItem], revision: Int) {
-        let url = try makeURL(forMode: .getAll)
-        let request = try makeURLRequest(forMode: .getAll, url: url)
-
         do {
+            let url = try makeURL(forMode: .getAll)
+            let request = try makeURLRequest(forMode: .getAll, url: url)
+
             let (data, response) = try await URLSession.shared.dataTask(for: request)
             if let (todoItems, revision) = try handleServerResponse(data: data, response: response, mode: .getAll) as? ([TodoItem], Int) {
                 return (todoItems, revision)
@@ -135,7 +135,6 @@ class DefaultNetworkingService {
         default:
             return false
         }
-
     }
 
     private func handleErrors(response: HTTPURLResponse) throws {
@@ -223,7 +222,7 @@ class DefaultNetworkingService {
 
     private func makeURLRequest(forMode mode: RequestMode, url: URL, revision: Int? = nil, list: [TodoItem]? = nil, element: TodoItem? = nil) throws -> URLRequest {
         var request = URLRequest(url: url)
-        request.setValue("Bearer " + token, forHTTPHeaderField: "Authorization")
+        request.setValue("Bearer " + token, forHTTPHeaderField: BackendHTTPHeaderField.authorization)
 
         switch mode {
         case .getAll:
@@ -232,18 +231,17 @@ class DefaultNetworkingService {
             request.httpMethod = "PATCH"
             if let revision = revision,
             let list = list {
-                request.setValue(String(revision), forHTTPHeaderField: "X-Last-Known-Revision")
+                request.setValue(String(revision), forHTTPHeaderField: BackendHTTPHeaderField.lastKnownRevision)
                 request.httpBody = try createHttpBody(list: list)
             }
         case .getItem:
             request.httpMethod = "GET"
-            request.setValue("Bearer " + token, forHTTPHeaderField: "Authorization")
         case .post:
             request.httpMethod = "POST"
             if let revision = revision,
             let element = element {
-                request.setValue(String(revision), forHTTPHeaderField: "X-Last-Known-Revision")
-                request.setValue(String(50), forHTTPHeaderField: "X-Generate-Fails")
+                request.setValue(String(revision), forHTTPHeaderField: BackendHTTPHeaderField.lastKnownRevision)
+                request.setValue(String(50), forHTTPHeaderField: BackendHTTPHeaderField.generateFails)
 
                 request.httpBody = try createHttpBody(element: element)
             }
@@ -251,16 +249,16 @@ class DefaultNetworkingService {
             request.httpMethod = "PUT"
             if let revision = revision,
             let element = element {
-                request.setValue(String(revision), forHTTPHeaderField: "X-Last-Known-Revision")
+                request.setValue(String(revision), forHTTPHeaderField: BackendHTTPHeaderField.lastKnownRevision)
 
-                request.setValue(String(50), forHTTPHeaderField: "X-Generate-Fails")
+                request.setValue(String(50), forHTTPHeaderField: BackendHTTPHeaderField.generateFails)
                 request.httpBody = try createHttpBody(element: element)
             }
         case .delete:
             request.httpMethod = "DELETE"
             if let revision = revision {
-                request.setValue(String(revision), forHTTPHeaderField: "X-Last-Known-Revision")
-                request.setValue(String(50), forHTTPHeaderField: "X-Generate-Fails")
+                request.setValue(String(revision), forHTTPHeaderField: BackendHTTPHeaderField.lastKnownRevision)
+                request.setValue(String(50), forHTTPHeaderField: BackendHTTPHeaderField.generateFails)
             }
         }
 
@@ -294,9 +292,6 @@ class DefaultNetworkingService {
         guard var decodedElement = element.jsonNetworking as? [String: Any] else {
             throw DataStorageError.convertingDataFailed
         }
-
-        print("createHttpBody-decodedElement:")
-        print(decodedElement)
 
         decodedElement[JSONKeys.lastUpdatedBy] = testDeveiceID
 

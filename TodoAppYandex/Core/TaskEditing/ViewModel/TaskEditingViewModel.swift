@@ -26,10 +26,11 @@ class TaskEditingViewModel: ObservableObject {
     @Published var showCalendar: Bool
     @Published var showColorPicker: Bool
 
-    @Published var isDirty = false // TODO: мб лучше хранить в UserDefaults
+    @Published var isDirty = false
 
     private var cancellables = Set<AnyCancellable>()
 
+//    TODO: переделать более изящно
     init(mode: TodoEditMode, todoItem: TodoItem?) {
 
         self.mode = mode

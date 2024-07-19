@@ -4,7 +4,9 @@ class FileCache {
 
     @Published var todoItems: [TodoItem]
     @Published var currentRevision: Int
+
     @Published var isDirty = false
+    @Published var retryInProgress = false
 
     static let shared = FileCache()
 
@@ -13,6 +15,38 @@ class FileCache {
     init(todoItems: [TodoItem] = TodoItem.MOCK) {
         self.todoItems = []
         self.currentRevision = 1
+    }
+
+// MARK: - Delayed request utilities
+
+    @Published var IDsOfActiveTasks = [String]()
+
+    let minDelay: TimeInterval = 2
+    let maxDelay: TimeInterval = 5
+    let factor: Double = 1.5
+    let jitter: Double = 0.05
+
+    func randomInRange(min: Double, max: Double) -> Double {
+        return Double.random(in: min...max)
+    }
+
+    func calculateNextDelay(currentDelay: TimeInterval) -> TimeInterval {
+        let jitterValue = currentDelay * jitter
+        let nextDelay = currentDelay * factor
+        return min(maxDelay, max(minDelay, nextDelay + randomInRange(min: -jitterValue, max: jitterValue)))
+    }
+
+    private func addTaskID(_ id: String) {
+        IDsOfActiveTasks.append(id)
+    }
+
+    private func deleteTaskID(_ id: String) {
+        for index in IDsOfActiveTasks.indices {
+            if IDsOfActiveTasks[index] == id {
+                IDsOfActiveTasks.remove(at: index)
+                return
+            }
+        }
     }
 
     // MARK: - Adding
@@ -97,11 +131,58 @@ class FileCache {
     }
 
     private func updateTodoOnServer(with updatedTodo: TodoItem) async throws {
+
+        let taskID = UUID().uuidString
+        await MainActor.run {
+            addTaskID(taskID)
+        }
+
+        var retryCounter = 1
+        var isRequestSuccessful = false
+
+        var currentDelay = minDelay
+
+        while currentDelay < maxDelay && isRequestSuccessful == false {
+            print("DEBUG: Начата попытка запроса номер \(retryCounter) для задачи с id = \(taskID)")
+
+            do {
+                let (_, revision) = try await service.updateElement(byId: updatedTodo.id, with: updatedTodo, revision: currentRevision)
+                await MainActor.run {
+                    currentRevision = revision
+                    isDirty = false
+                    deleteTaskID(taskID)
+                }
+                isRequestSuccessful = true
+                print("DEBUG: Задача с id = \(taskID) выполнена с попытки номер \(retryCounter)")
+                return
+            } catch {
+                print("DEBUG: Не получилось выполнить задачу с id = \(taskID) с попытки \(retryCounter)")
+                retryCounter += 1
+            }
+
+            print("DEBUG: Установлена задержка в \(currentDelay) секунды")
+            await Task.sleep(UInt64(currentDelay * Double(NSEC_PER_SEC)))
+            currentDelay = calculateNextDelay(currentDelay: currentDelay)
+        }
+
+        print("DEBUG: currentDelay не был выполнена даже с Retry")
+        print("DEBUG: Пробуем получить данные от сервера")
+
         do {
-            let (_, revision) = try await service.updateElement(byId: updatedTodo.id, with: updatedTodo, revision: currentRevision)
-            currentRevision = revision
+            try await loadTodoItems()
+            await MainActor.run {
+                isDirty = false
+            }
+            print("DEBUG: Локальные данные обновлены данными с сервера")
         } catch {
-            throw error
+            print("DEBUG: Не получилось обновить локальные данные данными с сервера")
+            await MainActor.run {
+                isDirty = true
+            }
+        }
+
+        await MainActor.run {
+            deleteTaskID(taskID)
         }
     }
 
@@ -166,11 +247,58 @@ class FileCache {
     }
 
     private func deleteTodoOnServer(byId id: String) async throws {
+
+        let taskID = UUID().uuidString
+        await MainActor.run {
+            addTaskID(taskID)
+        }
+
+        var retryCounter = 1
+        var isRequestSuccessful = false
+
+        var currentDelay = minDelay
+
+        while currentDelay < maxDelay && isRequestSuccessful == false {
+            print("DEBUG: Начата попытка запроса номер \(retryCounter) для задачи с id = \(taskID)")
+
+            do {
+                let (_, revision) = try await service.deleteElement(byId: id, revision: currentRevision)
+                await MainActor.run {
+                    currentRevision = revision
+                    isDirty = false
+                    deleteTaskID(taskID)
+                }
+                isRequestSuccessful = true
+                print("DEBUG: Задача с id = \(taskID) выполнена с попытки номер \(retryCounter)")
+                return
+            } catch {
+                print("DEBUG: Не получилось выполнить задачу с id = \(taskID) с попытки \(retryCounter)")
+                retryCounter += 1
+            }
+
+            print("DEBUG: Установлена задержка в \(currentDelay) секунды")
+            await Task.sleep(UInt64(currentDelay * Double(NSEC_PER_SEC)))
+            currentDelay = calculateNextDelay(currentDelay: currentDelay)
+        }
+
+        print("DEBUG: currentDelay не был выполнена даже с Retry")
+        print("DEBUG: Пробуем получить данные от сервера")
+
         do {
-            let (_, revision) = try await service.deleteElement(byId: id, revision: currentRevision)
-            currentRevision = revision
+            try await loadTodoItems()
+            await MainActor.run {
+                isDirty = false
+            }
+            print("DEBUG: Локальные данные обновлены данными с сервера")
         } catch {
-            throw error
+            print("DEBUG: Не получилось обновить локальные данные данными с сервера")
+            await MainActor.run {
+                isDirty = true
+            }
+        }
+
+        await MainActor.run {
+            deleteTaskID(taskID)
         }
     }
 

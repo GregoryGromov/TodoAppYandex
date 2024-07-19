@@ -67,17 +67,32 @@ struct TaskListView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    NavigationLink {
-                        TestViewForURLSessionExtension()
-                    } label: {
-                        Image(systemName: "photo.fill")
+
+                    if !viewModel.isTaskIDsEmpty {
+                        ProgressView()
+                    } else if viewModel.isDirty {
+                        ImageCollection.cloudError
                             .font(.title3)
+                            .foregroundStyle(.red)
+                    } else {
+                        ImageCollection.cloud
+                            .font(.title3)
+                            .foregroundStyle(.green)
                     }
                 }
             }
         }
         .sheet(isPresented: $viewModel.showAddView) {
             TaskEditingView(mode: .create, todoItems: $viewModel.todoItems) // ИСПРАВИТЬ
+        }
+        .onAppear {
+            Task {
+                do {
+                    try await viewModel.loadTasks()
+                } catch {
+                    print(error)
+                }
+            }
         }
 
     }

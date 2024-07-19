@@ -11,4 +11,6 @@ class ImageCollection {
     static let circle = Image(systemName: "circle")
     static let circleFill = Image(systemName: "circle.fill")
     static let chevronRight = Image(systemName: "chevron.right")
+    static let cloud = Image(systemName: "checkmark.icloud")
+    static let cloudError = Image(systemName: "exclamationmark.icloud")
 }

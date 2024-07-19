@@ -102,6 +102,7 @@ struct TaskEditingView: View {
     var deleteButtonSection: some View {
         Section {
             Button {
+                FileCache.shared.deleteTodo(byId: viewModel.id)
                 dismiss()
             } label: {
                 HStack {

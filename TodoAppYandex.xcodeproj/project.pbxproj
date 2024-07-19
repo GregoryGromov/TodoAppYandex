@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5F1AC0172C46A02C001B2F62 /* DefaultNetworkingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1AC0162C46A02C001B2F62 /* DefaultNetworkingService.swift */; };
+		5F1AC0192C46B0D1001B2F62 /* NetworkingKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1AC0182C46B0D1001B2F62 /* NetworkingKeys.swift */; };
+		5F3B3EAE2C470AAB00810C29 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3B3EAD2C470AAB00810C29 /* NetworkError.swift */; };
+		5F3B3EB02C47B80500810C29 /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3B3EAF2C47B80400810C29 /* Int+Extension.swift */; };
 		5F63F7022C2C2469001248A8 /* TaskListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F63F7012C2C2469001248A8 /* TaskListViewModel.swift */; };
 		5F63F7042C2C3C8A001248A8 /* TodoEditMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F63F7032C2C3C8A001248A8 /* TodoEditMode.swift */; };
 		5F63F70E2C2C690E001248A8 /* ListDisplayModificationOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F63F70D2C2C690E001248A8 /* ListDisplayModificationOptions.swift */; };
@@ -27,6 +31,7 @@
 		5F9A70CA2C38A98E002E82FC /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9A70C92C38A98E002E82FC /* UILabel+Extension.swift */; };
 		5F9A70EA2C38B96D002E82FC /* CalendarUIViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9A70E92C38B96D002E82FC /* CalendarUIViewRepresentable.swift */; };
 		5F9A70F92C38BC7E002E82FC /* SwiftUICalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9A70F82C38BC7E002E82FC /* SwiftUICalendar.swift */; };
+		5FC171312C4B146100C9D7B4 /* BackendHTTPHeaderField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC171302C4B146100C9D7B4 /* BackendHTTPHeaderField.swift */; };
 		5FCE53C12C263D9A005187A4 /* TodoAppYandexApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FCE53C02C263D9A005187A4 /* TodoAppYandexApp.swift */; };
 		5FCE53C32C263D9A005187A4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FCE53C22C263D9A005187A4 /* ContentView.swift */; };
 		5FCE53C52C263D9B005187A4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5FCE53C42C263D9B005187A4 /* Assets.xcassets */; };
@@ -43,7 +48,7 @@
 		5FCE54042C263F63005187A4 /* ConvertToCSVTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FCE54032C263F63005187A4 /* ConvertToCSVTests.swift */; };
 		5FCE54062C263F66005187A4 /* ParsingFromCSVTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FCE54052C263F66005187A4 /* ParsingFromCSVTests.swift */; };
 		5FD2E3E02C43D6E50003FF22 /* ImageCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD2E3DF2C43D6E50003FF22 /* ImageCollection.swift */; };
-		5FD2E3E22C43DC0A0003FF22 /* FileName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD2E3E12C43DC0A0003FF22 /* FileName.swift */; };
+		5FD2E3E22C43DC0A0003FF22 /* FileNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD2E3E12C43DC0A0003FF22 /* FileNames.swift */; };
 		5FD2E3E52C43DD510003FF22 /* DataStorageError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD2E3E42C43DD510003FF22 /* DataStorageError.swift */; };
 		5FD780492C415937000F342F /* CancellableStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD780472C415937000F342F /* CancellableStorage.swift */; };
 		5FD7804A2C415937000F342F /* Cancellable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD780482C415937000F342F /* Cancellable.swift */; };
@@ -75,6 +80,10 @@
 
 /* Begin PBXFileReference section */
 		492A842F5932DA2A2DF5E6A2 /* Pods_TodoAppYandexTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TodoAppYandexTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5F1AC0162C46A02C001B2F62 /* DefaultNetworkingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultNetworkingService.swift; sourceTree = "<group>"; };
+		5F1AC0182C46B0D1001B2F62 /* NetworkingKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingKeys.swift; sourceTree = "<group>"; };
+		5F3B3EAD2C470AAB00810C29 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		5F3B3EAF2C47B80400810C29 /* Int+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
 		5F63F7012C2C2469001248A8 /* TaskListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListViewModel.swift; sourceTree = "<group>"; };
 		5F63F7032C2C3C8A001248A8 /* TodoEditMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoEditMode.swift; sourceTree = "<group>"; };
 		5F63F70D2C2C690E001248A8 /* ListDisplayModificationOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListDisplayModificationOptions.swift; sourceTree = "<group>"; };
@@ -94,6 +103,7 @@
 		5F9A70C92C38A98E002E82FC /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
 		5F9A70E92C38B96D002E82FC /* CalendarUIViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarUIViewRepresentable.swift; sourceTree = "<group>"; };
 		5F9A70F82C38BC7E002E82FC /* SwiftUICalendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUICalendar.swift; sourceTree = "<group>"; };
+		5FC171302C4B146100C9D7B4 /* BackendHTTPHeaderField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackendHTTPHeaderField.swift; sourceTree = "<group>"; };
 		5FCE53C02C263D9A005187A4 /* TodoAppYandexApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoAppYandexApp.swift; sourceTree = "<group>"; };
 		5FCE53C22C263D9A005187A4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		5FCE53C42C263D9B005187A4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -110,7 +120,7 @@
 		5FCE54032C263F63005187A4 /* ConvertToCSVTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConvertToCSVTests.swift; sourceTree = "<group>"; };
 		5FCE54052C263F66005187A4 /* ParsingFromCSVTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParsingFromCSVTests.swift; sourceTree = "<group>"; };
 		5FD2E3DF2C43D6E50003FF22 /* ImageCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollection.swift; sourceTree = "<group>"; };
-		5FD2E3E12C43DC0A0003FF22 /* FileName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileName.swift; sourceTree = "<group>"; };
+		5FD2E3E12C43DC0A0003FF22 /* FileNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileNames.swift; sourceTree = "<group>"; };
 		5FD2E3E42C43DD510003FF22 /* DataStorageError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStorageError.swift; sourceTree = "<group>"; };
 		5FD780472C415937000F342F /* CancellableStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CancellableStorage.swift; sourceTree = "<group>"; };
 		5FD780482C415937000F342F /* Cancellable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cancellable.swift; sourceTree = "<group>"; };
@@ -177,7 +187,9 @@
 			isa = PBXGroup;
 			children = (
 				5F6F4C802C41B8E3008DD5C9 /* JSONKeys.swift */,
-				5FD2E3E12C43DC0A0003FF22 /* FileName.swift */,
+				5FD2E3E12C43DC0A0003FF22 /* FileNames.swift */,
+				5F1AC0182C46B0D1001B2F62 /* NetworkingKeys.swift */,
+				5FC171302C4B146100C9D7B4 /* BackendHTTPHeaderField.swift */,
 			);
 			path = Keys;
 			sourceTree = "<group>";
@@ -328,6 +340,7 @@
 				5F9A70C92C38A98E002E82FC /* UILabel+Extension.swift */,
 				5FD7804B2C415AA0000F342F /* URLSession+Extension.swift */,
 				5FD7804D2C415AEA000F342F /* URLSessionTask+Extension.swift */,
+				5F3B3EAF2C47B80400810C29 /* Int+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -358,6 +371,7 @@
 			children = (
 				5FCE53FB2C263F33005187A4 /* FileCache.swift */,
 				5FCE53FD2C263F3D005187A4 /* FileManagerService.swift */,
+				5F1AC0162C46A02C001B2F62 /* DefaultNetworkingService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -386,6 +400,7 @@
 			isa = PBXGroup;
 			children = (
 				5FD2E3E42C43DD510003FF22 /* DataStorageError.swift */,
+				5F3B3EAD2C470AAB00810C29 /* NetworkError.swift */,
 			);
 			path = Errors;
 			sourceTree = "<group>";
@@ -651,20 +666,25 @@
 			files = (
 				5FCE53FA2C263F29005187A4 /* TodoImportance.swift in Sources */,
 				5F63F7162C2EAA19001248A8 /* Color+Extension.swift in Sources */,
-				5FD2E3E22C43DC0A0003FF22 /* FileName.swift in Sources */,
+				5FD2E3E22C43DC0A0003FF22 /* FileNames.swift in Sources */,
 				5F63F7022C2C2469001248A8 /* TaskListViewModel.swift in Sources */,
+				5F1AC0172C46A02C001B2F62 /* DefaultNetworkingService.swift in Sources */,
 				5FCE53F42C263F19005187A4 /* TodoItem+Extension.swift in Sources */,
 				5F6F4C812C41B8E3008DD5C9 /* JSONKeys.swift in Sources */,
 				5FD2E3E52C43DD510003FF22 /* DataStorageError.swift in Sources */,
 				5FD780512C415C11000F342F /* TestViewForURLSessionExtension.swift in Sources */,
 				5FD7804A2C415937000F342F /* Cancellable.swift in Sources */,
+				5FC171312C4B146100C9D7B4 /* BackendHTTPHeaderField.swift in Sources */,
 				5FD780492C415937000F342F /* CancellableStorage.swift in Sources */,
 				5FD2E3E02C43D6E50003FF22 /* ImageCollection.swift in Sources */,
 				5F7DC30B2C29A77900954EC0 /* TaskEditingViewModel.swift in Sources */,
 				5FCE53C32C263D9A005187A4 /* ContentView.swift in Sources */,
+				5F1AC0192C46B0D1001B2F62 /* NetworkingKeys.swift in Sources */,
 				5FD780552C416045000F342F /* TestImageLoader.swift in Sources */,
+				5F3B3EAE2C470AAB00810C29 /* NetworkError.swift in Sources */,
 				5FD7804C2C415AA0000F342F /* URLSession+Extension.swift in Sources */,
 				5F9A70C72C38A96A002E82FC /* UIColor+Extension.swift in Sources */,
+				5F3B3EB02C47B80500810C29 /* Int+Extension.swift in Sources */,
 				5FCE53F22C263F0D005187A4 /* TodoItem.swift in Sources */,
 				5F9765722C2AC42F004CA12E /* TaskListView.swift in Sources */,
 				5FCE53F62C263F20005187A4 /* String+Extension.swift in Sources */,
@@ -781,6 +801,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = complete;
 			};
 			name = Debug;
 		};
@@ -837,6 +858,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_STRICT_CONCURRENCY = complete;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -854,6 +876,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TodoAppYandex/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -867,7 +890,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.gregorygromow.TodoAppYandex;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_STRICT_CONCURRENCY = minimal;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -886,6 +909,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TodoAppYandex/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -899,7 +923,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.gregorygromow.TodoAppYandex;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_STRICT_CONCURRENCY = minimal;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

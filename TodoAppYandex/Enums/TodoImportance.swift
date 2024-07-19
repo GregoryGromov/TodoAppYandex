@@ -1,7 +1,7 @@
 import Foundation
 
 enum Importance: String, CaseIterable {
-    case unimportant
-    case ordinary
+    case low
+    case basic
     case important
 }

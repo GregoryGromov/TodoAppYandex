@@ -1,5 +1,5 @@
 import SwiftUI
-import Foundation
+import Combine
 
 class TaskEditingViewModel: ObservableObject {
 
@@ -26,7 +26,13 @@ class TaskEditingViewModel: ObservableObject {
     @Published var showCalendar: Bool
     @Published var showColorPicker: Bool
 
+    @Published var isDirty = false
+
+    private var cancellables = Set<AnyCancellable>()
+
+//    TODO: переделать более изящно
     init(mode: TodoEditMode, todoItem: TodoItem?) {
+
         self.mode = mode
         self.showCalendar = false
         self.showColorPicker = false
@@ -61,28 +67,35 @@ class TaskEditingViewModel: ObservableObject {
             self.dateCreation = nil
 
             self.text = ""
-            self.selectedImportance = .ordinary
+            self.selectedImportance = .basic
             self.color = .white
             self.deadline = Date().addingTimeInterval(86_400)
 
             self.deadlineSet = false
             self.colorIsSet = false
         }
+
+        FileCache.shared.$isDirty
+            .sink { [weak self] isDirty in
+                self?.isDirty = isDirty
+            }
+            .store(in: &cancellables)
     }
 
     func addTodoItem() {
         let newTodoItem = assembleTodoItem()
-        FileCache.shared.addTodoItem(newTodoItem)
+        FileCache.shared.addTodo(newTodoItem)
     }
 
     func editTodoItem() {
         let modifiedTodoItem = assembleTodoItem()
-        FileCache.shared.editTodoItem(modifiedTodoItem)
+        FileCache.shared.editTodo(modifiedTodoItem)
     }
 
     private func assembleTodoItem() -> TodoItem {
         let deadline: Date? = deadlineSet ? deadline : nil
-        let dateChanging: Date? = (mode == .create) ? nil : Date()
+        let dateChanging = Date()
+
         let colorHEX: String? = colorIsSet ? color.toHex() : nil
         let dateCreation: Date = dateCreation ?? Date()
 
@@ -101,9 +114,9 @@ class TaskEditingViewModel: ObservableObject {
 
     func getPickerPreview(for importance: Importance) -> some View {
         switch importance {
-        case .unimportant:
+        case .low:
             return ImageCollection.arrowDown.eraseToAnyView()
-        case .ordinary:
+        case .basic:
             return Text("нет").eraseToAnyView()
         case .important:
             return ImageCollection.exclamationMark.eraseToAnyView()

@@ -11,4 +11,6 @@ enum DataStorageError: Error {
     case pathCreationFailed
 
     case invalidCSVFormat
+
+    case JSONSerializingFailed
 }

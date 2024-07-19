@@ -7,7 +7,7 @@ final class ParsingFromJSONTests: XCTestCase {
         let todoItemJSON = [
             "id": "testId3",
             "text": "Почистить песчаную дорогу от песка",
-            "importance": "unimportant",
+            "importance": "low",
             "deadline": "1970-01-01 03:20:34",
             "isDone": false,
             "dateCreation": "1970-01-01 03:20:30",
@@ -18,7 +18,7 @@ final class ParsingFromJSONTests: XCTestCase {
             let todoItem = try TodoItem.parse(json: todoItemJSON)!
             XCTAssertEqual(todoItem.id, "testId3")
             XCTAssertEqual(todoItem.text, "Почистить песчаную дорогу от песка")
-            XCTAssertEqual(todoItem.importance, Importance.unimportant)
+            XCTAssertEqual(todoItem.importance, Importance.low)
             XCTAssertEqual(todoItem.deadline, Date(timeIntervalSince1970: 1234))
             XCTAssertEqual(todoItem.isDone, false)
             XCTAssertEqual(todoItem.dateCreation, Date(timeIntervalSince1970: 1230))
@@ -33,7 +33,7 @@ final class ParsingFromJSONTests: XCTestCase {
         let todoItemJSON = [
             "id": "testId3",
             "text": "Покрасить траву в зеленый цвет",
-            "importance": "unimportant",
+            "importance": "low",
             "isDone": false,
             "dateCreation": "1970-01-01 03:20:30"
         ] as [String: Any]
@@ -42,7 +42,7 @@ final class ParsingFromJSONTests: XCTestCase {
             let todoItem = try TodoItem.parse(json: todoItemJSON)!
             XCTAssertEqual(todoItem.id, "testId3")
             XCTAssertEqual(todoItem.text, "Покрасить траву в зеленый цвет")
-            XCTAssertEqual(todoItem.importance, Importance.unimportant)
+            XCTAssertEqual(todoItem.importance, Importance.low)
             XCTAssertEqual(todoItem.isDone, false)
             XCTAssertEqual(todoItem.dateCreation, Date(timeIntervalSince1970: 1230))
 
@@ -70,7 +70,7 @@ final class ParsingFromJSONTests: XCTestCase {
             XCTAssertEqual(todoItem.id, "testId3")
             XCTAssertEqual(todoItem.text, "Почистить песчаную дорогу от песка")
 
-            XCTAssertEqual(todoItem.importance, Importance.ordinary)
+            XCTAssertEqual(todoItem.importance, Importance.basic)
 
             XCTAssertEqual(todoItem.deadline, Date(timeIntervalSince1970: 1234))
             XCTAssertEqual(todoItem.isDone, false)

@@ -2,6 +2,78 @@ import Foundation
 
 extension TodoItem {
 
+    static var MOCK2: [TodoItem] {
+        return [
+            TodoItem(
+                id: "pchelaID2",
+                text: "Помыть посуду 3",
+                importance: .important,
+                deadline: nil,
+                isDone: false,
+                dateCreation: Date(),
+                dateChanging: Date(),
+                color: "#32892899"
+            ),
+            TodoItem(
+                id: "pchelaID3",
+                text: "Нарезать яблоки 3",
+                importance: .important,
+                deadline: nil,
+                isDone: false,
+                dateCreation: Date(),
+                dateChanging: Date(),
+                color: "#F2B9D877"
+            ),
+            TodoItem(
+                id: "pchelaID7",
+                text: "Застелить кровать 3",
+                importance: .important,
+                deadline: nil,
+                isDone: false,
+                dateCreation: Date(),
+                dateChanging: Date(),
+                color: "#19А92899"
+            )
+        ]
+
+    }
+
+    static var MOCK3: [TodoItem] {
+        return [
+            TodoItem(
+                id: "pchelaID54",
+                text: "Помыть посуду 3",
+                importance: .important,
+                deadline: nil,
+                isDone: false,
+                dateCreation: Date(),
+                dateChanging: Date(),
+                color: "#32892899"
+            ),
+            TodoItem(
+                id: "pchelaID3",
+                text: "Нарезать яблоки 3",
+                importance: .important,
+                deadline: nil,
+                isDone: false,
+                dateCreation: Date(),
+                dateChanging: Date(),
+                color: "#F2B9D877"
+            ),
+            TodoItem(
+                id: "pchelaID7543",
+                text: "Застелить кровать",
+                importance: .important,
+                deadline: nil,
+                isDone: true,
+                dateCreation: Date(),
+                dateChanging: Date(),
+                color: "#19А92899"
+            )
+        ]
+
+    }
+
     static var MOCK: [TodoItem] {
         return [
             TodoItem(
@@ -12,13 +84,13 @@ extension TodoItem {
             ),
             TodoItem(
                 text: "Помыть собаку",
-                importance: .ordinary,
+                importance: .basic,
                 isDone: true,
                 dateCreation: Date(timeIntervalSince1970: 439824700)
             ),
             TodoItem(
                 text: "Выкинуть дерево",
-                importance: .unimportant,
+                importance: .low,
                 deadline: Date(),
                 isDone: false,
                 dateCreation: Date()
@@ -31,28 +103,28 @@ extension TodoItem {
             ),
             TodoItem(
                 text: "Выкинуть дерево",
-                importance: .unimportant,
+                importance: .low,
                 deadline: Date().addingTimeInterval(3243203023),
                 isDone: false,
                 dateCreation: Date()
             ),
             TodoItem(
                 text: "Выкинуть дерево",
-                importance: .unimportant,
+                importance: .low,
                 deadline: Date().addingTimeInterval(39243203023),
                 isDone: false,
                 dateCreation: Date()
             ),
             TodoItem(
                 text: "Выкинуть дерево",
-                importance: .unimportant,
+                importance: .low,
                 deadline: Date().addingTimeInterval(2243203023),
                 isDone: false,
                 dateCreation: Date()
             ),
             TodoItem(
                 text: "Выкинуть дерево",
-                importance: .unimportant,
+                importance: .low,
                 deadline: Date().addingTimeInterval(10243203023),
                 isDone: false,
                 dateCreation: Date()
@@ -69,7 +141,7 @@ extension TodoItem {
             JSONKeys.dateCreation: self.dateCreation.convertToString()
         ] as [String: Any]
 
-        if importance != .ordinary {
+        if importance != .basic {
             dictionary[JSONKeys.importance] = importance.rawValue
         }
 
@@ -79,6 +151,36 @@ extension TodoItem {
 
         if let dateChanging = self.dateChanging {
             dictionary[JSONKeys.dateChanging] = dateChanging.convertToString()
+        }
+
+        if let color = self.color {
+            dictionary[JSONKeys.color] = color
+        }
+
+        return dictionary
+    }
+
+    var jsonNetworking: Any {
+
+        var dictionary = [
+            JSONKeys.id: self.id,
+            JSONKeys.text: self.text,
+            JSONKeys.isDone: self.isDone,
+            JSONKeys.dateCreation: self.dateCreation.convertToUnixTimestamp()
+        ] as [String: Any]
+
+        dictionary[JSONKeys.importance] = importance.rawValue
+
+        if let deadline = self.deadline {
+            dictionary[JSONKeys.deadline] = deadline.convertToUnixTimestamp()
+        }
+
+        if let dateChanging = self.dateChanging {
+            dictionary[JSONKeys.dateChanging] = dateChanging.convertToUnixTimestamp()
+        }
+
+        if let color = self.color {
+            dictionary[JSONKeys.color] = color
         }
 
         return dictionary
@@ -99,7 +201,7 @@ extension TodoItem {
 
         let importanceString = jsonObject[JSONKeys.importance] as? String
 
-        var importance = Importance.ordinary
+        var importance = Importance.basic
 
         if let importanceFromJSON = importanceString?.convertToImportance() {
             importance = importanceFromJSON
@@ -127,7 +229,50 @@ extension TodoItem {
 
         let todoItem = TodoItem(id: id, text: text, importance: importance, deadline: deadline, isDone: isDone, dateCreation: dateCreation, dateChanging: dateChanging)
         return todoItem
+    }
 
+    static func parseNetworking(json: Any) throws -> TodoItem? {
+        guard let jsonObject = json as? [String: Any] else {
+            throw DataStorageError.convertingDataFailed
+        }
+        guard let id = jsonObject[JSONKeys.id] as? String,
+              let text = jsonObject[JSONKeys.text] as? String,
+              let isDone = jsonObject[JSONKeys.isDone] as? Bool,
+              let dateCreationAsInt = jsonObject[JSONKeys.dateChanging] as? Int
+        else { return nil }
+
+        var importance = Importance.basic
+        let importanceString = jsonObject[JSONKeys.importance] as? String
+        if let importanceFromJSON = importanceString?.convertToImportance() {
+            importance = importanceFromJSON
+        }
+
+        let dateCreation = dateCreationAsInt.toDate()
+
+        var deadline: Date?
+        var dateChanging: Date?
+
+        if let deadlineAsInt = jsonObject[JSONKeys.deadline] as? Int {
+            deadline = deadlineAsInt.toDate()
+        }
+
+        if let dateChangingAsInt = jsonObject[JSONKeys.dateChanging] as? Int {
+            dateChanging = dateChangingAsInt.toDate()
+        }
+
+        let color = jsonObject[JSONKeys.color] as? String ?? nil
+
+        let todoItem = TodoItem(
+            id: id,
+            text: text,
+            importance: importance,
+            deadline: deadline,
+            isDone: isDone,
+            dateCreation: dateCreation,
+            dateChanging: dateChanging,
+            color: color
+        )
+        return todoItem
     }
 
     static func parseCSV(_ csvString: String) throws -> [TodoItem]? {

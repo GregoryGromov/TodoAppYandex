@@ -68,11 +68,10 @@ struct TaskListView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     if viewModel.isDirty {
-                        Image(systemName: "exclamationmark.icloud")
+                        ProgressView()
                             .font(.title3)
-                            .foregroundStyle(.red)
                     } else {
-                        Image(systemName: "checkmark.icloud")
+                        ImageCollection.cloud
                             .font(.title3)
                             .foregroundStyle(.green)
                     }

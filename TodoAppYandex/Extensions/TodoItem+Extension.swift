@@ -1,7 +1,7 @@
 import Foundation
 
 extension TodoItem {
-    
+
     static var MOCK2: [TodoItem] {
         return [
             TodoItem(
@@ -33,11 +33,11 @@ extension TodoItem {
                 dateCreation: Date(),
                 dateChanging: Date(),
                 color: "#19А92899"
-            ),
+            )
         ]
-        
+
     }
-    
+
     static var MOCK3: [TodoItem] {
         return [
             TodoItem(
@@ -69,9 +69,9 @@ extension TodoItem {
                 dateCreation: Date(),
                 dateChanging: Date(),
                 color: "#19А92899"
-            ),
+            )
         ]
-        
+
     }
 
     static var MOCK: [TodoItem] {
@@ -169,9 +169,7 @@ extension TodoItem {
             JSONKeys.dateCreation: self.dateCreation.convertToUnixTimestamp()
         ] as [String: Any]
 
-        
         dictionary[JSONKeys.importance] = importance.rawValue
-        
 
         if let deadline = self.deadline {
             dictionary[JSONKeys.deadline] = deadline.convertToUnixTimestamp()

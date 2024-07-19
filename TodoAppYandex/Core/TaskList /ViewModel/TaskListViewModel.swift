@@ -14,9 +14,9 @@ class TaskListViewModel: ObservableObject {
 
     @Published var selectedTaskId = ""
     @Published var selectedListDisplayMode: ListDisplayModificationOptions = .isDoneFilter
-    
+
     @Published var isDirty = false // TODO: хранить в UserDefaults
-    
+
     var isDoneCount: Int {
         todoItems.filter { $0.isDone }.count
     }
@@ -36,20 +36,20 @@ class TaskListViewModel: ObservableObject {
             .store(in: &cancellables)
     }
 
-//  MARK: - Loading data
+// MARK: - Loading data
 
     func loadTasks() async throws {
         try await FileCache.shared.loadTodoItems()
     }
-    
-//  MARK: - Data modification
+
+// MARK: - Data modification
 
     func switchIsDone(byId id: String) {
         FileCache.shared.switchIsDone(byId: id)
     }
-    
-//  MARK: - Filter
-    
+
+// MARK: - Filter
+
     func applyAllItemsFilter() {
         selectedFilter = { _ in true }
     }
@@ -57,13 +57,13 @@ class TaskListViewModel: ObservableObject {
     func applyIsDoneFilter() {
         selectedFilter = isDoneFilter
     }
-    
+
     let isDoneFilter: (TodoItem) -> Bool = { todoItem in
         return !todoItem.isDone
     }
-    
-//  MARK: - Sorting
-    
+
+// MARK: - Sorting
+
     func switchSorting() {
         switch sortingMode {
         case .byDate:
@@ -100,8 +100,8 @@ class TaskListViewModel: ObservableObject {
 
         return sortedArray
     }
-    
-//  MARK: - Show switching
+
+// MARK: - Show switching
 
     func showImportanceSortingButton() {
         selectedListDisplayMode = .importanceSorting
@@ -110,7 +110,7 @@ class TaskListViewModel: ObservableObject {
     func showIsDoneFilterButton() {
         selectedListDisplayMode = .isDoneFilter
     }
-    
+
     func switchShowCompleted() {
         completedHidden.toggle()
         if completedHidden {
@@ -119,14 +119,14 @@ class TaskListViewModel: ObservableObject {
             applyIsDoneFilter()
         }
     }
-    
+
     func openEditPage(forItem item: TodoItem) {
         selectedTaskId = item.id
         showEditView = true
     }
-    
-//  MARK: - Utilities
-    
+
+// MARK: - Utilities
+
     func getSelectedTodoItem() -> TodoItem? {
         for index in todoItems.indices where todoItems[index].id == selectedTaskId {
             return todoItems[index]

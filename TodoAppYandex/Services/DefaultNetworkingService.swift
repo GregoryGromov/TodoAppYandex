@@ -1,7 +1,7 @@
 import Foundation
 
 class DefaultNetworkingService {
-    
+
     static let shared = DefaultNetworkingService()
 
     enum RequestMode {
@@ -16,9 +16,9 @@ class DefaultNetworkingService {
     private let baseURL = "https://hive.mrdekk.ru/todo"
     private let testDeveiceID = "iphoneXSgregory"
     private let token = "Amras"
-    
-//  MARK: - #1 "Получить список с сервера"
-    
+
+// MARK: - #1 "Получить список с сервера"
+
     func getList() async throws -> (list: [TodoItem], revision: Int) {
         let url = try makeURL(forMode: .getAll)
         let request = try makeURLRequest(forMode: .getAll, url: url)
@@ -31,14 +31,14 @@ class DefaultNetworkingService {
         } catch {
             throw error
         }
-        
+
         throw NetworkError.unknownError
     }
 
-//  MARK: - #2 "Обновить список на сервере"
-    
+// MARK: - #2 "Обновить список на сервере"
+
     func updateList(with list: [TodoItem], revision: Int) async throws -> (list: [TodoItem], revision: Int) {
-        
+
         let url = try makeURL(forMode: .patch)
         let request = try makeURLRequest(forMode: .patch, url: url, revision: revision, list: list)
 
@@ -50,12 +50,12 @@ class DefaultNetworkingService {
         } catch {
             throw error
         }
-        
+
         throw NetworkError.unknownError
     }
 
-//  MARK: - #3 "Получить элемент списка"
-    
+// MARK: - #3 "Получить элемент списка"
+
     func getElement(byId id: String) async throws -> (item: TodoItem, revision: Int) {
         let url = try makeURL(forMode: .getItem, elementId: id)
         let request = try makeURLRequest(forMode: .getItem, url: url)
@@ -68,12 +68,12 @@ class DefaultNetworkingService {
         } catch {
             throw error
         }
-        
+
         throw NetworkError.unknownError
     }
 
-//  MARK: - #4 "Добавить элемент списка"
-    
+// MARK: - #4 "Добавить элемент списка"
+
     func addElement(_ todoItem: TodoItem, revision: Int) async throws -> (item: TodoItem, revision: Int) {
         let url = try makeURL(forMode: .post)
         let request = try makeURLRequest(forMode: .post, url: url, revision: revision, element: todoItem)
@@ -86,12 +86,12 @@ class DefaultNetworkingService {
         } catch {
             throw error
         }
-        
+
         throw NetworkError.unknownError
     }
 
-//  MARK: - #5 "Изменить элемент списка"
-    
+// MARK: - #5 "Изменить элемент списка"
+
     func updateElement(byId id: String, with todoItem: TodoItem, revision: Int) async throws -> (item: TodoItem, revision: Int) {
         let url = try makeURL(forMode: .put, elementId: id)
         let request = try makeURLRequest(forMode: .put, url: url, revision: revision, element: todoItem)
@@ -104,13 +104,12 @@ class DefaultNetworkingService {
         } catch {
             throw error
         }
-        
+
         throw NetworkError.unknownError
     }
-    
-    
-//  MARK: - #6 "Удалить элемент списка"
-    
+
+// MARK: - #6 "Удалить элемент списка"
+
     func deleteElement(byId id: String, revision: Int) async throws -> (item: TodoItem, revision: Int) {
         let url = try makeURL(forMode: .delete, elementId: id)
         let request = try makeURLRequest(forMode: .delete, url: url, revision: revision)
@@ -123,12 +122,12 @@ class DefaultNetworkingService {
         } catch {
             throw error
         }
-        
+
         throw NetworkError.unknownError
     }
-    
-//  MARK: - Handling response status
-    
+
+// MARK: - Handling response status
+
     private func isRequestSuccessful(response: HTTPURLResponse) -> Bool {
         switch response.statusCode {
         case 200...299:
@@ -136,9 +135,9 @@ class DefaultNetworkingService {
         default:
             return false
         }
-        
+
     }
-    
+
     private func handleErrors(response: HTTPURLResponse) throws {
         switch response.statusCode {
         case 400:
@@ -153,9 +152,9 @@ class DefaultNetworkingService {
             throw NetworkError.unknownError
         }
     }
-    
-//  MARK: - Handling response
-    
+
+// MARK: - Handling response
+
     private func handleServerResponse(data: Data, response: URLResponse, mode: RequestMode) throws -> Any {
         if let httpResponse = response as? HTTPURLResponse {
             if isRequestSuccessful(response: httpResponse) {
@@ -173,7 +172,7 @@ class DefaultNetworkingService {
         }
         throw NetworkError.unknownError
     }
-    
+
     private func handleMultipleDataResponce(data: Data) throws -> (list: [TodoItem], revision: Int) {
         if let responseData = try? JSONSerialization.jsonObject(with: data, options: []),
            let dictionary = responseData as? [String: Any],
@@ -189,20 +188,20 @@ class DefaultNetworkingService {
         }
         throw DataStorageError.JSONSerializingFailed
     }
-    
+
     private func handleSingleDataResponce(data: Data) throws -> (item: TodoItem, revision: Int) {
         if let responseData = try? JSONSerialization.jsonObject(with: data, options: []),
            let dictionary = responseData as? [String: Any],
            let element = dictionary[NetworkingKeys.element] as? [String: Any],
-           let revision = dictionary[NetworkingKeys.revision] as? Int{
+           let revision = dictionary[NetworkingKeys.revision] as? Int {
             if let todoItem = try TodoItem.parseNetworking(json: element) {
                 return (todoItem, revision)
             }
         }
         throw DataStorageError.JSONSerializingFailed
     }
-    
-//  MARK: - Request creation
+
+// MARK: - Request creation
 
     private func makeURL(forMode mode: RequestMode, elementId: String? = nil) throws -> URL {
         switch mode {
@@ -221,11 +220,11 @@ class DefaultNetworkingService {
         }
         throw NetworkError.unknownError
     }
-    
+
     private func makeURLRequest(forMode mode: RequestMode, url: URL, revision: Int? = nil, list: [TodoItem]? = nil, element: TodoItem? = nil) throws -> URLRequest {
         var request = URLRequest(url: url)
         request.setValue("Bearer " + token, forHTTPHeaderField: "Authorization")
-        
+
         switch mode {
         case .getAll:
             request.httpMethod = "GET"
@@ -264,10 +263,10 @@ class DefaultNetworkingService {
                 request.setValue(String(50), forHTTPHeaderField: "X-Generate-Fails")
             }
         }
-        
+
         return request
     }
-    
+
     private func createHttpBody(list: [TodoItem]) throws -> Data {
         var listOfElement = [[String: Any]]()
 
@@ -295,10 +294,10 @@ class DefaultNetworkingService {
         guard var decodedElement = element.jsonNetworking as? [String: Any] else {
             throw DataStorageError.convertingDataFailed
         }
-        
+
         print("createHttpBody-decodedElement:")
         print(decodedElement)
-        
+
         decodedElement[JSONKeys.lastUpdatedBy] = testDeveiceID
 
         var httpBodyDict = [String: Any]()

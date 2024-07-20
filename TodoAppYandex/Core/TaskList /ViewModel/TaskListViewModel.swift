@@ -36,11 +36,6 @@ class TaskListViewModel: ObservableObject {
                 self?.isDirty = isDirty
             }
             .store(in: &cancellables)
-//        FileCache.shared.$retryInProgress
-//            .sink { [weak self] retryInProgress in
-//                self?.retryInProgress = retryInProgress
-//            }
-//            .store(in: &cancellables)
         FileCache.shared.$IDsOfActiveTasks
             .map { $0.isEmpty }
             .assign(to: &$isTaskIDsEmpty)
@@ -48,8 +43,14 @@ class TaskListViewModel: ObservableObject {
 
 // MARK: - Loading data
 
-    func loadTasks() async throws {
-        try await FileCache.shared.loadTodoItems()
+    func loadTasks() {
+        Task {
+            do {
+                try await FileCache.shared.loadTodoItems()
+            } catch {
+                print(error)
+            }
+        }
     }
 
 // MARK: - Data modification

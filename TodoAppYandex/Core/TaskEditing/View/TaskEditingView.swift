@@ -35,7 +35,6 @@ struct TaskEditingView: View {
         NavigationView {
             if verticalSizeClass == .regular {
                 List {
-    //                textEditorSection
                     textFieldCell
                     importanceAndDateSection
                     colorSelectionSection
@@ -49,34 +48,34 @@ struct TaskEditingView: View {
                     saveToolBatItem
                 }
             } else {
+
                 GeometryReader { proxy in
+
                     VStack {
                         HStack {
-                            VStack {
+                            List {
                                 textFieldCell
                                     .frame(
-                                        minHeight: proxy.size.height - proxy.safeAreaInsets.bottom - proxy.safeAreaInsets.top
+                                        minHeight: proxy.size.height - 4 * proxy.safeAreaInsets.bottom - 4 * proxy.safeAreaInsets.top
                                     )
 
                             }
-                                                        List {
+                            .scrollIndicators(.hidden)
+                            List {
                                 importanceAndDateSection
                                 colorSelectionSection
                                 deleteButtonSection
                             }
                         }
-                        deleteButtonSection
                     }
+                    .background(Color(hex: "#F2F2F7"))
                 }
-
             }
-
         }
     }
 
     private var textFieldCell: some View {
         TextFieldCell(text: $viewModel.text, color: $viewModel.color)
-//            .listRowBackground(Theme.Back.backSecondary.color)
             .focused($isFocused)
 
     }

@@ -21,11 +21,11 @@ struct TaskListView: View {
                                     }
                             }
                             .padding(.vertical, 6)
-                            .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                                 Button {
                                     viewModel.deleteTodoItem(byId: item.id)
                                 } label: {
-                                    Label("Delete", systemImage: "trash.fill")
+                                    Label("Delete", systemImage: ImageCollection.trashName)
                                         .tint(.red)
                                 }
                                 Button {
@@ -33,8 +33,6 @@ struct TaskListView: View {
                                 } label: {
                                     ImageCollection.info
                                 }
-//                                .tint(Color(.systemGray).opacity(0.3))
-
                             }
                             .swipeActions(edge: .leading, allowsFullSwipe: true) {
                                 Button {
@@ -50,7 +48,7 @@ struct TaskListView: View {
                     }
                 }
                 .scrollContentBackground(.hidden)
-                .background(Color(hex: "#F7F6F2"))
+                .background(ColorCollection.background)
                 .sheet(isPresented: $viewModel.showEditView) {
                     // TODO: сделать это более изящно
                     if let selectedItem = viewModel.getSelectedTodoItem() {
@@ -70,7 +68,11 @@ struct TaskListView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     NavigationLink {
-                        SwiftUICalendar()
+                        ZStack {
+                            SwiftUICalendar()
+                            RestorationSignView(dateString: "18:00 22.07.2024")
+                        }
+
                     } label: {
                         ImageCollection.calendar
                             .font(.title3)
@@ -140,12 +142,6 @@ struct TaskListView: View {
             Text("Выполнено — \(viewModel.isDoneCount)")
                 .foregroundStyle(.gray)
             Spacer()
-            Menu {
-                Button("Сортировка по добавлению/важности", action: viewModel.showImportanceSortingButton)
-                Button("Скрыть/показать выполненное", action: viewModel.showIsDoneFilterButton)
-            } label: {
-                Label("", systemImage: "line.horizontal.3.decrease")
-            }
 
             switch viewModel.selectedListDisplayMode {
             case .importanceSorting:
@@ -156,7 +152,7 @@ struct TaskListView: View {
                         Text("По важности")
                             .fontWeight(.semibold)
                     } else {
-                        Text("По дате добавления")
+                        Text("По дате")
                             .fontWeight(.semibold)
                     }
                 }
@@ -166,16 +162,25 @@ struct TaskListView: View {
                 } label: {
                     if viewModel.completedHidden {
                         Text("Скрыть")
+
                             .fontWeight(.semibold)
+
                     } else {
                         Text("Показать")
                             .fontWeight(.semibold)
+
                     }
                 }
             }
+            Menu {
+                Button("Сортировка по добавлению/важности", action: viewModel.showImportanceSortingButton)
+                Button("Скрыть/показать выполненное", action: viewModel.showIsDoneFilterButton)
+            } label: {
+                Label("", systemImage: ImageCollection.filterName)
+            }
 
         }
-        .padding(.horizontal)
+        .textCase(nil)
     }
 
     var plusButton: some View {

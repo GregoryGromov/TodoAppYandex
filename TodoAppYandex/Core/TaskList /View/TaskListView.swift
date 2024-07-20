@@ -42,6 +42,8 @@ struct TaskListView: View {
                                 .tint(.green)
                             }
                         }
+
+                        newTodoCell
                     }
                 }
                 .sheet(isPresented: $viewModel.showEditView) {
@@ -115,7 +117,20 @@ struct TaskListView: View {
         .padding(20)
     }
 
-    var topBar: some View {
+    private var newTodoCell: some View {
+        HStack {
+            Text("Новое")
+                .foregroundColor(.gray)
+                .padding(.vertical, 8)
+                .padding(.leading, 35)
+            Spacer()
+        }
+        .onTapGesture {
+            viewModel.showAddView = true
+        }
+    }
+
+    private var topBar: some View {
         HStack {
             Text("Выполнено — \(viewModel.isDoneCount)")
                 .foregroundStyle(.gray)

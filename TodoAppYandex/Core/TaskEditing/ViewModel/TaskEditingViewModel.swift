@@ -115,11 +115,14 @@ class TaskEditingViewModel: ObservableObject {
     func getPickerPreview(for importance: Importance) -> some View {
         switch importance {
         case .low:
-            return ImageCollection.arrowDown.eraseToAnyView()
+            return ImageCollection.arrowDown
+                .eraseToAnyView()
         case .basic:
-            return Text("нет").eraseToAnyView()
+            return Text("нет")
+                .eraseToAnyView()
         case .important:
-            return ImageCollection.exclamationMark.eraseToAnyView()
+            return ImageCollection.exclamationMark
+                .eraseToAnyView()
         }
     }
 }

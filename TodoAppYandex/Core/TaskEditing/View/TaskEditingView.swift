@@ -100,7 +100,14 @@ struct TaskEditingView: View {
                 Spacer()
                 Picker("", selection: $viewModel.selectedImportance) {
                     ForEach(Importance.allCases, id: \.self) { option in
-                        viewModel.getPickerPreview(for: option)
+                        if option == .important {
+                            Image(systemName: "exclamationmark.2")
+                                .fontWeight(.bold)
+                                .foregroundStyle(.red)
+                        } else {
+                            viewModel.getPickerPreview(for: option)
+                        }
+
                     }
                 }
                 .pickerStyle(.segmented)

@@ -56,8 +56,6 @@
 		5FD7804A2C415937000F342F /* Cancellable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD780482C415937000F342F /* Cancellable.swift */; };
 		5FD7804C2C415AA0000F342F /* URLSession+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD7804B2C415AA0000F342F /* URLSession+Extension.swift */; };
 		5FD7804E2C415AEA000F342F /* URLSessionTask+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD7804D2C415AEA000F342F /* URLSessionTask+Extension.swift */; };
-		5FD780512C415C11000F342F /* TestViewForURLSessionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD780502C415C11000F342F /* TestViewForURLSessionExtension.swift */; };
-		5FD780552C416045000F342F /* TestImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD780542C416045000F342F /* TestImageLoader.swift */; };
 		8C57AAB6E88B963164A0F1A5 /* Pods_TodoAppYandex.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9928C55262AE57DBF84E67D1 /* Pods_TodoAppYandex.framework */; };
 		B84C6EA698D496498E0F88B4 /* Pods_TodoAppYandexTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 492A842F5932DA2A2DF5E6A2 /* Pods_TodoAppYandexTests.framework */; };
 		DAA76A6D55A801044E8478E9 /* Pods_TodoAppYandex_TodoAppYandexUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9055C5B6E144864C8E4D8054 /* Pods_TodoAppYandex_TodoAppYandexUITests.framework */; };
@@ -130,8 +128,6 @@
 		5FD780482C415937000F342F /* Cancellable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cancellable.swift; sourceTree = "<group>"; };
 		5FD7804B2C415AA0000F342F /* URLSession+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Extension.swift"; sourceTree = "<group>"; };
 		5FD7804D2C415AEA000F342F /* URLSessionTask+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSessionTask+Extension.swift"; sourceTree = "<group>"; };
-		5FD780502C415C11000F342F /* TestViewForURLSessionExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewForURLSessionExtension.swift; sourceTree = "<group>"; };
-		5FD780542C416045000F342F /* TestImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestImageLoader.swift; sourceTree = "<group>"; };
 		6DD16791457F15202F8620CD /* Pods-TodoAppYandex.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TodoAppYandex.release.xcconfig"; path = "Target Support Files/Pods-TodoAppYandex/Pods-TodoAppYandex.release.xcconfig"; sourceTree = "<group>"; };
 		737CE2C878388FA56D9256AD /* Pods-TodoAppYandex-TodoAppYandexUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TodoAppYandex-TodoAppYandexUITests.debug.xcconfig"; path = "Target Support Files/Pods-TodoAppYandex-TodoAppYandexUITests/Pods-TodoAppYandex-TodoAppYandexUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		9055C5B6E144864C8E4D8054 /* Pods_TodoAppYandex_TodoAppYandexUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TodoAppYandex_TodoAppYandexUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -296,7 +292,6 @@
 				5FD2E3E32C43DD3C0003FF22 /* Errors */,
 				5FD2E3DE2C43D6C70003FF22 /* Resources */,
 				5F6F4C7F2C41B8D6008DD5C9 /* Keys */,
-				5FD7804F2C415BE1000F342F /* TestViews */,
 				5FCE53EF2C263EBB005187A4 /* Services */,
 				5FCE53EE2C263EB3005187A4 /* Core */,
 				5FCE53ED2C263EAD005187A4 /* Enums */,
@@ -426,15 +421,6 @@
 				5FD780482C415937000F342F /* Cancellable.swift */,
 			);
 			path = HelpersForCuncurrency;
-			sourceTree = "<group>";
-		};
-		5FD7804F2C415BE1000F342F /* TestViews */ = {
-			isa = PBXGroup;
-			children = (
-				5FD780502C415C11000F342F /* TestViewForURLSessionExtension.swift */,
-				5FD780542C416045000F342F /* TestImageLoader.swift */,
-			);
-			path = TestViews;
 			sourceTree = "<group>";
 		};
 		7D0E27A6F2AA673A538AF149 /* Frameworks */ = {
@@ -686,7 +672,6 @@
 				5FCE53F42C263F19005187A4 /* TodoItem+Extension.swift in Sources */,
 				5F6F4C812C41B8E3008DD5C9 /* JSONKeys.swift in Sources */,
 				5FD2E3E52C43DD510003FF22 /* DataStorageError.swift in Sources */,
-				5FD780512C415C11000F342F /* TestViewForURLSessionExtension.swift in Sources */,
 				5FD7804A2C415937000F342F /* Cancellable.swift in Sources */,
 				5FC171312C4B146100C9D7B4 /* BackendHTTPHeaderField.swift in Sources */,
 				5FD780492C415937000F342F /* CancellableStorage.swift in Sources */,
@@ -694,7 +679,6 @@
 				5F7DC30B2C29A77900954EC0 /* TaskEditingViewModel.swift in Sources */,
 				5FCE53C32C263D9A005187A4 /* ContentView.swift in Sources */,
 				5F1AC0192C46B0D1001B2F62 /* NetworkingKeys.swift in Sources */,
-				5FD780552C416045000F342F /* TestImageLoader.swift in Sources */,
 				5F3B3EAE2C470AAB00810C29 /* NetworkError.swift in Sources */,
 				5FD7804C2C415AA0000F342F /* URLSession+Extension.swift in Sources */,
 				5F9A70C72C38A96A002E82FC /* UIColor+Extension.swift in Sources */,

@@ -1,12 +1,21 @@
 import SwiftUI
 
-struct TodoInfoLabel: View {
+private enum LayoutConstants {
+    static let horizontalSpacing: CGFloat = 2
 
+    static let todoColorLineCornerRadius: CGFloat = 5
+    static let todoColorLineWidth: CGFloat = 4
+    static let todoColorLineHeight: CGFloat = 26
+
+    static let addTodoButtonBottomPadding: CGFloat = 45
+}
+
+struct TodoInfoLabel: View {
     let item: TodoItem
 
     var body: some View {
         VStack(alignment: .leading) {
-            HStack(spacing: 2) {
+            HStack(spacing: LayoutConstants.horizontalSpacing) {
                 if item.importance == .important && !item.isDone {
                     ImageCollection.exclamationMark
                         .foregroundStyle(.red)
@@ -15,19 +24,17 @@ struct TodoInfoLabel: View {
                 Text(item.text)
                     .strikethrough(item.isDone ? true : false)
                     .opacity(item.isDone ? 0.4 : 1)
-
+                Spacer()
                 if let colorString = item.color {
-                    RoundedRectangle(cornerRadius: 5)
+                    RoundedRectangle(cornerRadius: LayoutConstants.todoColorLineCornerRadius)
                         .foregroundStyle(Color(hex: colorString))
-                    //
-                        .frame(width: 50, height: 5)
+                        .frame(width: LayoutConstants.todoColorLineWidth, height: LayoutConstants.todoColorLineHeight)
                 }
-
             }
 
             if !item.isDone {
                 if let deadline = item.deadline {
-                    HStack(spacing: 2) {
+                    HStack(spacing: LayoutConstants.horizontalSpacing) {
                         ImageCollection.calendar
                         Text(deadline.dayMonth)
                         Spacer()
@@ -36,7 +43,6 @@ struct TodoInfoLabel: View {
                     .font(.caption)
                 }
             }
-
         }
         Spacer()
         ImageCollection.chevronRight

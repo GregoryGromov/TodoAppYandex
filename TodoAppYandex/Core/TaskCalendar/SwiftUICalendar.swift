@@ -3,7 +3,6 @@ import SwiftUI
 struct SwiftUICalendar: View {
 
     @State private var selectedDate = (day: 1, month: "Jan")
-
     @State private var text: String = ""
 
     let numbers = Array(0..<8)
@@ -19,7 +18,6 @@ struct SwiftUICalendar: View {
             CalendarUIViewRepresentable(dateTuples: dateTuples, selectedDate: $selectedDate, onDelete: printDelete)
                         .frame(height: 150)
                         .padding(.top, 20)
-
             Text("\(selectedDate.day)")
             Spacer()
             Text( """
@@ -29,7 +27,6 @@ struct SwiftUICalendar: View {
         Понимаю, что в даже лучшем случае данное решение может быть оценено не более чем на 1 балл
         """)
         }
-
     }
 
     func printDelete() {

@@ -1,8 +1,23 @@
 import SwiftUI
 import CustomPicker
 
+private enum LayoutConstants {
+    static let textEditorMinHeight: CGFloat = 100
+
+    static let importancePickerWidth: CGFloat = 180
+    static let calendarMaxHeight: CGFloat = 400
+
+    static let colorCodeBackgroundPadding: CGFloat = 7
+    static let colorCodeBackgroundCornerRadius: CGFloat = 20
+    static let colorCodeVerticalPadding: CGFloat = 4
+
+    static let colorPickerButtonDiameter: CGFloat = 44
+}
+
 struct TaskEditingView: View {
-    @Environment(\.dismiss) var dismiss
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.verticalSizeClass) var verticalSizeClass
+
     @StateObject var viewModel: TaskEditingViewModel
 
     init(mode: TodoEditMode, todoItem: TodoItem? = nil, todoItems: Binding<[TodoItem]>) {
@@ -16,7 +31,7 @@ struct TaskEditingView: View {
                 self._viewModel = StateObject(
                     wrappedValue: TaskEditingViewModel(mode: .edit, todoItem: todoItem)
                 )
-            } else { // TODO: при правильном использовании, мы тут никогда не окажется. Можно ли как-то избежать написание кода ниже?
+            } else { // TODO: при правильном использовании, мы тут никогда не окажется. Переделать архитектуру
                 self._viewModel = StateObject(
                     wrappedValue: TaskEditingViewModel(mode: .create, todoItem: nil)
                 )
@@ -29,15 +44,54 @@ struct TaskEditingView: View {
 
     var body: some View {
         NavigationView {
-            List {
-                textEditorSection
-                importanceAndDateSection
-                colorSelectionSection
-                deleteButtonSection
+            if verticalSizeClass == .regular {
+                verticalOrientationView
+            } else {
+
             }
-            .listSectionSpacing(.compact)
-            .navigationTitle("Дело")
-            .navigationBarTitleDisplayMode(.inline)
+        }
+    }
+
+    private var verticalOrientationView: some View {
+        List {
+            textField
+            importanceAndDateSection
+            colorSelectionSection
+            deleteButtonSection
+        }
+        .scrollContentBackground(.hidden)
+        .background(ColorCollection.background)
+        .listSectionSpacing(.compact)
+        .navigationTitle("Дело")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            cancelToolBarItem
+            saveToolBatItem
+        }
+    }
+
+    private var horizontalOrientationView: some View {
+        GeometryReader { proxy in
+            VStack {
+                HStack {
+                    List {
+                        textField
+                            .frame(
+                                minHeight: proxy.size.height - proxy.safeAreaInsets.bottom - proxy.safeAreaInsets.top
+                            )
+
+                    }
+                    .scrollIndicators(.hidden)
+                    List {
+                        importanceAndDateSection
+                        colorSelectionSection
+                        deleteButtonSection
+                    }
+                    .scrollIndicators(.hidden)
+                }
+            }
+            .scrollContentBackground(.hidden)
+            .background(ColorCollection.background)
             .toolbar {
                 cancelToolBarItem
                 saveToolBatItem
@@ -45,28 +99,38 @@ struct TaskEditingView: View {
         }
     }
 
-    var textEditorSection: some View {
+    private var textField: some View {
+        TextFieldCell(text: $viewModel.text, color: $viewModel.color)
+    }
+
+    private var textEditorSection: some View {
         Section {
             ZStack(alignment: .topLeading) {
                 TextEditor(text: $viewModel.text)
-                    .frame(minHeight: 100)
+                    .frame(minHeight: LayoutConstants.textEditorMinHeight)
                     .padding()
             }
         }
     }
 
-    var importanceAndDateSection: some View {
+    private var importanceAndDateSection: some View {
         Section {
             HStack {
                 Text("Важность")
                 Spacer()
                 Picker("", selection: $viewModel.selectedImportance) {
                     ForEach(Importance.allCases, id: \.self) { option in
-                        viewModel.getPickerPreview(for: option)
+                        if option == .important {
+                            ImageCollection.exclamationMark
+                                .fontWeight(.bold)
+                                .foregroundStyle(.red)
+                        } else {
+                            viewModel.getPickerPreview(for: option)
+                        }
                     }
                 }
                 .pickerStyle(.segmented)
-                .frame(width: 180)
+                .frame(width: LayoutConstants.importancePickerWidth)
             }
             HStack {
                 VStack(alignment: .leading) {
@@ -88,18 +152,18 @@ struct TaskEditingView: View {
             if viewModel.showCalendar {
                 HStack {
                     DatePicker(
-                        "Enter your birthday",
+                        "Enter deadline",
                         selection: $viewModel.deadline,
                         displayedComponents: [.date]
                     )
                     .datePickerStyle(GraphicalDatePickerStyle())
-                    .frame(maxHeight: 400)
+                    .frame(maxHeight: LayoutConstants.calendarMaxHeight)
                 }
             }
         }
     }
 
-    var deleteButtonSection: some View {
+    private var deleteButtonSection: some View {
         Section {
             Button {
                 FileCache.shared.deleteTodo(byId: viewModel.id)
@@ -108,6 +172,7 @@ struct TaskEditingView: View {
                 HStack {
                     Spacer()
                     Text("Удалить")
+                        .foregroundStyle(.red)
                     Spacer()
                 }
             }
@@ -115,19 +180,17 @@ struct TaskEditingView: View {
         }
     }
 
-    var colorSelectionSection: some View {
+    private var colorSelectionSection: some View {
         Section {
             HStack {
                 Text(viewModel.color.toHex())
-                    .fontWeight(.bold)
-                    .padding(5)
-                    .padding(.horizontal, 4)
-                    .background(RoundedRectangle(cornerRadius: 15).fill(.gray).opacity(0.3))
-                    .padding(.horizontal)
-
-                RoundedRectangle(cornerRadius: 5)
-                    .fill(Color(hex: viewModel.color.toHex()))
-                    .frame(width: 50, height: 5)
+                    .fontWeight(.semibold)
+                    .padding(LayoutConstants.colorCodeBackgroundPadding)
+                    .background(
+                        RoundedRectangle(cornerRadius: LayoutConstants.colorCodeBackgroundCornerRadius)
+                            .fill(.lightGray)
+                    )
+                    .padding(.vertical, LayoutConstants.colorCodeVerticalPadding)
 
                 Spacer()
 
@@ -135,16 +198,19 @@ struct TaskEditingView: View {
                     viewModel.showColorPicker = true
                     viewModel.colorIsSet = true // TODO: лучше проработать логику изменения данного свойства
                 } label: {
-                    Text("Show picker")
+                    ColorPickerOpenButton(color: viewModel.color, diameter: LayoutConstants.colorPickerButtonDiameter)
                 }
             }
         }
         .sheet(isPresented: $viewModel.showColorPicker) {
-            CustomPicker.ColorPickerUI(bgColor: $viewModel.color)
+            ZStack {
+                CustomPicker.ColorPickerUI(bgColor: $viewModel.color)
+                RestorationSignView(dateString: "18:00 21.07.2024")
+            }
         }
     }
 
-    var cancelToolBarItem: some ToolbarContent {
+    private var cancelToolBarItem: some ToolbarContent {
         ToolbarItem(placement: .topBarLeading) {
             Button {
                 dismiss()
@@ -155,7 +221,7 @@ struct TaskEditingView: View {
         }
     }
 
-    var saveToolBatItem: some ToolbarContent {
+    private var saveToolBatItem: some ToolbarContent {
         ToolbarItem(placement: .topBarTrailing) {
             Button {
                 if viewModel.mode == .create {

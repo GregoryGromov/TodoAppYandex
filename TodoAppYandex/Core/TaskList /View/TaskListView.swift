@@ -1,7 +1,15 @@
 import SwiftUI
 
-struct TaskListView: View {
+private enum LayoutConstants {
+    static let todoListVerticalPadding: CGFloat = 6
 
+    static let addTodoSectionTextVerticalPadding: CGFloat = 8
+    static let addTodoSectionTextLeadingPadding: CGFloat = 35
+
+    static let addTodoButtonBottomPadding: CGFloat = 45
+}
+
+struct TaskListView: View {
     @StateObject var viewModel = TaskListViewModel()
 
     var body: some View {
@@ -9,105 +17,142 @@ struct TaskListView: View {
             VStack {
                 List {
                     Section(header: topBar) {
-                        ForEach(viewModel.todoItems.filter(viewModel.selectedFilter)) { item in
-                            HStack {
-                                TodoCheckmarkLabel(item: item)
-                                    .onTapGesture {
-                                        viewModel.switchIsDone(byId: item.id)
-                                    }
-                                TodoInfoLabel(item: item)
-                            }
-                            .padding(.vertical, 6)
-                            .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                                Button {
-                                    viewModel.openEditPage(forItem: item)
-                                } label: {
-                                    ImageCollection.info
-                                }
-                                .tint(Color(.systemGray).opacity(0.3))
-                            }
-                            .swipeActions(edge: .leading, allowsFullSwipe: true) {
-                                Button {
-                                    viewModel.switchIsDone(byId: item.id)
-                                } label: {
-                                    ImageCollection.checkmarkCircle
-                                }
-                                .tint(.green)
-                            }
-                        }
+                        todoList
+                        newTodoCell
                     }
                 }
+                .scrollContentBackground(.hidden)
+                .background(ColorCollection.background)
                 .sheet(isPresented: $viewModel.showEditView) {
-                    // TODO: сделать это более изящно
-                    if let selectedItem = viewModel.getSelectedTodoItem() {
-                        TaskEditingView(
-                            mode: .edit,
-                            todoItem: selectedItem,
-                            todoItems: $viewModel.todoItems
-                        )
-                    } else {
-                        Text("Ошибка: невозможно открыть страницу редактирования задчи")
-                    }
+                    taskEditingView
                 }
                 .navigationTitle("Мои дела")
                 .navigationBarTitleDisplayMode(.large)
             }
-            .overlay {
-                plusButton
-            }
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    NavigationLink {
-                        SwiftUICalendar()
-                    } label: {
-                        ImageCollection.calendar
-                            .font(.title3)
-                    }
-                }
-            }
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
 
-                    if !viewModel.isTaskIDsEmpty {
-                        ProgressView()
-                    } else if viewModel.isDirty {
-                        ImageCollection.cloudError
-                            .font(.title3)
-                            .foregroundStyle(.red)
-                    } else {
-                        ImageCollection.cloud
-                            .font(.title3)
-                            .foregroundStyle(.green)
-                    }
-                }
+            .toolbar {
+                calendarButton
+                networkTaskStatus
             }
         }
         .sheet(isPresented: $viewModel.showAddView) {
-            TaskEditingView(mode: .create, todoItems: $viewModel.todoItems) // ИСПРАВИТЬ
+            TaskEditingView(mode: .create, todoItems: $viewModel.todoItems) // TODO: ИСПРАВИТЬ архитектуру
         }
         .onAppear {
-            Task {
-                do {
-                    try await viewModel.loadTasks()
-                } catch {
-                    print(error)
-                }
+            viewModel.loadTasks()
+        }
+        .overlay {
+            VStack {
+                Spacer()
+                addTodoButton
             }
         }
-
     }
 
-    var topBar: some View {
+    private var todoList: some View {
+        ForEach(viewModel.todoItems.filter(viewModel.selectedFilter)) { item in
+            HStack {
+                TodoCheckmarkLabel(item: item)
+                    .onTapGesture {
+                        viewModel.switchIsDone(byId: item.id)
+                    }
+                TodoInfoLabel(item: item)
+                    .onTapGesture {
+                        viewModel.openEditPage(forItem: item)
+                    }
+            }
+            .padding(.vertical, LayoutConstants.todoListVerticalPadding)
+            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                Button {
+                    viewModel.deleteTodoItem(byId: item.id)
+                } label: {
+                    Label("Delete", systemImage: ImageCollection.trashName)
+                        .tint(.red)
+                }
+                Button {
+                    viewModel.openEditPage(forItem: item)
+                } label: {
+                    ImageCollection.info
+                }
+            }
+            .swipeActions(edge: .leading, allowsFullSwipe: true) {
+                Button {
+                    viewModel.switchIsDone(byId: item.id)
+                } label: {
+                    ImageCollection.checkmarkCircle
+                }
+                .tint(.green)
+            }
+        }
+    }
+
+    private var taskEditingView: some View {
+        // TODO: сделать это более изящно
+        if let selectedItem = viewModel.getSelectedTodoItem() {
+            TaskEditingView(
+                mode: .edit,
+                todoItem: selectedItem,
+                todoItems: $viewModel.todoItems
+            ).eraseToAnyView()
+        } else {
+            Text("Ошибка: невозможно открыть страницу редактирования задчи").eraseToAnyView()
+        }
+    }
+
+    private var calendarButton: some ToolbarContent {
+        ToolbarItem(placement: .topBarLeading) {
+            NavigationLink {
+                ZStack {
+                    SwiftUICalendar()
+                    RestorationSignView(dateString: "18:00 22.07.2024")
+                }
+            } label: {
+                ImageCollection.calendar
+                    .font(.title3)
+            }
+        }
+    }
+
+    private var networkTaskStatus: some ToolbarContent {
+        ToolbarItem(placement: .topBarTrailing) {
+            if !viewModel.isTaskIDsEmpty {
+                ProgressView()
+            } else if viewModel.isDirty {
+                ImageCollection.cloudError
+                    .font(.title3)
+                    .foregroundStyle(.red)
+            } else {
+                ImageCollection.cloud
+                    .font(.title3)
+                    .foregroundStyle(.green)
+            }
+        }
+    }
+
+    private var addTodoButton: some View {
+        AddNewItemButton {
+            viewModel.showAddView = true
+        }
+    }
+
+    private var newTodoCell: some View {
+        HStack {
+            Text("Новое")
+                .foregroundColor(.gray)
+                .padding(.vertical, LayoutConstants.addTodoSectionTextVerticalPadding)
+                .padding(.leading, LayoutConstants.addTodoSectionTextLeadingPadding)
+            Spacer()
+        }
+        .onTapGesture {
+            viewModel.showAddView = true
+        }
+    }
+
+    private var topBar: some View {
         HStack {
             Text("Выполнено — \(viewModel.isDoneCount)")
                 .foregroundStyle(.gray)
             Spacer()
-            Menu {
-                Button("Сортировка по добавлению/важности", action: viewModel.showImportanceSortingButton)
-                Button("Скрыть/показать выполненное", action: viewModel.showIsDoneFilterButton)
-            } label: {
-                Label("", systemImage: "line.horizontal.3.decrease")
-            }
 
             switch viewModel.selectedListDisplayMode {
             case .importanceSorting:
@@ -118,7 +163,7 @@ struct TaskListView: View {
                         Text("По важности")
                             .fontWeight(.semibold)
                     } else {
-                        Text("По дате добавления")
+                        Text("По дате")
                             .fontWeight(.semibold)
                     }
                 }
@@ -128,16 +173,24 @@ struct TaskListView: View {
                 } label: {
                     if viewModel.completedHidden {
                         Text("Скрыть")
+
                             .fontWeight(.semibold)
+
                     } else {
                         Text("Показать")
                             .fontWeight(.semibold)
+
                     }
                 }
             }
-
+            Menu {
+                Button("Сортировка по добавлению/важности", action: viewModel.showImportanceSortingButton)
+                Button("Скрыть/показать выполненное", action: viewModel.showIsDoneFilterButton)
+            } label: {
+                Label("", systemImage: ImageCollection.filterName)
+            }
         }
-        .padding(.horizontal)
+        .textCase(nil)
     }
 
     var plusButton: some View {
@@ -155,7 +208,7 @@ struct TaskListView: View {
                 }
                 Spacer()
             }
-            .padding(.bottom, 25)
+            .padding(.bottom, LayoutConstants.addTodoButtonBottomPadding)
         }
     }
 }

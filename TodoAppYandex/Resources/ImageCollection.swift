@@ -1,7 +1,10 @@
 import Foundation
 import SwiftUI
 
-class ImageCollection {
+struct ImageCollection {
+
+// MARK: - Images
+
     static let arrowDown = Image(systemName: "arrow.down")
     static let exclamationMark = Image(systemName: "exclamationmark.2")
     static let info = Image(systemName: "info.circle")
@@ -13,4 +16,15 @@ class ImageCollection {
     static let chevronRight = Image(systemName: "chevron.right")
     static let cloud = Image(systemName: "checkmark.icloud")
     static let cloudError = Image(systemName: "exclamationmark.icloud")
+    static let plus = Image(systemName: "plus")
+    static let filter = Image(systemName: "line.horizontal.3.decrease")
+
+    static let importantImportance = Image("importantIcon")
+    static let lowImportance = Image("lowIcon")
+
+// MARK: - Names
+
+    static let filterName = "line.horizontal.3.decrease"
+    static let trashName = "trash.fill"
+
 }

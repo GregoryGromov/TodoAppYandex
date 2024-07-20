@@ -2,8 +2,12 @@ import SwiftUI
 import CustomPicker
 
 struct TaskEditingView: View {
-    @Environment(\.dismiss) var dismiss
+    @Environment(\.dismiss) private var dismiss
     @StateObject var viewModel: TaskEditingViewModel
+
+    @Environment(\.verticalSizeClass) var verticalSizeClass
+
+    @FocusState private var isFocused: Bool
 
     init(mode: TodoEditMode, todoItem: TodoItem? = nil, todoItems: Binding<[TodoItem]>) {
 
@@ -29,20 +33,52 @@ struct TaskEditingView: View {
 
     var body: some View {
         NavigationView {
-            List {
-                textEditorSection
-                importanceAndDateSection
-                colorSelectionSection
-                deleteButtonSection
+            if verticalSizeClass == .regular {
+                List {
+    //                textEditorSection
+                    textFieldCell
+                    importanceAndDateSection
+                    colorSelectionSection
+                    deleteButtonSection
+                }
+                .listSectionSpacing(.compact)
+                .navigationTitle("Дело")
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    cancelToolBarItem
+                    saveToolBatItem
+                }
+            } else {
+                GeometryReader { proxy in
+                    VStack {
+                        HStack {
+                            VStack {
+                                textFieldCell
+                                    .frame(
+                                        minHeight: proxy.size.height - proxy.safeAreaInsets.bottom - proxy.safeAreaInsets.top
+                                    )
+
+                            }
+                                                        List {
+                                importanceAndDateSection
+                                colorSelectionSection
+                                deleteButtonSection
+                            }
+                        }
+                        deleteButtonSection
+                    }
+                }
+
             }
-            .listSectionSpacing(.compact)
-            .navigationTitle("Дело")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                cancelToolBarItem
-                saveToolBatItem
-            }
+
         }
+    }
+
+    private var textFieldCell: some View {
+        TextFieldCell(text: $viewModel.text, color: $viewModel.color)
+//            .listRowBackground(Theme.Back.backSecondary.color)
+            .focused($isFocused)
+
     }
 
     var textEditorSection: some View {

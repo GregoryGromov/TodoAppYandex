@@ -49,6 +49,8 @@ struct TaskListView: View {
                         newTodoCell
                     }
                 }
+                .scrollContentBackground(.hidden)
+                .background(Color(hex: "#F7F6F2"))
                 .sheet(isPresented: $viewModel.showEditView) {
                     // TODO: сделать это более изящно
                     if let selectedItem = viewModel.getSelectedTodoItem() {

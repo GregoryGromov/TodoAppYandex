@@ -40,6 +40,8 @@ struct TaskEditingView: View {
                     colorSelectionSection
                     deleteButtonSection
                 }
+                .scrollContentBackground(.hidden)
+                .background(Color(hex: "#F7F6F2"))
                 .listSectionSpacing(.compact)
                 .navigationTitle("Дело")
                 .navigationBarTitleDisplayMode(.inline)
@@ -67,14 +69,16 @@ struct TaskEditingView: View {
                             .scrollIndicators(.hidden)
                         }
                     }
+                    .scrollContentBackground(.hidden)
+                    .background(Color(hex: "#F7F6F2"))
                     .toolbar {
                         cancelToolBarItem
                         saveToolBatItem
                     }
-                    .background(Color(hex: "#F2F2F7"))
                 }
             }
         }
+
     }
 
     private var textFieldCell: some View {

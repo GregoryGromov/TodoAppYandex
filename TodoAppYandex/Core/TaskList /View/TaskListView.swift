@@ -20,11 +20,18 @@ struct TaskListView: View {
                             .padding(.vertical, 6)
                             .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                                 Button {
+                                    viewModel.deleteTodoItem(byId: item.id)
+                                } label: {
+                                    Label("Delete", systemImage: "trash.fill")
+                                        .tint(.red)
+                                }
+                                Button {
                                     viewModel.openEditPage(forItem: item)
                                 } label: {
                                     ImageCollection.info
                                 }
-                                .tint(Color(.systemGray).opacity(0.3))
+//                                .tint(Color(.systemGray).opacity(0.3))
+
                             }
                             .swipeActions(edge: .leading, allowsFullSwipe: true) {
                                 Button {
@@ -52,9 +59,7 @@ struct TaskListView: View {
                 .navigationTitle("Мои дела")
                 .navigationBarTitleDisplayMode(.large)
             }
-            .overlay {
-                plusButton
-            }
+
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     NavigationLink {
@@ -67,7 +72,6 @@ struct TaskListView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-
                     if !viewModel.isTaskIDsEmpty {
                         ProgressView()
                     } else if viewModel.isDirty {
@@ -94,7 +98,21 @@ struct TaskListView: View {
                 }
             }
         }
+        .overlay {
+            VStack {
+                Spacer()
+                addTodoButton
+            }
 
+        }
+
+    }
+
+    private var addTodoButton: some View {
+        AddNewItemButton {
+            viewModel.showAddView = true
+        }
+        .padding(20)
     }
 
     var topBar: some View {

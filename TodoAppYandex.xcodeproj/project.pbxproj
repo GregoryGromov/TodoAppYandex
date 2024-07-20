@@ -17,6 +17,7 @@
 		5F63F7102C2C7067001248A8 /* SortMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F63F70F2C2C7067001248A8 /* SortMode.swift */; };
 		5F63F7162C2EAA19001248A8 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F63F7152C2EAA19001248A8 /* Color+Extension.swift */; };
 		5F66931E2C4BDE5700B3F50D /* TextFieldCustom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F66931D2C4BDE5700B3F50D /* TextFieldCustom.swift */; };
+		5F6693202C4BF18100B3F50D /* AddTodoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F66931F2C4BF18100B3F50D /* AddTodoItem.swift */; };
 		5F6F4C762C418E62008DD5C9 /* CocoaLumberjack in Frameworks */ = {isa = PBXBuildFile; productRef = 5F6F4C752C418E62008DD5C9 /* CocoaLumberjack */; };
 		5F6F4C782C418E62008DD5C9 /* CocoaLumberjackSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 5F6F4C772C418E62008DD5C9 /* CocoaLumberjackSwift */; };
 		5F6F4C7A2C418E62008DD5C9 /* CocoaLumberjackSwiftLogBackend in Frameworks */ = {isa = PBXBuildFile; productRef = 5F6F4C792C418E62008DD5C9 /* CocoaLumberjackSwiftLogBackend */; };
@@ -91,6 +92,7 @@
 		5F63F70F2C2C7067001248A8 /* SortMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortMode.swift; sourceTree = "<group>"; };
 		5F63F7152C2EAA19001248A8 /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 		5F66931D2C4BDE5700B3F50D /* TextFieldCustom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldCustom.swift; sourceTree = "<group>"; };
+		5F66931F2C4BF18100B3F50D /* AddTodoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTodoItem.swift; sourceTree = "<group>"; };
 		5F6F4C712C417E62008DD5C9 /* TodoAppYandex.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TodoAppYandex.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F6F4C722C418DA6008DD5C9 /* TodoAppYandexTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TodoAppYandexTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F6F4C732C418DA6008DD5C9 /* TodoAppYandexUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TodoAppYandexUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -261,6 +263,7 @@
 			children = (
 				5F9A70AC2C387A69002E82FC /* TodoItemListLabel.swift */,
 				5F9A70AE2C387B52002E82FC /* TodoInfoLabel.swift */,
+				5F66931F2C4BF18100B3F50D /* AddTodoItem.swift */,
 			);
 			path = Subviews;
 			sourceTree = "<group>";
@@ -709,6 +712,7 @@
 				5F9A70F92C38BC7E002E82FC /* SwiftUICalendar.swift in Sources */,
 				5F7DC3092C29A73A00954EC0 /* TaskEditingView.swift in Sources */,
 				5F9A70EA2C38B96D002E82FC /* CalendarUIViewRepresentable.swift in Sources */,
+				5F6693202C4BF18100B3F50D /* AddTodoItem.swift in Sources */,
 				5F63F7042C2C3C8A001248A8 /* TodoEditMode.swift in Sources */,
 				5F63F7102C2C7067001248A8 /* SortMode.swift in Sources */,
 				5F9A70AA2C38785A002E82FC /* View+Extensions.swift in Sources */,

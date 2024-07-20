@@ -13,4 +13,5 @@ class ImageCollection {
     static let chevronRight = Image(systemName: "chevron.right")
     static let cloud = Image(systemName: "checkmark.icloud")
     static let cloudError = Image(systemName: "exclamationmark.icloud")
+    static let plus = Image(systemName: "plus")
 }

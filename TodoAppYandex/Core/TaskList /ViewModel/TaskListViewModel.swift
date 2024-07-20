@@ -135,6 +135,12 @@ class TaskListViewModel: ObservableObject {
         showEditView = true
     }
 
+// MARK: - Deletion
+
+    func deleteTodoItem(byId id: String) {
+        FileCache.shared.deleteTodo(byId: id)
+    }
+
 // MARK: - Utilities
 
     func getSelectedTodoItem() -> TodoItem? {

@@ -14,13 +14,14 @@ struct TodoInfoLabel: View {
                 }
                 Text(item.text)
                     .strikethrough(item.isDone ? true : false)
-                    .opacity(item.isDone ? 0.4 : 1)
+                    .opacity(item.isDone ? 0.4 : 1) // TODO: обычный цвет
+
+                Spacer()
 
                 if let colorString = item.color {
                     RoundedRectangle(cornerRadius: 5)
                         .foregroundStyle(Color(hex: colorString))
-                    //
-                        .frame(width: 50, height: 5)
+                        .frame(width: 4, height: 28)
                 }
 
             }

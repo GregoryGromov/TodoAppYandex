@@ -22,7 +22,6 @@ struct TextFieldCell: View {
             }
             colorLine
         }
-//        .background(Theme.Back.backSecondary.color)
         .background(.white)
         .frame(minHeight: LayoutConstants.minHeight)
         .onTapGesture {

@@ -48,15 +48,13 @@ struct TaskEditingView: View {
                     saveToolBatItem
                 }
             } else {
-
                 GeometryReader { proxy in
-
                     VStack {
                         HStack {
                             List {
                                 textFieldCell
                                     .frame(
-                                        minHeight: proxy.size.height - 4 * proxy.safeAreaInsets.bottom - 4 * proxy.safeAreaInsets.top
+                                        minHeight: proxy.size.height - proxy.safeAreaInsets.bottom - proxy.safeAreaInsets.top
                                     )
 
                             }
@@ -66,7 +64,12 @@ struct TaskEditingView: View {
                                 colorSelectionSection
                                 deleteButtonSection
                             }
+                            .scrollIndicators(.hidden)
                         }
+                    }
+                    .toolbar {
+                        cancelToolBarItem
+                        saveToolBatItem
                     }
                     .background(Color(hex: "#F2F2F7"))
                 }

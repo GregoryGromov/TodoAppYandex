@@ -153,6 +153,7 @@ struct TaskEditingView: View {
                 HStack {
                     Spacer()
                     Text("Удалить")
+                        .foregroundStyle(.red)
                     Spacer()
                 }
             }

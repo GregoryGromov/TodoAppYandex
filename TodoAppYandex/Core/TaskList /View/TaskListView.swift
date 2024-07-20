@@ -16,6 +16,9 @@ struct TaskListView: View {
                                         viewModel.switchIsDone(byId: item.id)
                                     }
                                 TodoInfoLabel(item: item)
+                                    .onTapGesture {
+                                        viewModel.openEditPage(forItem: item)
+                                    }
                             }
                             .padding(.vertical, 6)
                             .swipeActions(edge: .trailing, allowsFullSwipe: false) {

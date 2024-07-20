@@ -1,30 +1,24 @@
 import SwiftUI
 
 struct RestorationSignView: View {
-
     let dateString: String
 
     var body: some View {
         VStack {
-
-            Text("Эта часть приложения ремонируется")
+            Text("Эта часть приложения ремонтируется")
                 .multilineTextAlignment(.center)
                 .font(.title3)
                 .fontWeight(.semibold)
-
             Image(systemName: "wrench.adjustable.fill")
                 .font(.largeTitle)
                 .padding()
-
             VStack {
                 Text("Примерная дата завершения:")
                     .fontWeight(.semibold)
                 Text(dateString)
-
             }
             .font(.caption)
             .multilineTextAlignment(.center)
-
         }
         .padding()
         .frame(width: 240, height: 240)

@@ -23,7 +23,7 @@ struct TodoInfoLabel: View {
                 }
                 Text(item.text)
                     .strikethrough(item.isDone ? true : false)
-                    .opacity(item.isDone ? 0.4 : 1) 
+                    .opacity(item.isDone ? 0.4 : 1)
                 Spacer()
                 if let colorString = item.color {
                     RoundedRectangle(cornerRadius: LayoutConstants.todoColorLineCornerRadius)

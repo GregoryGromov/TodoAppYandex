@@ -30,7 +30,7 @@ struct TextFieldCell: View {
     }
 
     private var textField: some View {
-        TextField("Что надо сделать?", text: $text, axis: .vertical)
+        TextField("Что нужно сделать?", text: $text, axis: .vertical)
             .focused($isFocused)
             .padding(.top, LayoutConstants.textFieldTopPadding)
             .padding(.bottom, LayoutConstants.textFieldBottomPadding)

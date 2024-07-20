@@ -112,7 +112,7 @@ struct TaskListView: View {
             }
         }
     }
-    
+
     private var networkTaskStatus: some ToolbarContent {
         ToolbarItem(placement: .topBarTrailing) {
             if !viewModel.isTaskIDsEmpty {

@@ -214,6 +214,7 @@
 		5F75CB412C4C57EF0013CEE9 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				5FD780462C415937000F342F /* ConcurrencyUtilities */,
 				5F75CB422C4C57F90013CEE9 /* RestorationSign  */,
 			);
 			path = Utilities;
@@ -323,7 +324,6 @@
 				5FCE53EE2C263EB3005187A4 /* Core */,
 				5FCE53ED2C263EAD005187A4 /* Enums */,
 				5FCE53EC2C263EA6005187A4 /* Extensions */,
-				5FD780462C415937000F342F /* HelpersForCuncurrency */,
 				5FCE53EB2C263EA1005187A4 /* Models */,
 				5FCE53EA2C263E8E005187A4 /* Root */,
 				5FCE53C62C263D9B005187A4 /* Preview Content */,
@@ -442,13 +442,13 @@
 			path = Errors;
 			sourceTree = "<group>";
 		};
-		5FD780462C415937000F342F /* HelpersForCuncurrency */ = {
+		5FD780462C415937000F342F /* ConcurrencyUtilities */ = {
 			isa = PBXGroup;
 			children = (
 				5FD780472C415937000F342F /* CancellableStorage.swift */,
 				5FD780482C415937000F342F /* Cancellable.swift */,
 			);
-			path = HelpersForCuncurrency;
+			path = ConcurrencyUtilities;
 			sourceTree = "<group>";
 		};
 		7D0E27A6F2AA673A538AF149 /* Frameworks */ = {

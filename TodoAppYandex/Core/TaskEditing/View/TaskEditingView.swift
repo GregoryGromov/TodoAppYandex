@@ -1,5 +1,5 @@
 import SwiftUI
-import CustomPicker
+import CustomColorPicker
 
 private enum LayoutConstants {
     static let textEditorMinHeight: CGFloat = 100
@@ -38,7 +38,7 @@ struct TaskEditingView: View {
             }
         }
         if let colorString = todoItem?.color {
-            self.viewModel.color = Color(hex: colorString)
+            viewModel.color = Color(hex: colorString)
         }
     }
 
@@ -66,7 +66,7 @@ struct TaskEditingView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             cancelToolBarItem
-            saveToolBatItem
+            saveToolBarItem
         }
     }
 
@@ -79,7 +79,6 @@ struct TaskEditingView: View {
                             .frame(
                                 minHeight: proxy.size.height - proxy.safeAreaInsets.bottom - proxy.safeAreaInsets.top
                             )
-
                     }
                     .scrollIndicators(.hidden)
                     List {
@@ -94,7 +93,7 @@ struct TaskEditingView: View {
             .background(ColorCollection.background)
             .toolbar {
                 cancelToolBarItem
-                saveToolBatItem
+                saveToolBarItem
             }
         }
     }
@@ -204,8 +203,7 @@ struct TaskEditingView: View {
         }
         .sheet(isPresented: $viewModel.showColorPicker) {
             ZStack {
-                CustomPicker.ColorPickerUI(bgColor: $viewModel.color)
-                RestorationSignView(dateString: "18:00 21.07.2024")
+                CustomColorPicker.LocalColorPicker(selectedColor: $viewModel.color, backgroundColor: ColorCollection.background)
             }
         }
     }
@@ -221,7 +219,7 @@ struct TaskEditingView: View {
         }
     }
 
-    private var saveToolBatItem: some ToolbarContent {
+    private var saveToolBarItem: some ToolbarContent {
         ToolbarItem(placement: .topBarTrailing) {
             Button {
                 if viewModel.mode == .create {

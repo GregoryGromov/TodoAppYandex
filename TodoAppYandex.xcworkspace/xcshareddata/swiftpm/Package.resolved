@@ -10,12 +10,12 @@
       }
     },
     {
-      "identity" : "custompicker",
+      "identity" : "customcolorpickertodo",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/GregoryGromov/CustomPicker",
+      "location" : "https://github.com/GregoryGromov/CustomColorPickerTodo.git",
       "state" : {
-        "revision" : "3a853bdd45e1872022dd77c5c5d9e77f969a6291",
-        "version" : "1.0.3"
+        "revision" : "4c34716c107ecb360e2535ee9640543e413696d4",
+        "version" : "1.0.0"
       }
     },
     {

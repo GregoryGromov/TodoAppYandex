@@ -26,7 +26,7 @@
 		5F75CB462C4C58B10013CEE9 /* RestorationSign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F75CB452C4C58B10013CEE9 /* RestorationSign.swift */; };
 		5F75CB482C4C701A0013CEE9 /* ColorCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F75CB472C4C701A0013CEE9 /* ColorCollection.swift */; };
 		5F75CB4A2C4C70980013CEE9 /* ColorPickerOpenButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F75CB492C4C70980013CEE9 /* ColorPickerOpenButton.swift */; };
-		5F7ABB3D2C3D6E9100261F7F /* CustomPicker in Frameworks */ = {isa = PBXBuildFile; productRef = 5F7ABB3C2C3D6E9100261F7F /* CustomPicker */; };
+		5F75CB552C4D38270013CEE9 /* CustomColorPicker in Frameworks */ = {isa = PBXBuildFile; productRef = 5F75CB542C4D38270013CEE9 /* CustomColorPicker */; };
 		5F7DC3092C29A73A00954EC0 /* TaskEditingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7DC3082C29A73A00954EC0 /* TaskEditingView.swift */; };
 		5F7DC30B2C29A77900954EC0 /* TaskEditingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7DC30A2C29A77900954EC0 /* TaskEditingViewModel.swift */; };
 		5F9765722C2AC42F004CA12E /* TaskListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9765712C2AC42F004CA12E /* TaskListView.swift */; };
@@ -152,10 +152,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				5F6F4C762C418E62008DD5C9 /* CocoaLumberjack in Frameworks */,
-				5F7ABB3D2C3D6E9100261F7F /* CustomPicker in Frameworks */,
 				5F6F4C7A2C418E62008DD5C9 /* CocoaLumberjackSwiftLogBackend in Frameworks */,
 				5F6F4C782C418E62008DD5C9 /* CocoaLumberjackSwift in Frameworks */,
 				8C57AAB6E88B963164A0F1A5 /* Pods_TodoAppYandex.framework in Frameworks */,
+				5F75CB552C4D38270013CEE9 /* CustomColorPicker in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -480,10 +480,10 @@
 			);
 			name = TodoAppYandex;
 			packageProductDependencies = (
-				5F7ABB3C2C3D6E9100261F7F /* CustomPicker */,
 				5F6F4C752C418E62008DD5C9 /* CocoaLumberjack */,
 				5F6F4C772C418E62008DD5C9 /* CocoaLumberjackSwift */,
 				5F6F4C792C418E62008DD5C9 /* CocoaLumberjackSwiftLogBackend */,
+				5F75CB542C4D38270013CEE9 /* CustomColorPicker */,
 			);
 			productName = TodoAppYandex;
 			productReference = 5F6F4C712C417E62008DD5C9 /* TodoAppYandex.app */;
@@ -561,8 +561,8 @@
 			);
 			mainGroup = 5FCE53B42C263D9A005187A4;
 			packageReferences = (
-				5F7ABB3B2C3D6E9100261F7F /* XCRemoteSwiftPackageReference "CustomPicker" */,
 				5F6F4C742C418E30008DD5C9 /* XCRemoteSwiftPackageReference "CocoaLumberjack" */,
+				5F75CB532C4D38270013CEE9 /* XCRemoteSwiftPackageReference "CustomColorPickerTodo" */,
 			);
 			productRefGroup = 5FCE53B42C263D9A005187A4;
 			projectDirPath = "";
@@ -1094,12 +1094,12 @@
 				minimumVersion = 3.8.5;
 			};
 		};
-		5F7ABB3B2C3D6E9100261F7F /* XCRemoteSwiftPackageReference "CustomPicker" */ = {
+		5F75CB532C4D38270013CEE9 /* XCRemoteSwiftPackageReference "CustomColorPickerTodo" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/GregoryGromov/CustomPicker";
+			repositoryURL = "https://github.com/GregoryGromov/CustomColorPickerTodo.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.3;
+				minimumVersion = 1.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -1120,10 +1120,10 @@
 			package = 5F6F4C742C418E30008DD5C9 /* XCRemoteSwiftPackageReference "CocoaLumberjack" */;
 			productName = CocoaLumberjackSwiftLogBackend;
 		};
-		5F7ABB3C2C3D6E9100261F7F /* CustomPicker */ = {
+		5F75CB542C4D38270013CEE9 /* CustomColorPicker */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 5F7ABB3B2C3D6E9100261F7F /* XCRemoteSwiftPackageReference "CustomPicker" */;
-			productName = CustomPicker;
+			package = 5F75CB532C4D38270013CEE9 /* XCRemoteSwiftPackageReference "CustomColorPickerTodo" */;
+			productName = CustomColorPicker;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

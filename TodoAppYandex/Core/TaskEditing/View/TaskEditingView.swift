@@ -47,7 +47,7 @@ struct TaskEditingView: View {
             if verticalSizeClass == .regular {
                 verticalOrientationView
             } else {
-
+                horizontalOrientationView
             }
         }
     }

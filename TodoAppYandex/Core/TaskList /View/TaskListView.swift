@@ -104,7 +104,7 @@ struct TaskListView: View {
             NavigationLink {
                 ZStack {
                     SwiftUICalendar()
-                    RestorationSignView(dateString: "18:00 22.07.2024")
+                    RestorationSignView(dateString: "16:00 24.07.2024")
                 }
             } label: {
                 ImageCollection.calendar

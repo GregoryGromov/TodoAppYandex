@@ -16,7 +16,6 @@ class TaskListViewModel: ObservableObject {
     @Published var selectedListDisplayMode: ListDisplayModificationOptions = .isDoneFilter
 
     @Published var isDirty = false
-
     @Published var isTaskIDsEmpty = false
 
     var isDoneCount: Int {
@@ -25,18 +24,22 @@ class TaskListViewModel: ObservableObject {
 
     private var cancellables = Set<AnyCancellable>()
 
-    init() {
-        FileCache.shared.$todoItems
+    let dataManager: FileCache
+
+    init(dataManager: FileCache) {
+        self.dataManager = dataManager
+
+        dataManager.$todoItems
             .sink { [weak self] todoItems in
                 self?.todoItems = todoItems
             }
             .store(in: &cancellables)
-        FileCache.shared.$isDirty
+        dataManager.$isDirty
             .sink { [weak self] isDirty in
                 self?.isDirty = isDirty
             }
             .store(in: &cancellables)
-        FileCache.shared.$IDsOfActiveTasks
+        dataManager.$IDsOfActiveTasks
             .map { $0.isEmpty }
             .assign(to: &$isTaskIDsEmpty)
     }
@@ -46,7 +49,8 @@ class TaskListViewModel: ObservableObject {
     func loadTasks() {
         Task {
             do {
-                try await FileCache.shared.loadTodoItems()
+//                try await dataManager.loadTodoItems()
+                dataManager.fetch()
             } catch {
                 print(error)
             }
@@ -56,7 +60,9 @@ class TaskListViewModel: ObservableObject {
 // MARK: - Data modification
 
     func switchIsDone(byId id: String) {
-        FileCache.shared.switchIsDone(byId: id)
+//        dataManager.switchIsDone(byId: id)
+        dataManager.updateTodoItemInSwiftData(byID: id)
+
     }
 
 // MARK: - Filter
@@ -139,7 +145,9 @@ class TaskListViewModel: ObservableObject {
 // MARK: - Deletion
 
     func deleteTodoItem(byId id: String) {
-        FileCache.shared.deleteTodo(byId: id)
+//        dataManager.deleteTodo(byId: id)
+        print("Эщкере")
+        dataManager.deleteTodoFromSwiftData(byId: id)
     }
 
 // MARK: - Utilities

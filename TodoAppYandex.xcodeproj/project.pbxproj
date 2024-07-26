@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		5F1AC0172C46A02C001B2F62 /* DefaultNetworkingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1AC0162C46A02C001B2F62 /* DefaultNetworkingService.swift */; };
 		5F1AC0192C46B0D1001B2F62 /* NetworkingKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1AC0182C46B0D1001B2F62 /* NetworkingKeys.swift */; };
+		5F2212402C54353600510AB1 /* TodoItemStoredModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F22123F2C54353600510AB1 /* TodoItemStoredModel.swift */; };
 		5F3B3EAE2C470AAB00810C29 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3B3EAD2C470AAB00810C29 /* NetworkError.swift */; };
 		5F3B3EB02C47B80500810C29 /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3B3EAF2C47B80400810C29 /* Int+Extension.swift */; };
 		5F63F7022C2C2469001248A8 /* TaskListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F63F7012C2C2469001248A8 /* TaskListViewModel.swift */; };
@@ -38,6 +39,8 @@
 		5F9A70EA2C38B96D002E82FC /* CalendarUIViewRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9A70E92C38B96D002E82FC /* CalendarUIViewRepresentable.swift */; };
 		5F9A70F92C38BC7E002E82FC /* SwiftUICalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9A70F82C38BC7E002E82FC /* SwiftUICalendar.swift */; };
 		5FC171312C4B146100C9D7B4 /* BackendHTTPHeaderField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC171302C4B146100C9D7B4 /* BackendHTTPHeaderField.swift */; };
+		5FC9765F2C53D7700028073F /* SwiftDataTestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC9765E2C53D7700028073F /* SwiftDataTestViewModel.swift */; };
+		5FC976612C53D7B70028073F /* SwiftDataTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC976602C53D7B70028073F /* SwiftDataTestView.swift */; };
 		5FCE53C12C263D9A005187A4 /* TodoAppYandexApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FCE53C02C263D9A005187A4 /* TodoAppYandexApp.swift */; };
 		5FCE53C32C263D9A005187A4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FCE53C22C263D9A005187A4 /* ContentView.swift */; };
 		5FCE53C52C263D9B005187A4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5FCE53C42C263D9B005187A4 /* Assets.xcassets */; };
@@ -86,6 +89,7 @@
 		492A842F5932DA2A2DF5E6A2 /* Pods_TodoAppYandexTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TodoAppYandexTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F1AC0162C46A02C001B2F62 /* DefaultNetworkingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultNetworkingService.swift; sourceTree = "<group>"; };
 		5F1AC0182C46B0D1001B2F62 /* NetworkingKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingKeys.swift; sourceTree = "<group>"; };
+		5F22123F2C54353600510AB1 /* TodoItemStoredModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItemStoredModel.swift; sourceTree = "<group>"; };
 		5F3B3EAD2C470AAB00810C29 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		5F3B3EAF2C47B80400810C29 /* Int+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
 		5F63F7012C2C2469001248A8 /* TaskListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListViewModel.swift; sourceTree = "<group>"; };
@@ -114,6 +118,8 @@
 		5F9A70E92C38B96D002E82FC /* CalendarUIViewRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarUIViewRepresentable.swift; sourceTree = "<group>"; };
 		5F9A70F82C38BC7E002E82FC /* SwiftUICalendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUICalendar.swift; sourceTree = "<group>"; };
 		5FC171302C4B146100C9D7B4 /* BackendHTTPHeaderField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackendHTTPHeaderField.swift; sourceTree = "<group>"; };
+		5FC9765E2C53D7700028073F /* SwiftDataTestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataTestViewModel.swift; sourceTree = "<group>"; };
+		5FC976602C53D7B70028073F /* SwiftDataTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataTestView.swift; sourceTree = "<group>"; };
 		5FCE53C02C263D9A005187A4 /* TodoAppYandexApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoAppYandexApp.swift; sourceTree = "<group>"; };
 		5FCE53C22C263D9A005187A4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		5FCE53C42C263D9B005187A4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -300,6 +306,15 @@
 			path = TaskCalendar;
 			sourceTree = "<group>";
 		};
+		5FC9765D2C53D74F0028073F /* SwiftData */ = {
+			isa = PBXGroup;
+			children = (
+				5FC9765E2C53D7700028073F /* SwiftDataTestViewModel.swift */,
+				5FC976602C53D7B70028073F /* SwiftDataTestView.swift */,
+			);
+			path = SwiftData;
+			sourceTree = "<group>";
+		};
 		5FCE53B42C263D9A005187A4 = {
 			isa = PBXGroup;
 			children = (
@@ -316,6 +331,7 @@
 		5FCE53BF2C263D9A005187A4 /* TodoAppYandex */ = {
 			isa = PBXGroup;
 			children = (
+				5FC9765D2C53D74F0028073F /* SwiftData */,
 				5F75CB412C4C57EF0013CEE9 /* Utilities */,
 				5FD2E3E32C43DD3C0003FF22 /* Errors */,
 				5FD2E3DE2C43D6C70003FF22 /* Resources */,
@@ -360,6 +376,7 @@
 			isa = PBXGroup;
 			children = (
 				5FCE53F12C263F0D005187A4 /* TodoItem.swift */,
+				5F22123F2C54353600510AB1 /* TodoItemStoredModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -639,7 +656,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#${PODS_ROOT}/SwiftLint/swiftlint\n${PODS_ROOT}/SwiftLint/swiftlint --fix && ${PODS_ROOT}/SwiftLint/swiftlint\n";
+			shellScript = "#${PODS_ROOT}/SwiftLint/swiftlint\n#${PODS_ROOT}/SwiftLint/swiftlint --fix && ${PODS_ROOT}/SwiftLint/swiftlint\n";
 		};
 		A06A746908E81C7F677B96F3 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -699,6 +716,7 @@
 				5F1AC0172C46A02C001B2F62 /* DefaultNetworkingService.swift in Sources */,
 				5FCE53F42C263F19005187A4 /* TodoItem+Extension.swift in Sources */,
 				5F6F4C812C41B8E3008DD5C9 /* JSONKeys.swift in Sources */,
+				5F2212402C54353600510AB1 /* TodoItemStoredModel.swift in Sources */,
 				5FD2E3E52C43DD510003FF22 /* DataStorageError.swift in Sources */,
 				5FD7804A2C415937000F342F /* Cancellable.swift in Sources */,
 				5F75CB482C4C701A0013CEE9 /* ColorCollection.swift in Sources */,
@@ -723,6 +741,7 @@
 				5F9A70AF2C387B52002E82FC /* TodoInfoLabel.swift in Sources */,
 				5F66931E2C4BDE5700B3F50D /* TextFieldCustom.swift in Sources */,
 				5F75CB4A2C4C70980013CEE9 /* ColorPickerOpenButton.swift in Sources */,
+				5FC976612C53D7B70028073F /* SwiftDataTestView.swift in Sources */,
 				5F9A70AD2C387A69002E82FC /* TodoItemListLabel.swift in Sources */,
 				5FCE53F82C263F24005187A4 /* Date+Extension.swift in Sources */,
 				5F9A70F92C38BC7E002E82FC /* SwiftUICalendar.swift in Sources */,
@@ -733,6 +752,7 @@
 				5F63F7102C2C7067001248A8 /* SortMode.swift in Sources */,
 				5F9A70AA2C38785A002E82FC /* View+Extensions.swift in Sources */,
 				5FD7804E2C415AEA000F342F /* URLSessionTask+Extension.swift in Sources */,
+				5FC9765F2C53D7700028073F /* SwiftDataTestViewModel.swift in Sources */,
 				5FCE53FE2C263F3D005187A4 /* FileManagerService.swift in Sources */,
 				5F9A70CA2C38A98E002E82FC /* UILabel+Extension.swift in Sources */,
 			);

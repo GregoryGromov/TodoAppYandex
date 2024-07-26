@@ -1,45 +1,64 @@
 import Foundation
+import SwiftData
 
 class FileCache {
-
+    
     @Published var todoItems: [TodoItem]
     @Published var currentRevision: Int
-
+    
     @Published var isDirty = false
     @Published var retryInProgress = false
-
-    static let shared = FileCache()
-
+    
     let service = DefaultNetworkingService()
-
+    
+    var modelContext: ModelContext?
+    var modelContainer: ModelContainer?
+    
+    let emptyDescriptor = FetchDescriptor<TodoItemStoredModel>(predicate: nil)
+    
+    @MainActor
     init(todoItems: [TodoItem] = TodoItem.MOCK) {
         self.todoItems = []
         self.currentRevision = 1
+        
+        let inMemory = false
+        do {
+            let configuration = ModelConfiguration(isStoredInMemoryOnly: inMemory)
+            let container = try ModelContainer(for: TodoItemStoredModel.self, configurations: configuration)
+            modelContainer = container
+            modelContext = container.mainContext
+            modelContext?.autosaveEnabled = true
+            
+            fetch()
+//            fetchAdditional(filter: .important, sort: .name)
+        } catch {
+            print(error)
+        }
     }
-
-// MARK: - Delayed request utilities
-
+    
+    // MARK: - Delayed request utilities
+    
     @Published var IDsOfActiveTasks = [String]()
-
+    
     let minDelay: TimeInterval = 2
     let maxDelay: TimeInterval = 5
     let factor: Double = 1.5
     let jitter: Double = 0.05
-
+    
     func randomInRange(min: Double, max: Double) -> Double {
         return Double.random(in: min...max)
     }
-
+    
     func calculateNextDelay(currentDelay: TimeInterval) -> TimeInterval {
         let jitterValue = currentDelay * jitter
         let nextDelay = currentDelay * factor
         return min(maxDelay, max(minDelay, nextDelay + randomInRange(min: -jitterValue, max: jitterValue)))
     }
-
+    
     private func addTaskID(_ id: String) {
         IDsOfActiveTasks.append(id)
     }
-
+    
     private func deleteTaskID(_ id: String) {
         for index in IDsOfActiveTasks.indices {
             if IDsOfActiveTasks[index] == id {
@@ -47,6 +66,178 @@ class FileCache {
                 return
             }
         }
+    }
+    
+    // MARK: - SwiftData
+    
+    enum FetchSort {
+        case name
+        case dateCreation
+    }
+    
+    enum FetchFilter {
+        case isDone
+        case setDeadline
+        case important
+    }
+    
+    func fetchAdditional(filter: FetchFilter, sort: FetchSort) {
+        guard let modelContext = modelContext else { return }
+        
+        let sortDescriptor: SortDescriptor<TodoItemStoredModel>
+        switch sort {
+        case .name:
+            sortDescriptor = .init(\.text)
+        case .dateCreation:
+            sortDescriptor = .init(\.dateCreation)
+        }
+        
+        let filterPredicate: Predicate<TodoItemStoredModel>
+        switch filter {
+        case .isDone:
+            filterPredicate = #Predicate<TodoItemStoredModel> { todoItem in
+                todoItem.isDone
+            }
+        case .setDeadline:
+            filterPredicate = #Predicate<TodoItemStoredModel> { todoItem in
+                todoItem.deadline != nil
+            }
+        case .important:
+            filterPredicate = #Predicate<TodoItemStoredModel> { todoItem in
+                todoItem.importance == "important"
+            }
+        }
+
+        let fetchDescriptor = FetchDescriptor<TodoItemStoredModel>(
+            predicate: filterPredicate,
+            sortBy: [sortDescriptor]
+        )
+        do {
+            let todoItemsSM = try modelContext.fetch(fetchDescriptor)
+            self.todoItems = todoItemsSM.compactMap { convertToTodoItem(from: $0) }
+        } catch {
+            print(error)
+        }
+    }
+    
+    func fetch() {
+        guard let modelContext = modelContext else { return }
+        
+        do {
+            let todoItemsSM = try modelContext.fetch(emptyDescriptor)
+            self.todoItems = todoItemsSM.compactMap { convertToTodoItem(from: $0) }
+        } catch {
+            print(error)
+        }
+    }
+    
+    func insert(_ todoItem: TodoItem) {
+        guard let modelContext = modelContext else { return }
+        
+        let todoItemSM = convertToTodoItemStoredModel(from: todoItem)
+        modelContext.insert(todoItemSM)
+        
+        update()
+    }
+    
+    func delete(_ todoItem: TodoItem) {
+        guard let modelContext = modelContext else { return }
+        do {
+            let todoItemSM = try getTodoItemSM(byId: todoItem.id)
+            modelContext.delete(todoItemSM)
+            
+            update()
+        } catch {
+            print(error)
+        }
+    }
+    
+    func update(_ todoItem: TodoItem) {
+        guard let modelContext = modelContext else { return }
+        do {
+            let todoItemSM = try getTodoItemSM(byId: todoItem.id)
+            modelContext.delete(todoItemSM)
+            
+            let newTodoItemSM = convertToTodoItemStoredModel(from: todoItem)
+            modelContext.insert(newTodoItemSM)
+            
+            update()
+        } catch {
+            print(error)
+        }
+    }
+    
+    func deleteTodoFromSwiftData(byId id: String) {
+        if let todoItem = getTodo(byId: id) {
+            delete(todoItem)
+        }
+    }
+    
+    func updateTodoItemInSwiftData(byID id: String) {
+        switchIsDoneLocally(byId: id)
+        if let todoItem = getTodo(byId: id) {
+            update(todoItem)
+        }
+    }
+    
+    private func update() {
+        save()
+        fetch()
+    }
+    
+    private func save() {
+        guard let modelContext = modelContext else { return }
+        do {
+            try modelContext.save()
+        } catch {
+            print(error)
+        }
+    }
+
+    private func convertToTodoItem(from model: TodoItemStoredModel) -> TodoItem? {
+        guard let importance = Importance(rawValue: model.importance) else {
+            return nil
+        }
+        return TodoItem(
+            id: model.id,
+            text: model.text,
+            importance: importance,
+            deadline: model.deadline,
+            isDone: model.isDone,
+            dateCreation: model.dateCreation,
+            dateChanging: model.dateChanging,
+            color: model.color
+        )
+    }
+
+    private func convertToTodoItemStoredModel(from item: TodoItem) -> TodoItemStoredModel {
+        return TodoItemStoredModel(
+            id: item.id,
+            text: item.text,
+            importance: item.importance.rawValue,
+            deadline: item.deadline,
+            isDone: item.isDone,
+            dateCreation: item.dateCreation,
+            dateChanging: item.dateChanging,
+            color: item.color
+        )
+    }
+    
+    private func getTodoItemSM(byId id: String) throws -> TodoItemStoredModel {
+        guard let modelContext = modelContext else {
+            throw DataStorageError.modelContextFailed
+        }
+        do {
+            let todoItemsSM = try modelContext.fetch(emptyDescriptor)
+            for todoItemSM in todoItemsSM {
+                if todoItemSM.id == id {
+                    return todoItemSM
+                }
+            }
+        } catch {
+            throw error
+        }
+        throw DataStorageError.unknownError
     }
 
     // MARK: - Adding

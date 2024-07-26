@@ -10,7 +10,15 @@ private enum LayoutConstants {
 }
 
 struct TaskListView: View {
-    @StateObject var viewModel = TaskListViewModel()
+
+    let dataManager: FileCache
+    @ObservedObject var viewModel: TaskListViewModel
+
+    init() {
+        let dataManager = FileCache()
+        self.dataManager = dataManager
+        self.viewModel = TaskListViewModel(dataManager: dataManager)
+    }
 
     var body: some View {
         NavigationView {
@@ -36,10 +44,10 @@ struct TaskListView: View {
             }
         }
         .sheet(isPresented: $viewModel.showAddView) {
-            TaskEditingView(mode: .create, todoItems: $viewModel.todoItems) // TODO: ИСПРАВИТЬ архитектуру
+            TaskEditingView(mode: .create, todoItems: $viewModel.todoItems, dataManager: dataManager) // TODO: ИСПРАВИТЬ архитектуру
         }
         .onAppear {
-            viewModel.loadTasks()
+//            viewModel.loadTasks()
         }
         .overlay {
             VStack {
@@ -92,7 +100,8 @@ struct TaskListView: View {
             TaskEditingView(
                 mode: .edit,
                 todoItem: selectedItem,
-                todoItems: $viewModel.todoItems
+                todoItems: $viewModel.todoItems,
+                dataManager: dataManager
             ).eraseToAnyView()
         } else {
             Text("Ошибка: невозможно открыть страницу редактирования задчи").eraseToAnyView()

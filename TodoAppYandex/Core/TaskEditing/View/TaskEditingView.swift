@@ -20,20 +20,20 @@ struct TaskEditingView: View {
 
     @StateObject var viewModel: TaskEditingViewModel
 
-    init(mode: TodoEditMode, todoItem: TodoItem? = nil, todoItems: Binding<[TodoItem]>) {
+    init(mode: TodoEditMode, todoItem: TodoItem? = nil, todoItems: Binding<[TodoItem]>, dataManager: FileCache) {
 
         if mode == .create {
             self._viewModel = StateObject(
-                wrappedValue: TaskEditingViewModel(mode: .create, todoItem: nil)
+                wrappedValue: TaskEditingViewModel(mode: .create, todoItem: nil, dataManager: dataManager)
             )
         } else {
             if let todoItem = todoItem {
                 self._viewModel = StateObject(
-                    wrappedValue: TaskEditingViewModel(mode: .edit, todoItem: todoItem)
+                    wrappedValue: TaskEditingViewModel(mode: .edit, todoItem: todoItem, dataManager: dataManager)
                 )
             } else { // TODO: при правильном использовании, мы тут никогда не окажется. Переделать архитектуру
                 self._viewModel = StateObject(
-                    wrappedValue: TaskEditingViewModel(mode: .create, todoItem: nil)
+                    wrappedValue: TaskEditingViewModel(mode: .create, todoItem: nil, dataManager: dataManager)
                 )
             }
         }
@@ -165,7 +165,7 @@ struct TaskEditingView: View {
     private var deleteButtonSection: some View {
         Section {
             Button {
-                FileCache.shared.deleteTodo(byId: viewModel.id)
+                viewModel.deleteTodo()
                 dismiss()
             } label: {
                 HStack {

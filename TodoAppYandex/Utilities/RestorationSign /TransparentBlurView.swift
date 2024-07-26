@@ -1,10 +1,3 @@
-//
-//  TransparentBlurView.swift
-//  TodoAppYandex
-//
-//  Created by Григорий Громов on 20.07.2024.
-//
-
 import SwiftUI
 
 struct TransparentBlurView: UIViewRepresentable {

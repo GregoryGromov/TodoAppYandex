@@ -30,8 +30,12 @@ class TaskEditingViewModel: ObservableObject {
 
     private var cancellables = Set<AnyCancellable>()
 
+    let dataManager: FileCache
+
 //    TODO: переделать более изящно
-    init(mode: TodoEditMode, todoItem: TodoItem?) {
+    init(mode: TodoEditMode, todoItem: TodoItem?, dataManager: FileCache) {
+
+        self.dataManager = dataManager
 
         self.mode = mode
         self.showCalendar = false
@@ -75,7 +79,7 @@ class TaskEditingViewModel: ObservableObject {
             self.colorIsSet = false
         }
 
-        FileCache.shared.$isDirty
+        dataManager.$isDirty
             .sink { [weak self] isDirty in
                 self?.isDirty = isDirty
             }
@@ -84,12 +88,16 @@ class TaskEditingViewModel: ObservableObject {
 
     func addTodoItem() {
         let newTodoItem = assembleTodoItem()
-        FileCache.shared.addTodo(newTodoItem)
+        dataManager.addTodo(newTodoItem)
     }
 
     func editTodoItem() {
         let modifiedTodoItem = assembleTodoItem()
-        FileCache.shared.editTodo(modifiedTodoItem)
+        dataManager.editTodo(modifiedTodoItem)
+    }
+
+    func deleteTodo() {
+        dataManager.deleteTodo(byId: id)
     }
 
     private func assembleTodoItem() -> TodoItem {

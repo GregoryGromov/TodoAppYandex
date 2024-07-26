@@ -47,7 +47,7 @@ struct TaskListView: View {
             TaskEditingView(mode: .create, todoItems: $viewModel.todoItems, dataManager: dataManager) // TODO: ИСПРАВИТЬ архитектуру
         }
         .onAppear {
-            viewModel.loadTasks()
+//            viewModel.loadTasks()
         }
         .overlay {
             VStack {

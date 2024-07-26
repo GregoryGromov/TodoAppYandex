@@ -49,7 +49,8 @@ class TaskListViewModel: ObservableObject {
     func loadTasks() {
         Task {
             do {
-                try await dataManager.loadTodoItems()
+//                try await dataManager.loadTodoItems()
+                dataManager.fetch()
             } catch {
                 print(error)
             }

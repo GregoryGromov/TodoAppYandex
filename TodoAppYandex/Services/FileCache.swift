@@ -1,4 +1,5 @@
 import Foundation
+import SwiftData
 
 class FileCache {
 
@@ -8,13 +9,36 @@ class FileCache {
     @Published var isDirty = false
     @Published var retryInProgress = false
 
-    static let shared = FileCache()
-
     let service = DefaultNetworkingService()
 
+    @MainActor
     init(todoItems: [TodoItem] = TodoItem.MOCK) {
         self.todoItems = []
         self.currentRevision = 1
+
+        let inMemory = false
+        do {
+            let configuration = ModelConfiguration(isStoredInMemoryOnly: inMemory)
+            let container = try ModelContainer(for: TodoItemStoredModel.self, configurations: configuration)
+            modelContainer = container
+            // get model context
+            modelContext = container.mainContext
+            modelContext?.autosaveEnabled = true
+
+            // query data
+            fetch()
+
+        } catch {
+            print(error)
+            self.error = error
+        }
+    }
+
+    var modelContext: ModelContext?
+    var modelContainer: ModelContainer?
+    @Published var error: Error?
+    enum OtherErrors: Error {
+        case nilContext
     }
 
 // MARK: - Delayed request utilities
@@ -47,6 +71,71 @@ class FileCache {
                 return
             }
         }
+    }
+
+// MARK: - SwiftData
+    
+//    FileCache содержит метод insert(_ todoItem: TodoItem) — добавить TodoItem в бд.
+//OK    FileCache содержит метод fetch() — получить все сохраненные TodoItem в бд.
+//    FileCache содержит метод delete(_ todoItem: TodoItem) — удалить TodoItem в бд.
+//    FileCache содержит метод update(_ todoItem: TodoItem) — обновить TodoItem в бд.
+
+    func fetch() {
+        guard let modelContext = modelContext else {
+            self.error = OtherErrors.nilContext
+            return
+        }
+
+        var todoDescriptor = FetchDescriptor<TodoItemStoredModel>(
+//            predicate: #Predicate {$0.isDone == false}, // example for retrieve un-done only
+            predicate: nil,
+            sortBy: [
+                .init(\.text)
+            ]
+        )
+        todoDescriptor.fetchLimit = 10
+        do {
+            var todoItemsSM = try modelContext.fetch(todoDescriptor)
+            var todoItems = [TodoItem]()
+            for todoItemSM in todoItemsSM {
+                let todoItem = convertToTodoItem(from: todoItemSM)
+                todoItems.append(todoItem!) // !!!
+            }
+            print("SD_DEBUG: Данные из SD получены и конвертированны")
+            self.todoItems = todoItems
+
+        } catch let error {
+            self.error = error
+        }
+    }
+
+    func convertToTodoItem(from model: TodoItemStoredModel) -> TodoItem? {
+        guard let importance = Importance(rawValue: model.importance) else {
+            return nil
+        }
+        return TodoItem(
+            id: model.id,
+            text: model.text,
+            importance: importance,
+            deadline: model.deadline,
+            isDone: model.isDone,
+            dateCreation: model.dateCreation,
+            dateChanging: model.dateChanging,
+            color: model.color
+        )
+    }
+
+    func convertToTodoItemStoredModel(from item: TodoItem) -> TodoItemStoredModel {
+        return TodoItemStoredModel(
+            id: item.id,
+            text: item.text,
+            importance: item.importance.rawValue,
+            deadline: item.deadline,
+            isDone: item.isDone,
+            dateCreation: item.dateCreation,
+            dateChanging: item.dateChanging,
+            color: item.color
+        )
     }
 
     // MARK: - Adding

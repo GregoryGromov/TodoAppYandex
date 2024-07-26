@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		5F1AC0172C46A02C001B2F62 /* DefaultNetworkingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1AC0162C46A02C001B2F62 /* DefaultNetworkingService.swift */; };
 		5F1AC0192C46B0D1001B2F62 /* NetworkingKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1AC0182C46B0D1001B2F62 /* NetworkingKeys.swift */; };
+		5F2212402C54353600510AB1 /* TodoItemStoredModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F22123F2C54353600510AB1 /* TodoItemStoredModel.swift */; };
 		5F3B3EAE2C470AAB00810C29 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3B3EAD2C470AAB00810C29 /* NetworkError.swift */; };
 		5F3B3EB02C47B80500810C29 /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F3B3EAF2C47B80400810C29 /* Int+Extension.swift */; };
 		5F63F7022C2C2469001248A8 /* TaskListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F63F7012C2C2469001248A8 /* TaskListViewModel.swift */; };
@@ -88,6 +89,7 @@
 		492A842F5932DA2A2DF5E6A2 /* Pods_TodoAppYandexTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TodoAppYandexTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F1AC0162C46A02C001B2F62 /* DefaultNetworkingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultNetworkingService.swift; sourceTree = "<group>"; };
 		5F1AC0182C46B0D1001B2F62 /* NetworkingKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkingKeys.swift; sourceTree = "<group>"; };
+		5F22123F2C54353600510AB1 /* TodoItemStoredModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItemStoredModel.swift; sourceTree = "<group>"; };
 		5F3B3EAD2C470AAB00810C29 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		5F3B3EAF2C47B80400810C29 /* Int+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
 		5F63F7012C2C2469001248A8 /* TaskListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListViewModel.swift; sourceTree = "<group>"; };
@@ -374,6 +376,7 @@
 			isa = PBXGroup;
 			children = (
 				5FCE53F12C263F0D005187A4 /* TodoItem.swift */,
+				5F22123F2C54353600510AB1 /* TodoItemStoredModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -653,7 +656,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#${PODS_ROOT}/SwiftLint/swiftlint\n${PODS_ROOT}/SwiftLint/swiftlint --fix && ${PODS_ROOT}/SwiftLint/swiftlint\n";
+			shellScript = "#${PODS_ROOT}/SwiftLint/swiftlint\n#${PODS_ROOT}/SwiftLint/swiftlint --fix && ${PODS_ROOT}/SwiftLint/swiftlint\n";
 		};
 		A06A746908E81C7F677B96F3 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -713,6 +716,7 @@
 				5F1AC0172C46A02C001B2F62 /* DefaultNetworkingService.swift in Sources */,
 				5FCE53F42C263F19005187A4 /* TodoItem+Extension.swift in Sources */,
 				5F6F4C812C41B8E3008DD5C9 /* JSONKeys.swift in Sources */,
+				5F2212402C54353600510AB1 /* TodoItemStoredModel.swift in Sources */,
 				5FD2E3E52C43DD510003FF22 /* DataStorageError.swift in Sources */,
 				5FD7804A2C415937000F342F /* Cancellable.swift in Sources */,
 				5F75CB482C4C701A0013CEE9 /* ColorCollection.swift in Sources */,

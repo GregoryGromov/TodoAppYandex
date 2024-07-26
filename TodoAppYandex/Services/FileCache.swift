@@ -30,6 +30,7 @@ class FileCache {
             modelContext?.autosaveEnabled = true
             
             fetch()
+//            fetchAdditional(filter: .important, sort: .name)
         } catch {
             print(error)
         }
@@ -68,6 +69,56 @@ class FileCache {
     }
     
     // MARK: - SwiftData
+    
+    enum FetchSort {
+        case name
+        case dateCreation
+    }
+    
+    enum FetchFilter {
+        case isDone
+        case setDeadline
+        case important
+    }
+    
+    func fetchAdditional(filter: FetchFilter, sort: FetchSort) {
+        guard let modelContext = modelContext else { return }
+        
+        let sortDescriptor: SortDescriptor<TodoItemStoredModel>
+        switch sort {
+        case .name:
+            sortDescriptor = .init(\.text)
+        case .dateCreation:
+            sortDescriptor = .init(\.dateCreation)
+        }
+        
+        let filterPredicate: Predicate<TodoItemStoredModel>
+        switch filter {
+        case .isDone:
+            filterPredicate = #Predicate<TodoItemStoredModel> { todoItem in
+                todoItem.isDone
+            }
+        case .setDeadline:
+            filterPredicate = #Predicate<TodoItemStoredModel> { todoItem in
+                todoItem.deadline != nil
+            }
+        case .important:
+            filterPredicate = #Predicate<TodoItemStoredModel> { todoItem in
+                todoItem.importance == "important"
+            }
+        }
+
+        let fetchDescriptor = FetchDescriptor<TodoItemStoredModel>(
+            predicate: filterPredicate,
+            sortBy: [sortDescriptor]
+        )
+        do {
+            let todoItemsSM = try modelContext.fetch(fetchDescriptor)
+            self.todoItems = todoItemsSM.compactMap { convertToTodoItem(from: $0) }
+        } catch {
+            print(error)
+        }
+    }
     
     func fetch() {
         guard let modelContext = modelContext else { return }
@@ -177,7 +228,7 @@ class FileCache {
             throw DataStorageError.modelContextFailed
         }
         do {
-            var todoItemsSM = try modelContext.fetch(emptyDescriptor)
+            let todoItemsSM = try modelContext.fetch(emptyDescriptor)
             for todoItemSM in todoItemsSM {
                 if todoItemSM.id == id {
                     return todoItemSM

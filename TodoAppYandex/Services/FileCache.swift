@@ -75,11 +75,18 @@ class FileCache {
 
 // MARK: - SwiftData
     
-//    FileCache содержит метод insert(_ todoItem: TodoItem) — добавить TodoItem в бд.
+//OK    FileCache содержит метод insert(_ todoItem: TodoItem) — добавить TodoItem в бд.
 //OK    FileCache содержит метод fetch() — получить все сохраненные TodoItem в бд.
-//    FileCache содержит метод delete(_ todoItem: TodoItem) — удалить TodoItem в бд.
-//    FileCache содержит метод update(_ todoItem: TodoItem) — обновить TodoItem в бд.
+//OK    FileCache содержит метод delete(_ todoItem: TodoItem) — удалить TodoItem в бд.
+//OK    FileCache содержит метод update(_ todoItem: TodoItem) — обновить TodoItem в бд.
 
+    func updateTodoItem(byID id: String) {
+        switchIsDoneLocally(byId: id)
+        if let todoItem = getTodo(byId: id) {
+            update(todoItem)
+        }
+    }
+    
     func fetch() {
         guard let modelContext = modelContext else {
             self.error = OtherErrors.nilContext
@@ -108,8 +115,86 @@ class FileCache {
             self.error = error
         }
     }
+    
+    func insert(_ todoItem: TodoItem) {
+        guard let modelContext = modelContext else {
+            self.error = OtherErrors.nilContext
+            return
+        }
+        let date = Date()
+        let todoItemSM = convertToTodoItemStoredModel(from: todoItem)
+        modelContext.insert(todoItemSM)
+        save()
+        fetch()
+    }
+    
+    func deleteTodoFromSwiftData(byId id: String) {
+        if let todoItem = getTodo(byId: id) {
+            delete(todoItem)
+        }
+    }
+    
+    func update(_ todoItem: TodoItem) {
+        guard let modelContext = modelContext else {
+            self.error = OtherErrors.nilContext
+            return
+        }
+        
+        var todoDescriptor = FetchDescriptor<TodoItemStoredModel>(
+            predicate: nil
+        )
+        
+       var todoItemsSM = try! modelContext.fetch(todoDescriptor)
+        
+        let newTodoItemSM = convertToTodoItemStoredModel(from: todoItem)
+        
+        for todoItemSM in todoItemsSM {
+            if todoItemSM.id == todoItem.id {
+                modelContext.delete(todoItemSM)
+                modelContext.insert(newTodoItemSM)
+            }
+        }
+        
+        save()
+        fetch()
+    }
+    
+    func delete(_ todoItem: TodoItem) {
+        guard let modelContext = modelContext else {
+            self.error = OtherErrors.nilContext
+            return
+        }
+        
+        var todoDescriptor = FetchDescriptor<TodoItemStoredModel>(
+            predicate: nil
+        )
+        
+       var todoItemsSM = try! modelContext.fetch(todoDescriptor)
+        
+        for todoItemSM in todoItemsSM {
+            if todoItemSM.id == todoItem.id {
+                modelContext.delete(todoItemSM)
+            }
+        }
+        
+        save()
+        fetch()
+    }
+    
+    private func save() {
+        guard let modelContext = modelContext else {
+            self.error = OtherErrors.nilContext
+            return
+        }
+        do {
+            try modelContext.save()
+        } catch (let error) {
+            print(error)
+            self.error = error
+        }
+    }
 
-    func convertToTodoItem(from model: TodoItemStoredModel) -> TodoItem? {
+    private func convertToTodoItem(from model: TodoItemStoredModel) -> TodoItem? {
         guard let importance = Importance(rawValue: model.importance) else {
             return nil
         }
@@ -125,7 +210,7 @@ class FileCache {
         )
     }
 
-    func convertToTodoItemStoredModel(from item: TodoItem) -> TodoItemStoredModel {
+    private func convertToTodoItemStoredModel(from item: TodoItem) -> TodoItemStoredModel {
         return TodoItemStoredModel(
             id: item.id,
             text: item.text,

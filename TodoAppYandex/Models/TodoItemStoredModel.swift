@@ -4,7 +4,7 @@ import SwiftData
 @Model
 class TodoItemStoredModel {
 
-    @Attribute(.unique) var id: String
+    /*@Attribute(.unique) */var id: String
 
     var text: String
     var importance: String

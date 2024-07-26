@@ -88,16 +88,20 @@ class TaskEditingViewModel: ObservableObject {
 
     func addTodoItem() {
         let newTodoItem = assembleTodoItem()
-        dataManager.addTodo(newTodoItem)
+        
+        dataManager.insert(newTodoItem)
+//        dataManager.addTodo(newTodoItem)
     }
 
     func editTodoItem() {
         let modifiedTodoItem = assembleTodoItem()
-        dataManager.editTodo(modifiedTodoItem)
+//        dataManager.editTodo(modifiedTodoItem)
+        dataManager.update(modifiedTodoItem)
     }
 
     func deleteTodo() {
-        dataManager.deleteTodo(byId: id)
+//        dataManager.deleteTodo(byId: id)
+        dataManager.deleteTodoFromSwiftData(byId: id)
     }
 
     private func assembleTodoItem() -> TodoItem {

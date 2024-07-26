@@ -60,7 +60,8 @@ class TaskListViewModel: ObservableObject {
 // MARK: - Data modification
 
     func switchIsDone(byId id: String) {
-        dataManager.switchIsDone(byId: id)
+//        dataManager.switchIsDone(byId: id)
+        dataManager.updateTodoItem(byID: id)
 
     }
 
@@ -144,7 +145,9 @@ class TaskListViewModel: ObservableObject {
 // MARK: - Deletion
 
     func deleteTodoItem(byId id: String) {
-        dataManager.deleteTodo(byId: id)
+//        dataManager.deleteTodo(byId: id)
+        print("Эщкере")
+        dataManager.deleteTodoFromSwiftData(byId: id)
     }
 
 // MARK: - Utilities

@@ -61,7 +61,7 @@ class TaskListViewModel: ObservableObject {
 
     func switchIsDone(byId id: String) {
 //        dataManager.switchIsDone(byId: id)
-        dataManager.updateTodoItem(byID: id)
+        dataManager.updateTodoItemInSwiftData(byID: id)
 
     }
 

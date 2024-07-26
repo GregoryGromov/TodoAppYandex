@@ -13,4 +13,8 @@ enum DataStorageError: Error {
     case invalidCSVFormat
 
     case JSONSerializingFailed
+    
+    case modelContextFailed
+    
+    case unknownError
 }

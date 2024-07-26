@@ -2,68 +2,62 @@ import Foundation
 import SwiftData
 
 class FileCache {
-
+    
     @Published var todoItems: [TodoItem]
     @Published var currentRevision: Int
-
+    
     @Published var isDirty = false
     @Published var retryInProgress = false
-
+    
     let service = DefaultNetworkingService()
-
+    
+    var modelContext: ModelContext?
+    var modelContainer: ModelContainer?
+    
+    let emptyDescriptor = FetchDescriptor<TodoItemStoredModel>(predicate: nil)
+    
     @MainActor
     init(todoItems: [TodoItem] = TodoItem.MOCK) {
         self.todoItems = []
         self.currentRevision = 1
-
+        
         let inMemory = false
         do {
             let configuration = ModelConfiguration(isStoredInMemoryOnly: inMemory)
             let container = try ModelContainer(for: TodoItemStoredModel.self, configurations: configuration)
             modelContainer = container
-            // get model context
             modelContext = container.mainContext
             modelContext?.autosaveEnabled = true
-
-            // query data
+            
             fetch()
-
         } catch {
             print(error)
-            self.error = error
         }
     }
-
-    var modelContext: ModelContext?
-    var modelContainer: ModelContainer?
-    @Published var error: Error?
-    enum OtherErrors: Error {
-        case nilContext
-    }
-
-// MARK: - Delayed request utilities
-
+    
+    // MARK: - Delayed request utilities
+    
     @Published var IDsOfActiveTasks = [String]()
-
+    
     let minDelay: TimeInterval = 2
     let maxDelay: TimeInterval = 5
     let factor: Double = 1.5
     let jitter: Double = 0.05
-
+    
     func randomInRange(min: Double, max: Double) -> Double {
         return Double.random(in: min...max)
     }
-
+    
     func calculateNextDelay(currentDelay: TimeInterval) -> TimeInterval {
         let jitterValue = currentDelay * jitter
         let nextDelay = currentDelay * factor
         return min(maxDelay, max(minDelay, nextDelay + randomInRange(min: -jitterValue, max: jitterValue)))
     }
-
+    
     private func addTaskID(_ id: String) {
         IDsOfActiveTasks.append(id)
     }
-
+    
     private func deleteTaskID(_ id: String) {
         for index in IDsOfActiveTasks.indices {
             if IDsOfActiveTasks[index] == id {
@@ -72,60 +66,54 @@ class FileCache {
             }
         }
     }
-
-// MARK: - SwiftData
     
-//OK    FileCache содержит метод insert(_ todoItem: TodoItem) — добавить TodoItem в бд.
-//OK    FileCache содержит метод fetch() — получить все сохраненные TodoItem в бд.
-//OK    FileCache содержит метод delete(_ todoItem: TodoItem) — удалить TodoItem в бд.
-//OK    FileCache содержит метод update(_ todoItem: TodoItem) — обновить TodoItem в бд.
-
-    func updateTodoItem(byID id: String) {
-        switchIsDoneLocally(byId: id)
-        if let todoItem = getTodo(byId: id) {
-            update(todoItem)
-        }
-    }
+    // MARK: - SwiftData
     
     func fetch() {
-        guard let modelContext = modelContext else {
-            self.error = OtherErrors.nilContext
-            return
-        }
-
-        var todoDescriptor = FetchDescriptor<TodoItemStoredModel>(
-//            predicate: #Predicate {$0.isDone == false}, // example for retrieve un-done only
-            predicate: nil,
-            sortBy: [
-                .init(\.text)
-            ]
-        )
-        todoDescriptor.fetchLimit = 10
+        guard let modelContext = modelContext else { return }
+        
         do {
-            var todoItemsSM = try modelContext.fetch(todoDescriptor)
-            var todoItems = [TodoItem]()
-            for todoItemSM in todoItemsSM {
-                let todoItem = convertToTodoItem(from: todoItemSM)
-                todoItems.append(todoItem!) // !!!
-            }
-            print("SD_DEBUG: Данные из SD получены и конвертированны")
-            self.todoItems = todoItems
-
-        } catch let error {
-            self.error = error
+            let todoItemsSM = try modelContext.fetch(emptyDescriptor)
+            self.todoItems = todoItemsSM.compactMap { convertToTodoItem(from: $0) }
+        } catch {
+            print(error)
         }
     }
     
     func insert(_ todoItem: TodoItem) {
-        guard let modelContext = modelContext else {
-            self.error = OtherErrors.nilContext
-            return
-        }
-        let date = Date()
+        guard let modelContext = modelContext else { return }
+        
         let todoItemSM = convertToTodoItemStoredModel(from: todoItem)
         modelContext.insert(todoItemSM)
-        save()
-        fetch()
+        
+        update()
+    }
+    
+    func delete(_ todoItem: TodoItem) {
+        guard let modelContext = modelContext else { return }
+        do {
+            let todoItemSM = try getTodoItemSM(byId: todoItem.id)
+            modelContext.delete(todoItemSM)
+            
+            update()
+        } catch {
+            print(error)
+        }
+    }
+    
+    func update(_ todoItem: TodoItem) {
+        guard let modelContext = modelContext else { return }
+        do {
+            let todoItemSM = try getTodoItemSM(byId: todoItem.id)
+            modelContext.delete(todoItemSM)
+            
+            let newTodoItemSM = convertToTodoItemStoredModel(from: todoItem)
+            modelContext.insert(newTodoItemSM)
+            
+            update()
+        } catch {
+            print(error)
+        }
     }
     
     func deleteTodoFromSwiftData(byId id: String) {
@@ -134,63 +122,24 @@ class FileCache {
         }
     }
     
-    func update(_ todoItem: TodoItem) {
-        guard let modelContext = modelContext else {
-            self.error = OtherErrors.nilContext
-            return
+    func updateTodoItemInSwiftData(byID id: String) {
+        switchIsDoneLocally(byId: id)
+        if let todoItem = getTodo(byId: id) {
+            update(todoItem)
         }
-        
-        var todoDescriptor = FetchDescriptor<TodoItemStoredModel>(
-            predicate: nil
-        )
-        
-       var todoItemsSM = try! modelContext.fetch(todoDescriptor)
-        
-        let newTodoItemSM = convertToTodoItemStoredModel(from: todoItem)
-        
-        for todoItemSM in todoItemsSM {
-            if todoItemSM.id == todoItem.id {
-                modelContext.delete(todoItemSM)
-                modelContext.insert(newTodoItemSM)
-            }
-        }
-        
-        save()
-        fetch()
     }
     
-    func delete(_ todoItem: TodoItem) {
-        guard let modelContext = modelContext else {
-            self.error = OtherErrors.nilContext
-            return
-        }
-        
-        var todoDescriptor = FetchDescriptor<TodoItemStoredModel>(
-            predicate: nil
-        )
-        
-       var todoItemsSM = try! modelContext.fetch(todoDescriptor)
-        
-        for todoItemSM in todoItemsSM {
-            if todoItemSM.id == todoItem.id {
-                modelContext.delete(todoItemSM)
-            }
-        }
-        
+    private func update() {
         save()
         fetch()
     }
     
     private func save() {
-        guard let modelContext = modelContext else {
-            self.error = OtherErrors.nilContext
-            return
-        }
+        guard let modelContext = modelContext else { return }
         do {
             try modelContext.save()
-        } catch (let error) {
+        } catch {
             print(error)
-            self.error = error
         }
     }
 
@@ -221,6 +170,23 @@ class FileCache {
             dateChanging: item.dateChanging,
             color: item.color
         )
+    }
+    
+    private func getTodoItemSM(byId id: String) throws -> TodoItemStoredModel {
+        guard let modelContext = modelContext else {
+            throw DataStorageError.modelContextFailed
+        }
+        do {
+            var todoItemsSM = try modelContext.fetch(emptyDescriptor)
+            for todoItemSM in todoItemsSM {
+                if todoItemSM.id == id {
+                    return todoItemSM
+                }
+            }
+        } catch {
+            throw error
+        }
+        throw DataStorageError.unknownError
     }
 
     // MARK: - Adding
